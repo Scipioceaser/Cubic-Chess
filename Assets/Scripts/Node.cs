@@ -26,7 +26,7 @@ public class Node : MonoBehaviour
         if (Application.isPlaying)
             return;
 
-        Gizmos.DrawSphere(position, (float)scale / 10f);
+        //Gizmos.DrawSphere(position, (float)scale / 10f);
     }
 }
 
@@ -112,7 +112,7 @@ public class NodeMesh : Node
         if (Application.isPlaying)
             return;
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(position, (float)scale / 10f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawSphere(position, (float)scale / 10f);
     }
 }
