@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // Base node class, empty
+// Probably shouldn't use this for spawning, but to hold all the functions for all the nodes
 
 public class Node : MonoBehaviour
 {
@@ -11,22 +13,16 @@ public class Node : MonoBehaviour
 
     public virtual void Start()
     {
-        if (gameObject && this.position != Vector3.negativeInfinity)
-            gameObject.transform.position = this.position;
+        
     }
 
     public virtual void Init(int scale, Vector3 position)
     {
         this.scale = scale;
         this.position = position;
-    }
 
-    public virtual void OnDrawGizmos()
-    {
-        if (Application.isPlaying)
-            return;
-
-        //Gizmos.DrawSphere(position, (float)scale / 10f);
+        if (gameObject && position != Vector3.negativeInfinity)
+            gameObject.transform.position = this.position;
     }
 }
 
@@ -38,20 +34,28 @@ public class NodeMesh : Node
 {
     public Mesh nodeMesh;
     public MeshFilter meshFilter;
-
-    public override void Start()
+    public MeshRenderer meshRenderer;
+    
+    public override void Init(int scale, Vector3 position)
     {
-        base.Start();
+        base.Init(scale, position);
 
         CreateNodeMesh(scale);
-        GetComponent<MeshFilter>().mesh = nodeMesh;
-        GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Standard"));
+        meshFilter = GetComponent<MeshFilter>();
+        meshFilter.mesh = nodeMesh;
+        meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    void CreateNodeMesh(int size)
+    public void SetColor(Material material)
     {
-        meshFilter = GetComponent<MeshFilter>();
+        if (!meshRenderer)
+            meshRenderer = GetComponent<MeshRenderer>();
 
+        meshRenderer.material = material;
+    }
+
+    private void CreateNodeMesh(int size)
+    {
         Mesh mesh = new Mesh();
 
         Vector3 v0 = new Vector3(-scale * .5f, -scale * .5f, scale * .5f);
@@ -104,15 +108,9 @@ public class NodeMesh : Node
         mesh.RecalculateBounds();
         mesh.Optimize();
 
+        if (!meshRenderer)
+            meshRenderer.material = new Material(Shader.Find("Standard"));
+
         nodeMesh = mesh;
-    }
-
-    public override void OnDrawGizmos()
-    {
-        if (Application.isPlaying)
-            return;
-
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawSphere(position, (float)scale / 10f);
     }
 }
