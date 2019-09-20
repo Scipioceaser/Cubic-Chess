@@ -8,12 +8,18 @@ public class Generate : MonoBehaviour
     public int boardSize = 1;
     [Range(1, 50)]
     public int boardHeight = 1;
-
+    [Range(0.1f, 10f)]
+    public float nodeDropSpeed = 0.5f;
     [Range(1, 10)]
     public int nodeScale = 1;
+    public bool dropWithAnimation = true;
+    
+    public Color colorEven = Color.white;
+    public Color colorOdd = Color.black;
+
     [HideInInspector]
     public GameObject[] grid;
-    
+
     // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
     [SerializeField][HideInInspector]
     private int gizmoGridSize = 1;
@@ -23,14 +29,16 @@ public class Generate : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        CreateNodes();
+        StartCoroutine(CreateNodes());
     }
 
-    private void CreateNodes()
+    private IEnumerator CreateNodes()
     {
-        Material white = new Material(Shader.Find("Standard"));
-        Material black = new Material(Shader.Find("Standard"));
-        black.color = Color.black;
+        WaitForSeconds wait = new WaitForSeconds(0.001f);
+        Material even = new Material(Shader.Find("Standard"));
+        Material odd = new Material(Shader.Find("Standard"));
+        even.color = colorEven;
+        odd.color = colorOdd;
 
         int l, w, h;
 
@@ -62,14 +70,20 @@ public class Generate : MonoBehaviour
 
                     if (i % 2 == 0)
                     {
-                        n.SetColor(white);
+                        n.SetColor(even);
                     }
                     else
                     {
-                        n.SetColor(black);
+                        n.SetColor(odd);
                     }
                     
                     n.Init(nodeScale, transform.position + new Vector3(pos.x, pos.y, pos.z));
+                    
+                    if(dropWithAnimation)
+                        StartCoroutine(n.Move(transform.position + new Vector3(pos.x, pos.y, pos.z) +
+                            new Vector3(0, (boardHeight + 25), 0), transform.position + new Vector3(pos.x, pos.y, pos.z), nodeDropSpeed));
+                    
+                    yield return wait;
                 }
             }
         }
@@ -109,7 +123,8 @@ public class Generate : MonoBehaviour
         gizmoGridSize = boardSize;
 
         if (Application.isPlaying)
-            CreateNodes();
+            StopAllCoroutines();
+            StartCoroutine(CreateNodes());
     }
 
     public void DestroyMap()
@@ -121,6 +136,9 @@ public class Generate : MonoBehaviour
         }
 
         grid = new GameObject[0];
+
+        if (Application.isPlaying)
+            StopAllCoroutines();
     }
 
     private void OnDrawGizmos()

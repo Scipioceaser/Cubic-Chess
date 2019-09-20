@@ -46,6 +46,19 @@ public class NodeMesh : Node
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
+    //TODO: Add particle effect when node mesh lands at destination. Some shake would be good too.
+    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue)
+    {
+        float r = 1.0f / timeValue;
+        float t = 0.0f;
+        while (t < 1.0f)
+        {
+            t += Time.deltaTime * r;
+            gameObject.transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
+            yield return null;
+        }
+    }
+
     public void SetColor(Material material)
     {
         if (!meshRenderer)
