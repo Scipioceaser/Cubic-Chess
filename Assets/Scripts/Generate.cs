@@ -32,6 +32,11 @@ public class Generate : MonoBehaviour
         StartCoroutine(CreateNodes());
     }
 
+    public Vector3 WorldPosToNodePos(Vector3 position)
+    {
+        return (position + transform.position);
+    }
+
     private IEnumerator CreateNodes()
     {
         WaitForSeconds wait = new WaitForSeconds(0.001f);
@@ -41,10 +46,7 @@ public class Generate : MonoBehaviour
         odd.color = colorOdd;
 
         int l, w, h;
-
-        if (boardSize % 2 == 0)
-            boardSize++;
-
+        
         l = boardSize + 2;
         w  = boardSize + 2;
         h = boardHeight + 2;
@@ -54,13 +56,13 @@ public class Generate : MonoBehaviour
             for (int i = 0; i < grid.Length; i++)
             {
                 Vector3 pos = grid[i].transform.position;
-                
+
                 if (pos.y != 0 && pos.y != (h - 1) && pos.x != 0 && pos.x != (w - 1) && pos.z != 0 && pos.z != (l - 1))
                 {
                     Node n;
 
                     n = grid[i].AddComponent<Node>();
-                    n.Init(nodeScale, transform.position + new Vector3(pos.x, pos.y, pos.z));
+                    n.Init(nodeScale, n.gameObject.transform.position);
                 }
                 else
                 {
@@ -68,16 +70,95 @@ public class Generate : MonoBehaviour
 
                     n = grid[i].AddComponent<NodeMesh>();
 
-                    if (i % 2 == 0)
+                    #region Color Assignment
+                    if (pos.y == 0 || pos.y == (h - 1))
                     {
-                        n.SetColor(even);
+                        if (pos.x % 2 != 0 && pos.z % 2 != 0 || pos.x % 2 == 0 && pos.z % 2 == 0)
+                        {
+                            n.SetColor(even);
+                        }
+                        else
+                        {
+                            n.SetColor(odd);
+                        }
                     }
                     else
                     {
-                        n.SetColor(odd);
+                        if (pos.x == 0)
+                        {
+                            if (pos.z % 2 == 0 && pos.y % 2 != 0 || pos.z % 2 != 0 && pos.y % 2 == 0)
+                            {
+                                n.SetColor(even);
+                            }
+                            else
+                            {
+                                n.SetColor(odd);
+                            }
+                        }
+                        else if (pos.x == (w - 1))
+                        {
+                            if (pos.z % 2 != 0 && pos.y % 2 != 0 || pos.z % 2 == 0 && pos.y % 2 == 0)
+                            {
+                                n.SetColor(even);
+                            }
+                            else
+                            {
+                                n.SetColor(odd);
+                            }
+                        }
+                        else if (pos.z == 0)
+                        {
+                            if (pos.x % 2 == 0 && pos.y % 2 != 0 || pos.x % 2 != 0 && pos.y % 2 == 0)
+                            {
+                                n.SetColor(even);
+                            }
+                            else
+                            {
+                                n.SetColor(odd);
+                            }
+                        }
+                        else if (pos.z == (l - 1))
+                        {
+                            if (pos.x % 2 != 0 && pos.y % 2 != 0 || pos.x % 2 == 0 && pos.y % 2 == 0)
+                            {
+                                n.SetColor(even);
+                            }
+                            else
+                            {
+                                n.SetColor(odd);
+                            }
+                        }
+
+                        //if ((pos.x == 0 || pos.x == (w - 1)) && (pos.z != 0 || pos.z != (l - 1)))
+                        //{
+                        //    if (pos.z % 2 == 0 && pos.y % 2 != 0 || pos.z % 2 != 0 && pos.y % 2 == 0)
+                        //    {
+                        //        n.SetColor(even);
+                        //    }
+                        //    else
+                        //    {
+                        //        n.SetColor(odd);
+                        //    }
+                        //}
+                        //else if ((pos.z == 0 || pos.z == (l - 1)) && (pos.x != 0 || pos.x != (l - 1)))
+                        //{
+                        //    if (pos.x % 2 == 0 && pos.y % 2 != 0 || pos.x % 2 != 0 && pos.y % 2 == 0)
+                        //    {
+                        //        n.SetColor(even);
+                        //    }
+                        //    else
+                        //    {
+                        //        n.SetColor(odd);
+                        //    }
+                        //}
+                        else
+                        {
+                            n.SetColor(even);
+                        }
                     }
-                    
-                    n.Init(nodeScale, transform.position + new Vector3(pos.x, pos.y, pos.z));
+                    #endregion
+
+                    n.Init(nodeScale, n.gameObject.transform.position);
                     
                     if(dropWithAnimation)
                         StartCoroutine(n.Move(transform.position + new Vector3(pos.x, pos.y, pos.z) +
@@ -91,23 +172,14 @@ public class Generate : MonoBehaviour
 
     public void CreateMap()
     {
-        int length, width, height;
-
-        if (boardSize % 2 == 0)
-            boardSize++;
-
-        length = boardSize + 2;
-        width = boardSize + 2;
-        height = boardHeight + 2;
-
-        grid = new GameObject[width * height * length];
+        grid = new GameObject[(boardSize + 2) * (boardHeight + 2) * (boardSize + 2)];
         
         int i = 0;
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < (boardHeight + 2); y++)
         {
-            for (int z = 0; z < length; z++)
+            for (int z = 0; z < (boardSize + 2); z++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < (boardSize + 2); x++)
                 {
                     GameObject nodeObject = new GameObject("Node");
 
@@ -123,8 +195,10 @@ public class Generate : MonoBehaviour
         gizmoGridSize = boardSize;
 
         if (Application.isPlaying)
+        {
             StopAllCoroutines();
             StartCoroutine(CreateNodes());
+        }
     }
 
     public void DestroyMap()
@@ -164,7 +238,7 @@ public class Generate : MonoBehaviour
                 Gizmos.color = Color.red;
             }
 
-            Gizmos.DrawSphere(grid[i].transform.position, (float)nodeScale / 10f);
+            Gizmos.DrawSphere(grid[i].transform.position + transform.position, (float)nodeScale / 10f);
         }
     }
 }

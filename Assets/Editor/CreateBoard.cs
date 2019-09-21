@@ -13,8 +13,6 @@ public class CreateBoard : Editor
     {
         base.OnInspectorGUI();
 
-        EditorGUILayout.HelpBox("Creates board, the board size will auto set to an uneven number.", MessageType.Info);
-
         GUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Create Board"))

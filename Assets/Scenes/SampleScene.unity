@@ -319,7 +319,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505939962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -337,13 +337,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80330a8db4337f9469440dc5f3e25c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardSize: 11
-  boardHeight: 10
+  boardSize: 8
+  boardHeight: 8
   nodeDropSpeed: 0.5
-  dropWithAnimation: 1
   nodeScale: 1
+  dropWithAnimation: 1
+  colorEven: {r: 0, g: 0, b: 0, a: 0}
+  colorOdd: {r: 1, g: 1, b: 1, a: 0}
   grid: []
-  colorEven: {r: 1, g: 1, b: 1, a: 0}
-  colorOdd: {r: 0, g: 0, b: 0, a: 0}
-  gizmoGridSize: 11
+  gizmoGridSize: 8
   gizmoGridHeight: 10
