@@ -10,6 +10,8 @@ public class Generate : MonoBehaviour
     public int boardHeight = 1;
     [Range(0.1f, 10f)]
     public float nodeDropSpeed = 0.5f;
+    [Range(1f, 10f)]
+    public float nodePlacementSpeed = 1f;
     [Range(1, 10)]
     public int nodeScale = 1;
     public bool dropWithAnimation = true;
@@ -19,6 +21,8 @@ public class Generate : MonoBehaviour
 
     [HideInInspector]
     public GameObject[] grid;
+
+    private Node[,,] nodes;
 
     // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
     [SerializeField][HideInInspector]
@@ -31,15 +35,25 @@ public class Generate : MonoBehaviour
     {
         StartCoroutine(CreateNodes());
     }
-
-    public Vector3 WorldPosToNodePos(Vector3 position)
+    
+    public Vector3 WorldPosFromNodePos(Vector3 nodePosition)
     {
-        return (position + transform.position);
+        return (nodePosition + transform.position);
+    }
+
+    public Node NodeFromNodeVector(Vector3 nodePosition)
+    {
+        return nodes[(int)nodePosition.x, (int)nodePosition.y, (int)nodePosition.z];
+    }
+
+    public Node NodeFromWorldPoints(int x, int y, int z)
+    {
+        return nodes[x, y, z];
     }
 
     private IEnumerator CreateNodes()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.001f);
+        WaitForSeconds wait = new WaitForSeconds((nodePlacementSpeed / 100f));
         Material even = new Material(Shader.Find("Standard"));
         Material odd = new Material(Shader.Find("Standard"));
         even.color = colorEven;
@@ -50,7 +64,9 @@ public class Generate : MonoBehaviour
         l = boardSize + 2;
         w  = boardSize + 2;
         h = boardHeight + 2;
-        
+
+        nodes = new Node[w, h, l];
+
         if (grid.Length != 0)
         {
             for (int i = 0; i < grid.Length; i++)
@@ -62,7 +78,9 @@ public class Generate : MonoBehaviour
                     Node n;
 
                     n = grid[i].AddComponent<Node>();
-                    n.Init(nodeScale, n.gameObject.transform.position);
+                    n.Init(nodeScale, pos);
+
+                    nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                 }
                 else
                 {
@@ -128,29 +146,6 @@ public class Generate : MonoBehaviour
                                 n.SetColor(odd);
                             }
                         }
-
-                        //if ((pos.x == 0 || pos.x == (w - 1)) && (pos.z != 0 || pos.z != (l - 1)))
-                        //{
-                        //    if (pos.z % 2 == 0 && pos.y % 2 != 0 || pos.z % 2 != 0 && pos.y % 2 == 0)
-                        //    {
-                        //        n.SetColor(even);
-                        //    }
-                        //    else
-                        //    {
-                        //        n.SetColor(odd);
-                        //    }
-                        //}
-                        //else if ((pos.z == 0 || pos.z == (l - 1)) && (pos.x != 0 || pos.x != (l - 1)))
-                        //{
-                        //    if (pos.x % 2 == 0 && pos.y % 2 != 0 || pos.x % 2 != 0 && pos.y % 2 == 0)
-                        //    {
-                        //        n.SetColor(even);
-                        //    }
-                        //    else
-                        //    {
-                        //        n.SetColor(odd);
-                        //    }
-                        //}
                         else
                         {
                             n.SetColor(even);
@@ -158,12 +153,14 @@ public class Generate : MonoBehaviour
                     }
                     #endregion
 
-                    n.Init(nodeScale, n.gameObject.transform.position);
-                    
+                    n.Init(nodeScale, pos);
+
+                    nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
+
                     if(dropWithAnimation)
                         StartCoroutine(n.Move(transform.position + new Vector3(pos.x, pos.y, pos.z) +
                             new Vector3(0, (boardHeight + 25), 0), transform.position + new Vector3(pos.x, pos.y, pos.z), nodeDropSpeed));
-                    
+
                     yield return wait;
                 }
             }

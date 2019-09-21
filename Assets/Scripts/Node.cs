@@ -8,21 +8,13 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    public Vector3 position = Vector3.negativeInfinity;
+    public Vector3 position;
     public int scale = 1;
-
-    public virtual void Start()
-    {
-        
-    }
-
+    
     public virtual void Init(int scale, Vector3 position)
     {
         this.scale = scale;
         this.position = position;
-
-        if (gameObject && position != Vector3.negativeInfinity)
-            gameObject.transform.position = this.position;
     }
 }
 
@@ -122,7 +114,10 @@ public class NodeMesh : Node
         mesh.Optimize();
 
         if (!meshRenderer)
+        {
+            meshRenderer = GetComponent<MeshRenderer>();
             meshRenderer.material = new Material(Shader.Find("Standard"));
+        }
 
         nodeMesh = mesh;
     }
