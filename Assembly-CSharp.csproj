@@ -62,7 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Generate.cs" />
+    <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
