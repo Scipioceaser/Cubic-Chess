@@ -15,40 +15,37 @@ public class CreateBoard : Editor
 
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Create interior board"))
+        if (gen.mapType != MapType.NONE)
         {
-            if (gen.grid.Length != 0)
+            if (GUILayout.Button("Create board"))
             {
-                gen.DestroyMap();
-                gen.CreateMapInterior();
-            }
-            else
-            {
-                if (i == 0)
+                if (gen.grid.Length != 0 || i == 0)
                 {
-                    gen.CreateMapInterior();
-                    i = 1;
+                    if (i == 0)
+                        i = 1;
+
+                    if (gen.mapType == MapType.EXTERIOR_EMPTY)
+                    {
+                        gen.DestroyMap();
+                        gen.CreateMapExterior();
+                    }
+                    else if (gen.mapType == MapType.INTERIOR_EMPTY)
+                    {
+                        gen.DestroyMap();
+                        gen.CreateMapInterior();
+                    }
                 }
             }
         }
 
-        if (GUILayout.Button("Create exterior board"))
+        if (gen.mapType == MapType.NONE && gen.grid.Length != 0)
         {
-            if (gen.grid.Length != 0)
-            {
-                gen.DestroyMap();
-                gen.CreateMapExterior();
-            }
-            else
-            {
-                if (i == 0)
-                {
-                    gen.CreateMapExterior();
-                    i = 1;
-                }
-            }
-        }
+            if (i == 1)
+                i = 0;
 
+            gen.DestroyMap();
+        }
+        
         GUILayout.EndHorizontal();
 
         GUILayout.BeginVertical();
@@ -71,16 +68,16 @@ public class CreateBoard : Editor
             }
         }
 
-        if (GUILayout.Button("Destroy board"))
-        {
-            if (gen.grid.Length != 0)
-            {
-                if (i == 1)
-                    i = 0;
-
-                gen.DestroyMap();
-            }
-        }
+        //if (GUILayout.Button("Destroy board"))
+        //{
+        //    if (gen.grid.Length != 0)
+        //    {
+        //        if (i == 1)
+        //            i = 0;
+        //
+        //        gen.DestroyMap();
+        //    }
+        //}
 
         GUILayout.EndVertical();
     }

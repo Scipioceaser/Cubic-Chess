@@ -30,8 +30,8 @@ public class Map : MonoBehaviour
     public GameObject[] grid;
 
     // 0 = No map, 1 = Interior map, 2 = exterior map
-    [SerializeField]//[HideInInspector]
-    public MapType mapType = MapType.NONE;
+    [SerializeField]
+    public MapType mapType;
 
     [HideInInspector]
     public Node[,,] nodes;
@@ -68,6 +68,34 @@ public class Map : MonoBehaviour
     public Node NodeFromWorldPoints(int x, int y, int z)
     {
         return nodes[x, y, z];
+    }
+
+    public List<Node> GetNeighbours(Node node, int depth = 1)
+    {
+        List<Node> neighbours = new List<Node>();
+
+        for (int z = -1; z <= 1; z++)
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    if (x == 0 && y == 0 && z == 0)
+                        continue;
+
+                    int cx = (int)node.position.x + x;
+                    int cy = (int)node.position.y + y;
+                    int cz = (int)node.position.z + z;
+
+                    if (cx >= 0 && cx < boardSize && cy >= 0 && cy < boardHeight && cz >= 0 && cz < boardSize)
+                    {
+                        neighbours.Add(nodes[cx, cy, cz]);
+                    }
+                }
+            }
+        }
+    
+        return neighbours;
     }
     #endregion
 
@@ -403,7 +431,7 @@ public class Map : MonoBehaviour
     {
         if (Application.isPlaying)
             return;
-
+        
         int s = gizmoGridSize + 2;
         int h = gizmoGridHeight + 2;
 
