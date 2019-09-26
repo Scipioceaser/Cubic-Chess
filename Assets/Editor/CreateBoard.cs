@@ -47,39 +47,6 @@ public class CreateBoard : Editor
         }
         
         GUILayout.EndHorizontal();
-
-        GUILayout.BeginVertical();
-
-        if (Application.isPlaying)
-        {
-            if (GUILayout.Button("Create Nodes"))
-            {
-                if (gen.grid.Length != 0)
-                {
-                    if (gen.mapType == MapType.INTERIOR_EMPTY)
-                    {
-                        gen.CreateNodesInterior();
-                    }
-                    else if (gen.mapType == MapType.EXTERIOR_EMPTY)
-                    {
-                        gen.CreateNodesExterior();
-                    }
-                }
-            }
-        }
-
-        //if (GUILayout.Button("Destroy board"))
-        //{
-        //    if (gen.grid.Length != 0)
-        //    {
-        //        if (i == 1)
-        //            i = 0;
-        //
-        //        gen.DestroyMap();
-        //    }
-        //}
-
-        GUILayout.EndVertical();
     }
     
     private void OnEnable()

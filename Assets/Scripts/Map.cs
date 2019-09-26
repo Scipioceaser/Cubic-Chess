@@ -17,8 +17,8 @@ public class Map : MonoBehaviour
     public int boardHeight = 1;
     [Range(0.1f, 10f)]
     public float nodeDropSpeed = 0.5f;
-    [Range(1f, 10f)]
-    public float nodePlacementSpeed = 1f;
+    [Range(1, 10)]
+    public int nodePlacementSpeed = 1;
     [Range(1, 10)]
     public int nodeScale = 1;
     public bool dropWithAnimation = true;
@@ -29,12 +29,17 @@ public class Map : MonoBehaviour
     [HideInInspector]
     public GameObject[] grid;
 
-    // 0 = No map, 1 = Interior map, 2 = exterior map
     [SerializeField]
     public MapType mapType;
 
     [HideInInspector]
     public Node[,,] nodes;
+
+    // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
+    [SerializeField][HideInInspector]
+    private int gizmoGridSize = 1;
+    [SerializeField][HideInInspector]
+    private int gizmoGridHeight = 1;
 
     private void Awake()
     {
@@ -47,14 +52,17 @@ public class Map : MonoBehaviour
             StartCoroutine(CreateNodesExterior());
         }
     }
-
-    // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
-    [SerializeField][HideInInspector]
-    private int gizmoGridSize = 1;
-    [SerializeField][HideInInspector]
-    private int gizmoGridHeight = 1;
-
+    
     #region Node and Position functions
+    public List<Vector3> GetVectorsFromLine(Vector3 line, int interval)
+    {
+        List<Vector3> positions = new List<Vector3>();
+        
+
+
+        return positions;
+    }
+
     public Vector3 WorldPosFromNodePos(Vector3 nodePosition)
     {
         return (nodePosition + transform.position);
@@ -99,9 +107,25 @@ public class Map : MonoBehaviour
     }
     #endregion
 
+    private void DetermineExteriorNodesCentreRender()
+    {
+        foreach (Node node in nodes)
+        {
+            if (node != null && node.GetType() == typeof(NodeMesh))
+            {
+                Vector3 pos = node.transform.position;
+
+                if (pos.y > 1 && pos.y <= (boardHeight - 1) && pos.z > 1 && pos.z <= (boardSize - 1) && pos.x > 1 && pos.x <= (boardSize - 1))
+                {
+                    node.SendMessage("SetRender", false);
+                }
+            }
+        }
+    }
+
     public IEnumerator CreateNodesExterior()
     {
-        WaitForSeconds wait = new WaitForSeconds((nodePlacementSpeed / 100f));
+        WaitForSeconds wait = new WaitForSeconds(((float)nodePlacementSpeed / 1000f));
 
         Material even = new Material(Shader.Find("Standard"));
         Material odd = new Material(Shader.Find("Standard"));
@@ -122,6 +146,8 @@ public class Map : MonoBehaviour
 
                     n = grid[i].AddComponent<Node>();
                     n.Init(nodeScale, pos);
+                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                    n.collider.isTrigger = true;
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                 }
@@ -154,9 +180,10 @@ public class Map : MonoBehaviour
                     }
                     
                     n.Init(nodeScale, pos);
+                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
-
+                    
                     if (dropWithAnimation)
                         StartCoroutine(n.Move(transform.position + new Vector3(pos.x, pos.y, pos.z) +
                             new Vector3(0, (boardHeight + 25), 0), transform.position + new Vector3(pos.x, pos.y, pos.z), nodeDropSpeed));
@@ -164,12 +191,14 @@ public class Map : MonoBehaviour
                     yield return wait;
                 }
             }
+
+            DetermineExteriorNodesCentreRender();
         }
     }
 
     public IEnumerator CreateNodesInterior()
     {
-        WaitForSeconds wait = new WaitForSeconds((nodePlacementSpeed / 100f));
+        WaitForSeconds wait = new WaitForSeconds(((float)nodePlacementSpeed / 1000f));
         Material even = new Material(Shader.Find("Standard"));
         Material odd = new Material(Shader.Find("Standard"));
         even.color = colorEven;
@@ -195,6 +224,8 @@ public class Map : MonoBehaviour
 
                     n = grid[i].AddComponent<Node>();
                     n.Init(nodeScale, pos);
+                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                    n.collider.isTrigger = true;
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                 }
@@ -328,6 +359,7 @@ public class Map : MonoBehaviour
                     #endregion
 
                     n.Init(nodeScale, pos);
+                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
 

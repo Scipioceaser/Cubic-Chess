@@ -6,15 +6,18 @@ using UnityEngine;
 // Base node class, empty
 // Probably shouldn't use this for spawning, but to hold all the functions for all the nodes
 
+[RequireComponent(typeof(BoxCollider))]
 public class Node : MonoBehaviour
 {
     public Vector3 position;
     public int scale = 1;
+    public BoxCollider collider;
     
     public virtual void Init(int scale, Vector3 position)
     {
         this.scale = scale;
         this.position = position;
+        this.collider = GetComponent<BoxCollider>();   
     }
 }
 
@@ -57,6 +60,11 @@ public class NodeMesh : Node
             meshRenderer = GetComponent<MeshRenderer>();
 
         meshRenderer.material = material;
+    }
+
+    public void SetRender(bool toRender)
+    {
+        meshRenderer.enabled = toRender;
     }
 
     private void CreateNodeMesh(int size)
