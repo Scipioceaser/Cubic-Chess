@@ -11,9 +11,9 @@ public enum MapType
 
 public class Map : MonoBehaviour
 {
-    [Range(1, 50)]
+    [Range(1, 20)]
     public int boardSize = 1;
-    [Range(1, 50)]
+    [Range(1, 20)]
     public int boardHeight = 1;
     [Range(0.1f, 10f)]
     public float nodeDropSpeed = 0.5f;
@@ -34,7 +34,7 @@ public class Map : MonoBehaviour
 
     [HideInInspector]
     public Node[,,] nodes;
-
+    
     // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
     [SerializeField][HideInInspector]
     private int gizmoGridSize = 1;
@@ -54,15 +54,6 @@ public class Map : MonoBehaviour
     }
     
     #region Node and Position functions
-    public List<Vector3> GetVectorsFromLine(Vector3 line, int interval)
-    {
-        List<Vector3> positions = new List<Vector3>();
-        
-
-
-        return positions;
-    }
-
     public Vector3 WorldPosFromNodePos(Vector3 nodePosition)
     {
         return (nodePosition + transform.position);
@@ -191,7 +182,8 @@ public class Map : MonoBehaviour
                     yield return wait;
                 }
             }
-
+            //TODO: This could be optimized.
+            Camera.main.gameObject.GetComponent<CameraController>().SendMessage("SetCentrePosition");
             DetermineExteriorNodesCentreRender();
         }
     }
