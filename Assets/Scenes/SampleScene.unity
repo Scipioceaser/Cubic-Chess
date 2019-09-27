@@ -6997,7 +6997,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e01daf285985a44697ce0c10dad13de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraDistance: 10
+  mouseRotationSpeed: 2
+  rotateSmoothness: 0.5
+  maxCameraDistance: 10
+  minCameraDistance: 0.5
+  mouseYMinLimit: -360
+  mouseYMaxLimit: 360
 --- !u!1 &967795437
 GameObject:
   m_ObjectHideFlags: 0
