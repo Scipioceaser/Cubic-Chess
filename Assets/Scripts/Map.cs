@@ -362,6 +362,7 @@ public class Map : MonoBehaviour
                     yield return wait;
                 }
             }
+            Camera.main.gameObject.GetComponent<CameraController>().SendMessage("SetCentrePosition");
         }
     }
 

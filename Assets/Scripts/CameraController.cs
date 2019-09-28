@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     private float mouseY;
     
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         mapObject = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
         camera = GetComponent<Camera>();
@@ -40,16 +40,22 @@ public class CameraController : MonoBehaviour
         Vector3 mPos = new Vector3((mapObject.boardSize + 1) / 2, (mapObject.boardHeight + 1) / 2, (mapObject.boardSize + 1) / 2);
         mapCentre = mPos + nPos;
         cameraOffset = transform.position - mapCentre;
+        OrbitCamera(1);
+    }
+
+    private void Update() 
+    {
+
     }
 
     private void LateUpdate()
     {
         OrbitCamera();
     }
-
-    private void OrbitCamera()
+    
+    private void OrbitCamera(int i = 0)
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) || i == 1)
         {
             mouseX += Input.GetAxis("Mouse X") * mouseRotationSpeed * cameraDistance * rotateSmoothness;
             mouseY -= Input.GetAxis("Mouse Y") * mouseRotationSpeed * rotateSmoothness * cameraDistance;
