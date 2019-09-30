@@ -61,23 +61,44 @@ public class Map : MonoBehaviour
 
     public Node NodeFromNodeVector(Vector3 nodePosition)
     {
-        return nodes[(int)nodePosition.x, (int)nodePosition.y, (int)nodePosition.z];
+        return nodes[Mathf.RoundToInt(nodePosition.x), Mathf.RoundToInt(nodePosition.y), Mathf.RoundToInt(nodePosition.z)];
     }
 
-    public Node NodeFromWorldPoints(int x, int y, int z)
+    public Node NodeFromWorldPoints(Vector3 position)
     {
-        return nodes[x, y, z];
+        Node n = null;
+
+        //for (int y = 0; y < (nodes.GetLength(1) - 1); y++)
+        //{
+        //    for (int z = 0; z < (nodes.GetLength(2) - 1); z++)
+        //    {
+        //        for (int x = 0; x < (nodes.GetLength(0) - 1); x++)
+        //        {
+        //            if (position == new Vector3(x, y, z))
+        //            {
+        //                n = nodes[x, y, z];
+        //            }
+        //        }
+        //    }
+        //}
+
+        n = nodes[(int)position.x, (int)position.y, (int)position.z];
+
+        if (n == null)
+            Debug.LogWarning("No Node Selected at position: " + position);
+
+        return n;
     }
 
     public List<Node> GetNeighbours(Node node, int depth = 1)
     {
         List<Node> neighbours = new List<Node>();
 
-        for (int z = -1; z <= 1; z++)
+        for (int z = -depth; z <= depth; z++)
         {
-            for (int x = -1; x <= 1; x++)
+            for (int x = -depth; x <= depth; x++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int y = -depth; y <= depth; y++)
                 {
                     if (x == 0 && y == 0 && z == 0)
                         continue;
@@ -86,7 +107,7 @@ public class Map : MonoBehaviour
                     int cy = (int)node.position.y + y;
                     int cz = (int)node.position.z + z;
 
-                    if (cx >= 0 && cx < boardSize && cy >= 0 && cy < boardHeight && cz >= 0 && cz < boardSize)
+                    if (cx >= 0 && cx < (boardSize + 2) && cy >= 0 && cy < (boardHeight + 2) && cz >= 0 && cz < (boardSize + 2))
                     {
                         neighbours.Add(nodes[cx, cy, cz]);
                     }
@@ -114,6 +135,18 @@ public class Map : MonoBehaviour
         }
     }
 
+    public void ResetColors()
+    {
+        foreach (Node node in nodes)
+        {
+            if (node.GetType() == typeof(NodeMesh))
+            {
+                NodeMesh n = (NodeMesh)node;
+                n.SetColor(n.color);
+            }
+        }
+    }
+
     public IEnumerator CreateNodesExterior()
     {
         WaitForSeconds wait = new WaitForSeconds(((float)nodePlacementSpeed / 1000f));
@@ -137,8 +170,8 @@ public class Map : MonoBehaviour
 
                     n = grid[i].AddComponent<Node>();
                     n.Init(nodeScale, pos);
-                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
-                    n.collider.isTrigger = true;
+                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                    n.nodeCollider.isTrigger = true;
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                 }
@@ -152,10 +185,12 @@ public class Map : MonoBehaviour
                         if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
                         {
                             n.SetColor(even);
+                            n.color = even;
                         }
                         else
                         {
                             n.SetColor(odd);
+                            n.color = odd;
                         }
                     }
                     else
@@ -163,15 +198,17 @@ public class Map : MonoBehaviour
                         if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
                         {
                             n.SetColor(odd);
+                            n.color = odd;
                         }
                         else
                         {
                             n.SetColor(even);
+                            n.color = even;
                         }
                     }
                     
                     n.Init(nodeScale, pos);
-                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                     
@@ -216,8 +253,8 @@ public class Map : MonoBehaviour
 
                     n = grid[i].AddComponent<Node>();
                     n.Init(nodeScale, pos);
-                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
-                    n.collider.isTrigger = true;
+                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                    n.nodeCollider.isTrigger = true;
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                 }
@@ -351,7 +388,7 @@ public class Map : MonoBehaviour
                     #endregion
 
                     n.Init(nodeScale, pos);
-                    n.collider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
 
@@ -397,7 +434,6 @@ public class Map : MonoBehaviour
             StopAllCoroutines();
             StartCoroutine(CreateNodesExterior());
         }
-            
     }
 
     public void CreateMapInterior()

@@ -11,13 +11,13 @@ public class Node : MonoBehaviour
 {
     public Vector3 position;
     public int scale = 1;
-    public BoxCollider collider;
+    public BoxCollider nodeCollider;
     
     public virtual void Init(int scale, Vector3 position)
     {
         this.scale = scale;
         this.position = position;
-        this.collider = GetComponent<BoxCollider>();   
+        this.nodeCollider = GetComponent<BoxCollider>();   
     }
 }
 
@@ -30,6 +30,7 @@ public class NodeMesh : Node
     public Mesh nodeMesh;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
+    public Material color;
     
     public override void Init(int scale, Vector3 position)
     {

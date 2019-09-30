@@ -7243,6 +7243,8 @@ MonoBehaviour:
   minCameraDistance: 0.5
   mouseYMinLimit: -360
   mouseYMaxLimit: 360
+  selectedNodeMaterial: {fileID: 2100000, guid: cab70bf26524a51488d530c3b120c1d5,
+    type: 2}
 --- !u!1 &965387953
 GameObject:
   m_ObjectHideFlags: 0
