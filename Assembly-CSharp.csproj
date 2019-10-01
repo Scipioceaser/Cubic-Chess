@@ -65,6 +65,9 @@
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
+    <Compile Include="Assets\Scripts\Unit scripts\Pawn.cs" />
+    <Compile Include="Assets\Scripts\Unit scripts\Unit.cs" />
+    <Compile Include="Assets\Scripts\UnitSpawnPoint.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

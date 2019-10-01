@@ -179,6 +179,7 @@ public class Map : MonoBehaviour
                 {
                     NodeMesh n;
                     n = grid[i].AddComponent<NodeMesh>();
+                    n.transform.name = "NodeMesh";
 
                     if (pos.y % 2 == 0)
                     {
@@ -417,8 +418,22 @@ public class Map : MonoBehaviour
             {
                 for (int x = 0; x < (boardSize + 2); x++)
                 {
-                    GameObject nodeObject = new GameObject("Node");
+                    GameObject nodeObject = null;
 
+                    if (y == 0 || y == (boardHeight + 1) || x == 0 || x == (boardSize + 1) || z == 0 || z == (boardSize + 1))
+                    {
+                        nodeObject = new GameObject("Node");
+                        BoxCollider c = nodeObject.AddComponent<BoxCollider>();
+                        c.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                        c.isTrigger = true;
+                    }
+                    else
+                    {
+                        nodeObject = new GameObject("NodeMesh");
+                        BoxCollider c = nodeObject.AddComponent<BoxCollider>();
+                        c.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                    }
+                    
                     nodeObject.transform.parent = transform;
                     nodeObject.transform.position = new Vector3(x, y, z);
                     grid[i] = nodeObject;

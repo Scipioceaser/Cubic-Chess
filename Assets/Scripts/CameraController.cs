@@ -82,7 +82,8 @@ public class CameraController : MonoBehaviour
             n.SetColor(selectedNodeMaterial);
     }
 
-    //TODO: Make sure this actually works and it isn't an illusion. Also remove need for raycasting.
+    //TODO: Make sure this actually works and it isn't an illusion. Also remove need for raycasting. 
+    //It makes the math wonky.
     private Node GetNodeFromMouse()
     {
         Node node = null;
