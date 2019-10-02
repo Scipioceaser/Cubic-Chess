@@ -12,16 +12,81 @@ public enum UnitType
     BISHOP
 }
 
+public enum Direction
+{
+    FORWARD,
+    BACK,
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+}
+
 public class UnitSpawnPoint : MonoBehaviour
 {
     public UnitType unit;
+    public Direction alignDirection;
+
+    private Vector3 spawnDirection;
 
     private Vector3 spawnMeshPosition = Vector3.negativeInfinity;
     
-    private void SpawnUnit(Unit unit)
+    private Vector3 GetSpawnDirection(Direction dir)
     {
-        
+        Vector3 d = Vector3.zero;
+
+        switch (dir)
+        {
+            case Direction.FORWARD:
+                d = Vector3.forward * Map.scale;
+                break;
+            case Direction.BACK:
+                d = Vector3.back * Map.scale;
+                break;
+            case Direction.LEFT:
+                d = Vector3.left * Map.scale;
+                break;
+            case Direction.RIGHT:
+                d = Vector3.right * Map.scale;
+                break;
+            case Direction.UP:
+                d = Vector3.up * Map.scale;
+                break;
+            case Direction.DOWN:
+                d = Vector3.down * Map.scale;
+                break;
+            default:
+                break;
+        }
+
+        return d;
     }
+
+    private void Awake()
+    {
+        SpawnUnit(unit);
+    }
+
+    private void SpawnUnit(UnitType type)
+    {
+        transform.LookAt(transform.localPosition + GetSpawnDirection(alignDirection));
+
+        if (type == UnitType.PAWN)
+        {
+            Pawn p = gameObject.AddComponent<Pawn>();
+            Destroy(this);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+            return;
+        
+        DebugArrow.ForGizmo(transform.localPosition, GetSpawnDirection(alignDirection) / 1.5f, Color.green);
+    }
+
+    #region Nearby node scripts
 
     private List<GameObject> GetNearbyObjects(Vector3 position, float distance = 1, bool meshOnly = false)
     {
@@ -154,14 +219,30 @@ public class UnitSpawnPoint : MonoBehaviour
         return node;
     }
 
-    private void OnDrawGizmos()
+    public class DebugArrow
     {
-        if (spawnMeshPosition != Vector3.negativeInfinity)
-        {
-            GameObject g = GetNearestNodeObject(transform.position, 1, true);
 
-            if (g != null)
-                Gizmos.DrawLine(transform.position, g.transform.position);
+        public static void ForGizmo(Vector3 pos, Vector3 direction, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+        {
+            Gizmos.DrawRay(pos, direction);
+
+            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+            Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
+            Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
+        }
+
+        public static void ForGizmo(Vector3 pos, Vector3 direction, Color color, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+        {
+            Gizmos.color = color;
+            Gizmos.DrawRay(pos, direction);
+
+            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+            Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
+            Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
         }
     }
+
+    #endregion
 }

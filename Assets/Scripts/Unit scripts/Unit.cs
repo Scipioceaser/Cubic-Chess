@@ -1,18 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Unit : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+{   
+    public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName)
     {
-        
-    }
+       string p = Path.Combine(Application.dataPath, "AssetBundles");
+       var modelBundle = AssetBundle.LoadFromFile(Path.Combine(p, modelAssetBundle));
 
-    // Update is called once per frame
-    void Update()
-    {
+        if (modelBundle == null)
+        {
+            Debug.LogWarning("Failed to load " + modelAssetBundle);
+            return;
+        }
         
+        GameObject prefab = modelBundle.LoadAsset<GameObject>(modelName);
+        objectToAddModel.GetComponent<MeshFilter>().sharedMesh = prefab.GetComponent<MeshFilter>().sharedMesh;
+        objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = prefab.GetComponent<MeshRenderer>().sharedMaterial;
     }
 }

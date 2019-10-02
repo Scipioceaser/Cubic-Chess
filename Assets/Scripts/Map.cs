@@ -26,6 +26,10 @@ public class Map : MonoBehaviour
     public Color colorEven = Color.white;
     public Color colorOdd = Color.black;
 
+    public static int scale = 1;
+    public static int size = 1;
+    public static int height = 1;
+
     [HideInInspector]
     public GameObject[] grid;
 
@@ -43,6 +47,10 @@ public class Map : MonoBehaviour
 
     private void Awake()
     {
+        scale = nodeScale;
+        size = boardSize;
+        height = boardHeight;
+
         if (mapType == MapType.INTERIOR_EMPTY)
         {
             StartCoroutine(CreateNodesInterior());
@@ -67,21 +75,7 @@ public class Map : MonoBehaviour
     public Node NodeFromWorldPoints(Vector3 position)
     {
         Node n = null;
-
-        //for (int y = 0; y < (nodes.GetLength(1) - 1); y++)
-        //{
-        //    for (int z = 0; z < (nodes.GetLength(2) - 1); z++)
-        //    {
-        //        for (int x = 0; x < (nodes.GetLength(0) - 1); x++)
-        //        {
-        //            if (position == new Vector3(x, y, z))
-        //            {
-        //                n = nodes[x, y, z];
-        //            }
-        //        }
-        //    }
-        //}
-
+        
         n = nodes[(int)position.x, (int)position.y, (int)position.z];
 
         if (n == null)

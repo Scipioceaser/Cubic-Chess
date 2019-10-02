@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\AssetManager.cs" />
     <Compile Include="Assets\Editor\CreateBoard.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
