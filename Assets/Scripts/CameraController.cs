@@ -50,7 +50,7 @@ public class CameraController : MonoBehaviour
     private void Update() 
     {
         //TODO: Add more dynamic node coloring system.
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
         {
             selectedNode = GetNodeFromMouse();
             mapObject.ResetColors();
@@ -60,7 +60,8 @@ public class CameraController : MonoBehaviour
     
     private void LateUpdate()
     {
-        OrbitCamera();
+        if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
+            OrbitCamera();
     }
 
     private void ColorSelectedNodeMesh(Node node)

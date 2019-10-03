@@ -25,11 +25,7 @@ public class Map : MonoBehaviour
     
     public Color colorEven = Color.white;
     public Color colorOdd = Color.black;
-
-    public static int scale = 1;
-    public static int size = 1;
-    public static int height = 1;
-
+    
     [HideInInspector]
     public GameObject[] grid;
 
@@ -47,9 +43,9 @@ public class Map : MonoBehaviour
 
     private void Awake()
     {
-        scale = nodeScale;
-        size = boardSize;
-        height = boardHeight;
+        Globals.scale = nodeScale;
+        Globals.mapSize = boardSize;
+        Globals.mapHeight = boardHeight;
 
         if (mapType == MapType.INTERIOR_EMPTY)
         {

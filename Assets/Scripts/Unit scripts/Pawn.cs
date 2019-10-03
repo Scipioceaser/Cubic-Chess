@@ -8,6 +8,8 @@ public class Pawn : Unit
 {
     private Mesh pawnMesh;
     private Material pawnMaterial;
+    private Node currentNodeLocation;
+    private bool initialized = false;
 
     private void Awake()
     {
@@ -19,10 +21,15 @@ public class Pawn : Unit
     {
         
     }
-
+    
     // Update is called once per frame
     void Update()
     {
-        
+        if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight) && !initialized)
+        {
+            initialized = true;
+            currentNodeLocation = UnitSpawnPoint.GetNearestNode(transform.localPosition);
+            print(currentNodeLocation.position);
+        }
     }
 }

@@ -38,22 +38,22 @@ public class UnitSpawnPoint : MonoBehaviour
         switch (dir)
         {
             case Direction.FORWARD:
-                d = Vector3.forward * Map.scale;
+                d = Vector3.forward * Globals.scale;
                 break;
             case Direction.BACK:
-                d = Vector3.back * Map.scale;
+                d = Vector3.back * Globals.scale;
                 break;
             case Direction.LEFT:
-                d = Vector3.left * Map.scale;
+                d = Vector3.left * Globals.scale;
                 break;
             case Direction.RIGHT:
-                d = Vector3.right * Map.scale;
+                d = Vector3.right * Globals.scale;
                 break;
             case Direction.UP:
-                d = Vector3.up * Map.scale;
+                d = Vector3.up * Globals.scale;
                 break;
             case Direction.DOWN:
-                d = Vector3.down * Map.scale;
+                d = Vector3.down * Globals.scale;
                 break;
             default:
                 break;
@@ -158,7 +158,7 @@ public class UnitSpawnPoint : MonoBehaviour
     }
 
     // This could be cleaner But it works, I guess?
-    private Node GetNearestNode(Vector3 position, float distance = 1, bool meshOnly = false)
+    public static Node GetNearestNode(Vector3 position, float distance = 1, bool meshOnly = false)
     {
         Node node = null;
 
@@ -214,7 +214,7 @@ public class UnitSpawnPoint : MonoBehaviour
         }
             
         if (node == null)
-            Debug.LogWarning("Could not find nearby node: " + transform.name);
+            Debug.LogWarning("Could not find nearby node");
 
         return node;
     }

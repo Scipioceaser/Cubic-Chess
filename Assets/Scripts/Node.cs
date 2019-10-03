@@ -47,10 +47,15 @@ public class NodeMesh : Node
     {
         float r = 1.0f / timeValue;
         float t = 0.0f;
+        
         while (t < 1.0f)
         {
             t += Time.deltaTime * r;
             gameObject.transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
+
+            if (t >= 1.0f)
+                Globals.meshNodesCreated++;
+
             yield return null;
         }
     }
