@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour
     private float mouseY;
 
     private Node selectedNode;
+    private Unit selectedUnit;
 
     public Material selectedNodeMaterial;
     
@@ -55,6 +56,23 @@ public class CameraController : MonoBehaviour
             selectedNode = GetNodeFromMouse();
             mapObject.ResetColors();
             ColorSelectedNodeMesh(selectedNode);
+
+            if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
+            {
+                selectedUnit = selectedNode.nodeUnit;
+                print(selectedUnit.name);
+            }
+            else if (selectedNode.nodeUnit == null)
+            {
+                // Move unit code here. And the valid move positions should be calculated when the unit is selected.
+                // With a chech for if the position without the original unit the player then clicks on is a valid position.
+                if (selectedUnit != null)
+                {
+                    selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position);
+                }
+
+                selectedUnit = null;
+            }
         }    
     }
     
@@ -69,6 +87,7 @@ public class CameraController : MonoBehaviour
         List<Node> nodes = mapObject.GetNeighbours(node);
         NodeMesh n = null;
 
+        // This gets the NodeMesh that's closest to the selected node.
         float d = Vector3.Distance(nodes[0].position, node.position);
         foreach (Node nodeObject in nodes)
         {
@@ -91,6 +110,7 @@ public class CameraController : MonoBehaviour
         Ray mouseRay = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit mouseHit;
         
+        // Raycasts to node trigger colliders
         if (Physics.Raycast(mouseRay, out mouseHit))
         {
             Vector3 p = mouseHit.point;
@@ -111,9 +131,10 @@ public class CameraController : MonoBehaviour
                 pz = (mapObject.boardSize + 1);
 
             p = new Vector3(px, py, pz);
+            // Returns the node, not nodeMesh
             node = mapObject.NodeFromWorldPoints(p);
         }
-
+        
         return node;
     }
 

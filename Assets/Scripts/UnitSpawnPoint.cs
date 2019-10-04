@@ -26,7 +26,7 @@ public class UnitSpawnPoint : MonoBehaviour
 {
     public UnitType unit;
     public Direction alignDirection;
-
+    
     private Vector3 spawnDirection;
 
     private Vector3 spawnMeshPosition = Vector3.negativeInfinity;
@@ -62,9 +62,17 @@ public class UnitSpawnPoint : MonoBehaviour
         return d;
     }
 
-    private void Awake()
+    //private void Awake()
+    //{
+    //    
+    //}
+
+    private void FixedUpdate()
     {
-        SpawnUnit(unit);
+        if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
+        {
+            SpawnUnit(unit);
+        }
     }
 
     private void SpawnUnit(UnitType type)
@@ -73,9 +81,25 @@ public class UnitSpawnPoint : MonoBehaviour
 
         if (type == UnitType.PAWN)
         {
+            //TODO: Add mesh drop-in shader effect
+            
             Pawn p = gameObject.AddComponent<Pawn>();
+            
+            transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition);
+            
+            transform.name = p.GetType().ToString().ToLower();
             Destroy(this);
         }
+    }
+
+    private Vector3 GetAdjustedSpawnPosition(float value, Vector3 pos)
+    {
+        Vector3 position = new Vector3();
+        Vector3 nodePosition = GetNearestNodeObject(pos, 2, true).transform.position;
+        
+        position = value * Vector3.Normalize(nodePosition - pos) + pos;
+
+        return position;
     }
 
     private void OnDrawGizmos()
