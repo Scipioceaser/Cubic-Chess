@@ -31,50 +31,66 @@ public class Pawn : Unit
             {
                 if (position.x == 0 || position.x == (Globals.mapSize + 1))
                 {
-                    if (node.position == position + Vector3.up)
+                    if (node.position == position + Vector3.up && node.nodeUnit == null)
                     {
-                        if (node.nodeUnit == null)
-                        {
-                            print(node.position);
-                            validPositions.Add(node.position);
-                        }
+                        validPositions.Add(node.position);
                     }
                     else if (node.position == position + new Vector3(0, 1, -1) || node.position == position + new Vector3(0, 1, 1))
                     {
+                        // Check if nodeUnit is not part of the same team
                         if (node.nodeUnit != null)
                         {
-                            print(node.position);
                             validPositions.Add(node.position);
                         }
                     }
                 }
                 else if (position.z == 0 || position.z == (Globals.mapSize + 1))
                 {
-                    if (node.position == position + Vector3.up)
+                    if (node.position == position + Vector3.up && node.nodeUnit == null)
                     {
-                        if (node.nodeUnit == null)
-                        {
-                            print(node.position);
-                            validPositions.Add(node.position);
-                        }
+                        validPositions.Add(node.position);
                     }
                     else if (node.position == position + new Vector3(-1, 1, 0) || node.position == position + new Vector3(1, 1, 0))
                     {
+                        // Check if nodeUnit is not part of the same team
                         if (node.nodeUnit != null)
                         {
-                            print(node.position);
                             validPositions.Add(node.position);
                         }
                     }
                 }
-                else if (position.y == 0 || position.y == (Globals.mapHeight + 1))
+                else if (position.y == 0)
                 {
-
+                    if (node.position == position + transform.up && node.nodeUnit == null)
+                    {
+                        validPositions.Add(node.position);
+                    }
+                    else if (node.position == (position + transform.up + transform.right) || node.position == (position + transform.up + -transform.right))
+                    {
+                        if (node.nodeUnit != null)
+                        {
+                            validPositions.Add(node.position);
+                        }
+                    }
+                }
+                else if (position.y == (Globals.mapHeight + 1))
+                {
+                    if (node.position == position - transform.up && node.nodeUnit == null)
+                    {
+                        validPositions.Add(node.position);
+                    }
+                    else if (node.position == (position - transform.up + transform.right) || node.position == (position - transform.up + -transform.right))
+                    {
+                        if (node.nodeUnit != null)
+                        {
+                            validPositions.Add(node.position);
+                        }
+                    }
                 }
             }
         }
 
-        print(validPositions.Count);
+        //print(validPositions.Count);
 
         return validPositions;
     }

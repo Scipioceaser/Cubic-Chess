@@ -25,6 +25,9 @@ public class CameraController : MonoBehaviour
     private Unit selectedUnit;
 
     public Material selectedNodeMaterial;
+    public Material validNodeMaterial;
+
+    private List<Node> nodesToColor = new List<Node>();
     
     // Start is called before the first frame update
     private void Awake()
@@ -50,30 +53,56 @@ public class CameraController : MonoBehaviour
 
     private void Update() 
     {
-        //TODO: Add more dynamic node coloring system.
-        if (Input.GetMouseButton(0) && Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
+        if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
         {
-            selectedNode = GetNodeFromMouse();
-            mapObject.ResetColors();
-            ColorSelectedNodeMesh(selectedNode);
-
-            if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
+            if (selectedUnit != null)
             {
-                selectedUnit = selectedNode.nodeUnit;
-                print(selectedUnit.name);
-            }
-            else if (selectedNode.nodeUnit == null)
-            {
-                // Move unit code here. And the valid move positions should be calculated when the unit is selected.
-                // With a chech for if the position without the original unit the player then clicks on is a valid position.
-                if (selectedUnit != null)
+                foreach (Vector3 vector in selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position))
                 {
-                    selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position);
+                    nodesToColor.Add(mapObject.NodeFromWorldPoints(vector));
+                }
+            }
+
+            //TODO: Add more dynamic node coloring system.
+            if (Input.GetMouseButton(0))
+            {
+                mapObject.ResetColors();
+
+                selectedNode = GetNodeFromMouse();
+                nodesToColor.Add(selectedNode);
+                
+                if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
+                {
+                    selectedUnit = selectedNode.nodeUnit;
+                    print(selectedUnit.name);
+                }
+                else if (selectedNode.nodeUnit == null)
+                {
+                    // Move unit code here. And the valid move positions should be calculated when the unit is selected.
+                    // With a chech for if the position without the original unit the player then clicks on is a valid position.
+                    if (selectedUnit != null)
+                    {
+                        //selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position);
+                    }
+
+                    selectedUnit = null;
                 }
 
-                selectedUnit = null;
+                foreach (Node node in nodesToColor)
+                {
+                    if (node == selectedNode)
+                    {
+                        ColorSelectedNodeMesh(node, selectedNodeMaterial);
+                    }
+                    else
+                    {
+                        ColorSelectedNodeMesh(node, validNodeMaterial);
+                    }
+                }
+
+                nodesToColor.Clear();
             }
-        }    
+        }
     }
     
     private void LateUpdate()
@@ -82,7 +111,7 @@ public class CameraController : MonoBehaviour
             OrbitCamera();
     }
 
-    private void ColorSelectedNodeMesh(Node node)
+    private void ColorSelectedNodeMesh(Node node, Material toColor)
     {
         List<Node> nodes = mapObject.GetNeighbours(node);
         NodeMesh n = null;
@@ -99,7 +128,7 @@ public class CameraController : MonoBehaviour
         }
 
         if (n != null)
-            n.SetColor(selectedNodeMaterial);
+            n.SetColor(toColor);
     }
 
     //TODO: Make sure this actually works and it isn't an illusion. Also remove need for raycasting. 

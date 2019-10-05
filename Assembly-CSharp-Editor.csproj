@@ -73,8 +73,14 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProGrids">
+      <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.ProGrids.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProGrids.Editor">
+      <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.ProGrids.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

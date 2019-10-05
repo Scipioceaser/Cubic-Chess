@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour
         GameObject prefab = modelBundle.LoadAsset<GameObject>(modelName);
         objectToAddModel.GetComponent<MeshFilter>().sharedMesh = prefab.GetComponent<MeshFilter>().sharedMesh;
         objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = prefab.GetComponent<MeshRenderer>().sharedMaterial;
+        modelBundle.Unload(false);
     }
     
     //TODO: Add particle effect when node mesh lands at destination. Some shake would be good too.
