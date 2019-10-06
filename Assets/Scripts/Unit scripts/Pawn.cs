@@ -91,7 +91,25 @@ public class Pawn : Unit
         }
 
         //print(validPositions.Count);
-
+        //Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, validPositions[0], UnitSpawnPoint.GetNearestNode(validPositions[0], 1, true).transform.position);
+        //print(p);
+        //currentNode.SetNodeUnit(null);
+        //UnitSpawnPoint.GetNearestNode(validPositions[0]).SetNodeUnit(this);
+        //currentNode = UnitSpawnPoint.GetNearestNode(validPositions[0]);
+        //StartCoroutine(Move(transform.position, p, 0.5f));
+        
         return validPositions;
+    }
+
+    public override IEnumerator MoveAlongPath(List<Vector3> positions)
+    {
+        //TODO: Add loop to move along all points
+        Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, positions[0], UnitSpawnPoint.GetNearestNode(positions[0], 1, true).transform.position);
+        currentNode.SetNodeUnit(null);
+        UnitSpawnPoint.GetNearestNode(positions[0]).SetNodeUnit(this);
+        currentNode = UnitSpawnPoint.GetNearestNode(positions[0]);
+        StartCoroutine(Move(transform.position, p, 0.5f));
+
+        return base.MoveAlongPath(positions);
     }
 }

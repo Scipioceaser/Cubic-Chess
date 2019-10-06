@@ -86,21 +86,16 @@ public class UnitSpawnPoint : MonoBehaviour
             
             Pawn p = gameObject.AddComponent<Pawn>();
             
-            transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition);
+            transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
             
             transform.name = p.GetType().ToString().ToLower();
             Destroy(this);
         }
     }
 
-    private Vector3 GetAdjustedSpawnPosition(float value, Vector3 pos)
+    public static Vector3 GetAdjustedSpawnPosition(float value, Vector3 pos, Vector3 nodePosition)
     {
-        Vector3 position = new Vector3();
-        Vector3 nodePosition = GetNearestNodeObject(pos, 2, true).transform.position;
-        
-        position = value * Vector3.Normalize(nodePosition - pos) + pos;
-
-        return position;
+        return value * Vector3.Normalize(nodePosition - pos) + pos;
     }
 
     private void OnDrawGizmos()

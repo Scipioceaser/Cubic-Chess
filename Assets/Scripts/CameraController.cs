@@ -70,22 +70,27 @@ public class CameraController : MonoBehaviour
 
                 selectedNode = GetNodeFromMouse();
                 nodesToColor.Add(selectedNode);
-                
-                if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
-                {
-                    selectedUnit = selectedNode.nodeUnit;
-                    print(selectedUnit.name);
-                }
-                else if (selectedNode.nodeUnit == null)
-                {
-                    // Move unit code here. And the valid move positions should be calculated when the unit is selected.
-                    // With a chech for if the position without the original unit the player then clicks on is a valid position.
-                    if (selectedUnit != null)
-                    {
-                        //selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position);
-                    }
 
-                    selectedUnit = null;
+                if (selectedNode != null)
+                {
+                    if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
+                    {
+                        selectedUnit = selectedNode.nodeUnit;
+                        print(selectedUnit.name);
+                    }
+                    else if (selectedNode.nodeUnit == null)
+                    {
+                        // Move unit code here. And the valid move positions should be calculated when the unit is selected.
+                        // With a chech for if the position without the original unit the player then clicks on is a valid position.
+                        if (selectedUnit != null)
+                        {
+                            if (selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position).Contains(selectedNode.transform.position))
+                            {
+                                selectedUnit.MoveAlongPath(selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position));
+                                selectedUnit = null;
+                            }
+                        }
+                    }
                 }
 
                 foreach (Node node in nodesToColor)

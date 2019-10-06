@@ -7,6 +7,10 @@ public class Unit : MonoBehaviour
 {
     [HideInInspector]
     public Node currentNode;
+    [HideInInspector]
+    public bool moving;
+    [HideInInspector]
+    public int moveIndex = 0;
 
     public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName)
     {
@@ -44,5 +48,10 @@ public class Unit : MonoBehaviour
     {
         // Don't copy this bit
         return null;
+    }
+
+    public virtual IEnumerator MoveAlongPath(List<Vector3> positions)
+    {
+        yield return null;
     }
 }
