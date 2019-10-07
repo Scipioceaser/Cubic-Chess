@@ -85,6 +85,8 @@ public class UnitSpawnPoint : MonoBehaviour
             //TODO: Add mesh drop-in shader effect
             
             Pawn p = gameObject.AddComponent<Pawn>();
+            p.spawnDir = alignDirection;
+            p.unAdjustedPosition = transform.position;
             
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
             

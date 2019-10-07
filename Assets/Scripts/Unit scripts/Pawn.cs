@@ -9,7 +9,7 @@ public class Pawn : Unit
     private Mesh pawnMesh;
     private Material pawnMaterial;
     private Map map;
-    
+
     private void Awake()
     {
         SetModelFromAssets(gameObject, "pawn", "pawn");
@@ -17,99 +17,201 @@ public class Pawn : Unit
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
     }
-    
-    // TODO: When movement code is implemented, will need to make sure the code allows for a pawn to cirumnavigate the map and not
-    // just move up.
-    public override List<Vector3> GetValidMovePositions(Vector3 position)
+
+    // TODO: Make pawn rotate around edge
+    public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         List<Vector3> validPositions = new List<Vector3>();
-        List<Node> nearbyNodes = map.GetNeighbours(map.NodeFromWorldPoints(position));
-        
+        List<Node> nearbyNodes = map.GetNeighbours(map.NodeFromWorldPoints(position), 1);
+
+        // TODO: Units on the top or the bottom can't go down the sides.
         foreach (Node node in nearbyNodes)
         {
             if (node.GetType() != typeof(NodeMesh))
             {
-                if (position.x == 0 || position.x == (Globals.mapSize + 1))
+                if (node.position.y == 0 || node.position.y == (Globals.mapHeight + 1))
                 {
-                    if (node.position == position + Vector3.up && node.nodeUnit == null)
+                    // Check if lateral board movement
+                    if (node.position.y == unAdjustedPosition.y)
                     {
-                        validPositions.Add(node.position);
+                        // Movement along the top
+                        if (node.position == position + transform.forward)
+                        {
+                            validPositions.Add(node.position);
+                        }
+                        else if (node.position == position - transform.forward)
+                        {
+                            validPositions.Add(node.position);
+                        }   
                     }
-                    else if (node.position == position + new Vector3(0, 1, -1) || node.position == position + new Vector3(0, 1, 1))
+                    else if (node.position.y == unAdjustedPosition.y + 1)
                     {
-                        // Check if nodeUnit is not part of the same team
-                        if (node.nodeUnit != null)
+                        // Going up
+                        if (node.position == position + Vector3.up)
+                        {
+                            validPositions.Add(node.position);
+                        }
+
+                        if (node.position == position - transform.forward + Vector3.up)
+                        {
+                            validPositions.Add(node.position);
+                        }
+                    }
+                    else if (node.position.y == unAdjustedPosition.y - 1)
+                    {
+                        // Going down
+                        if (node.position == position - Vector3.up)
+                        {
+                            validPositions.Add(node.position);
+                        }
+
+                        if (node.position == position - transform.forward - Vector3.up)
                         {
                             validPositions.Add(node.position);
                         }
                     }
                 }
-                else if (position.z == 0 || position.z == (Globals.mapSize + 1))
+                else
                 {
-                    if (node.position == position + Vector3.up && node.nodeUnit == null)
+                    // Code for side movement
+                    if (node.position == position - Vector3.up * team && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }
-                    else if (node.position == position + new Vector3(-1, 1, 0) || node.position == position + new Vector3(1, 1, 0))
-                    {
-                        // Check if nodeUnit is not part of the same team
-                        if (node.nodeUnit != null)
-                        {
-                            validPositions.Add(node.position);
-                        }
-                    }
-                }
-                else if (position.y == 0)
-                {
-                    if (node.position == position + transform.up && node.nodeUnit == null)
+                    else if (node.position == position + Vector3.up * team && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
-                    }
-                    else if (node.position == (position + transform.up + transform.right) || node.position == (position + transform.up + -transform.right))
-                    {
-                        if (node.nodeUnit != null)
-                        {
-                            validPositions.Add(node.position);
-                        }
-                    }
-                }
-                else if (position.y == (Globals.mapHeight + 1))
-                {
-                    if (node.position == position - transform.up && node.nodeUnit == null)
-                    {
-                        validPositions.Add(node.position);
-                    }
-                    else if (node.position == (position - transform.up + transform.right) || node.position == (position - transform.up + -transform.right))
-                    {
-                        if (node.nodeUnit != null)
-                        {
-                            validPositions.Add(node.position);
-                        }
                     }
                 }
             }
         }
 
         //print(validPositions.Count);
-        //Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, validPositions[0], UnitSpawnPoint.GetNearestNode(validPositions[0], 1, true).transform.position);
-        //print(p);
-        //currentNode.SetNodeUnit(null);
-        //UnitSpawnPoint.GetNearestNode(validPositions[0]).SetNodeUnit(this);
-        //currentNode = UnitSpawnPoint.GetNearestNode(validPositions[0]);
-        //StartCoroutine(Move(transform.position, p, 0.5f));
-        
+
         return validPositions;
     }
 
-    public override IEnumerator MoveAlongPath(List<Vector3> positions)
+    public override void MoveAlongPath(Vector3 destination = new Vector3())
     {
         //TODO: Add loop to move along all points
-        Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, positions[0], UnitSpawnPoint.GetNearestNode(positions[0], 1, true).transform.position);
-        currentNode.SetNodeUnit(null);
-        UnitSpawnPoint.GetNearestNode(positions[0]).SetNodeUnit(this);
-        currentNode = UnitSpawnPoint.GetNearestNode(positions[0]);
-        StartCoroutine(Move(transform.position, p, 0.5f));
+        MovePawn(destination);
+    }
 
-        return base.MoveAlongPath(positions);
+    private void MovePawn(Vector3 destination)
+    {
+        Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, destination, 
+            UnitSpawnPoint.GetNearestNode(destination, 1, true).transform.position);
+
+        currentNode.SetNodeUnit(null);
+        UnitSpawnPoint.GetNearestNode(destination).SetNodeUnit(this);
+        currentNode = UnitSpawnPoint.GetNearestNode(destination);
+        unAdjustedPosition = destination;
+        StartCoroutine(Move(transform.position, p, 0.5f));
     }
 }
+    /*if (unAdjustedPosition.x != 0 && unAdjustedPosition.z != 0 && unAdjustedPosition.x != (Globals.mapSize + 1) && unAdjustedPosition.z != (Globals.mapSize + 1))
+                    {
+                        // Lateral top-down movement
+                        // The check for direction may be a problem when the units start rotating
+                        if (spawnDir == Direction.UP || spawnDir == Direction.DOWN)
+                        {
+                            if (node.position == position - transform.right * team && node.nodeUnit == null)
+                            {
+                                validPositions.Add(node.position);
+                            }
+                            else if (node.position == position + transform.right * team && node.nodeUnit == null)
+                            {
+                                validPositions.Add(node.position);
+                            }
+                        }
+                        else
+                        {
+                            if (node.position == position - transform.forward * team && node.nodeUnit == null)
+                            {
+                                Debug.DrawLine(position, node.position, Color.blue);
+                                validPositions.Add(node.position);
+                            }
+                            else if (node.position == position + transform.forward * team && node.nodeUnit == null)
+                            {
+                                Debug.DrawLine(position, node.position, Color.red);
+                                validPositions.Add(node.position);
+                            }
+                        }
+                    }
+                    else if (unAdjustedPosition.x == 1 || unAdjustedPosition.z == 1 || unAdjustedPosition.x == Globals.mapSize || unAdjustedPosition.z == Globals.mapSize || unAdjustedPosition.x == 1 
+                        || unAdjustedPosition.z == 1 || unAdjustedPosition.x == Globals.mapSize || unAdjustedPosition.z == Globals.mapSize)
+                    {
+                        if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
+                        {
+                            Debug.DrawLine(unAdjustedPosition, node.position);
+                        }
+                    }
+                    else
+                    {
+                        if (position.y == node.position.y)
+                        {
+                            // Down movement
+                            if (node.position.y == 1)
+                            {
+                                if (node.position == position - Vector3.up)
+                                {
+                                    validPositions.Add(node.position);
+                                }
+
+                                if (node.position == position - transform.forward - Vector3.up)
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                            }
+                            else if (node.position.y == Globals.mapHeight)
+                            {
+                                if (node.position == position + Vector3.up)
+                                {
+                                    validPositions.Add(node.position);
+                                }
+
+                                if (node.position == position - transform.forward + Vector3.up)
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                            }
+                        }
+                        else if (position.y < node.position.y)
+                        {
+                            if (node.position == position + Vector3.up)
+                            {
+                                validPositions.Add(node.position);
+                            }
+
+                            if (node.position == position - transform.forward + Vector3.up)
+                            {
+                                validPositions.Add(node.position);
+                            }
+                        }
+                        else if (position.y > node.position.y)
+                        {
+                            if (node.position == position - Vector3.up)
+                            {
+                                validPositions.Add(node.position);
+                            }
+
+                            if (node.position == position - transform.forward - Vector3.up)
+                            {
+                                validPositions.Add(node.position);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Code for side movement
+                    if (node.position == position - Vector3.up * team && node.nodeUnit == null)
+                    {
+                        validPositions.Add(node.position);
+                    }
+                    else if (node.position == position + Vector3.up * team && node.nodeUnit == null)
+                    {
+                        validPositions.Add(node.position);
+                    }
+                }
+     */

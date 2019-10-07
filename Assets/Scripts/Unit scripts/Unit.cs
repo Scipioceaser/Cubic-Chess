@@ -11,6 +11,12 @@ public class Unit : MonoBehaviour
     public bool moving;
     [HideInInspector]
     public int moveIndex = 0;
+    [HideInInspector]
+    public List<Vector3> positions;
+    [HideInInspector]
+    public Direction spawnDir;
+    [HideInInspector]
+    public Vector3 unAdjustedPosition;
 
     public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName)
     {
@@ -44,14 +50,16 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public virtual List<Vector3> GetValidMovePositions(Vector3 position)
+    public virtual List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         // Don't copy this bit
         return null;
     }
 
-    public virtual IEnumerator MoveAlongPath(List<Vector3> positions)
+    public void SetPositions(List<Vector3> movePositions)
     {
-        yield return null;
+        positions = movePositions;
     }
+
+    public virtual void MoveAlongPath(Vector3 destination = new Vector3()) { }
 }

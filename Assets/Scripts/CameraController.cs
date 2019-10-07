@@ -47,6 +47,7 @@ public class CameraController : MonoBehaviour
         Vector3 nPos = new Vector3((mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f));
         Vector3 mPos = new Vector3((mapObject.boardSize + 1) / 2, (mapObject.boardHeight + 1) / 2, (mapObject.boardSize + 1) / 2);
         mapCentre = mPos + nPos;
+        Globals.mapCenterPoint = mapCentre;
         playerCameraOffset = transform.position - mapCentre;
         OrbitCamera(1);
     }
@@ -86,25 +87,44 @@ public class CameraController : MonoBehaviour
                         {
                             if (selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position).Contains(selectedNode.transform.position))
                             {
-                                selectedUnit.MoveAlongPath(selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position));
+                                selectedUnit.SetPositions(selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position));
+
+                                if (selectedUnit.positions.Contains(selectedNode.position))
+                                {
+                                    selectedUnit.MoveAlongPath(selectedNode.position);
+                                }
+
+                                selectedNode = null;
                                 selectedUnit = null;
+                                mapObject.ResetColors();
+                            }
+                        }
+
+                        selectedNode = null;
+                        selectedUnit = null;
+                        mapObject.ResetColors();
+                    }
+
+                    if (selectedNode && selectedUnit)
+                    {
+                        foreach (Node node in nodesToColor)
+                        {
+                            if (node == selectedNode)
+                            {
+                                ColorSelectedNodeMesh(node, selectedNodeMaterial);
+                            }
+                            else
+                            {
+                                ColorSelectedNodeMesh(node, validNodeMaterial);
                             }
                         }
                     }
                 }
-
-                foreach (Node node in nodesToColor)
+                else
                 {
-                    if (node == selectedNode)
-                    {
-                        ColorSelectedNodeMesh(node, selectedNodeMaterial);
-                    }
-                    else
-                    {
-                        ColorSelectedNodeMesh(node, validNodeMaterial);
-                    }
+                    mapObject.ResetColors();
                 }
-
+                
                 nodesToColor.Clear();
             }
         }
