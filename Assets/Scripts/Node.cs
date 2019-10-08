@@ -80,7 +80,7 @@ public class NodeMesh : Node
     {
         meshRenderer.enabled = toRender;
     }
-
+    
     private void CreateNodeMesh(int size)
     {
         Mesh mesh = new Mesh();

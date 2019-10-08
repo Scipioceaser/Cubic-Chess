@@ -61,5 +61,12 @@ public class Unit : MonoBehaviour
         positions = movePositions;
     }
 
+    public static void AlignUnit(GameObject unitObject, Vector3 destination)
+    {
+        Vector3 d = (destination - UnitSpawnPoint.GetNearestNode(destination, 1, true).position);
+        Quaternion pawnDirection = Quaternion.LookRotation(d);
+        unitObject.transform.rotation = pawnDirection;
+    }
+
     public virtual void MoveAlongPath(Vector3 destination = new Vector3()) { }
 }
