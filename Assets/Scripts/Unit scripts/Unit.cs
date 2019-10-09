@@ -68,5 +68,6 @@ public class Unit : MonoBehaviour
         unitObject.transform.rotation = pawnDirection;
     }
 
+    //TODO: Add loop to move along all points
     public virtual void MoveAlongPath(Vector3 destination = new Vector3()) { }
 }

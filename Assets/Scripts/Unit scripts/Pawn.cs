@@ -37,7 +37,7 @@ public class Pawn : Unit
         // Make sure the object move properly and i haven't gone insane.
         foreach (Node node in nearbyNodes)
         {
-            if (node.GetType() != typeof(NodeMesh))
+            if (node.GetType() != typeof(NodeMesh) && node.position != currentNode.position)
             {
                 if (node.position.y == 0 || node.position.y == (Globals.mapHeight + 1))
                 {
@@ -47,56 +47,62 @@ public class Pawn : Unit
                         if (node.position.y == 0)
                         {
                             // Movement along the top and bottom
-                            if (node.position == position + pawnDirection)
+                            if (node.nodeUnit == null)
                             {
-                                if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                node.position.z == 0 || node.position.z == Globals.mapSize + 1)
+                                if (node.position == position + pawnDirection)
                                 {
-                                    validPositions.Add(node.position + Vector3.up);
+                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
+                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
+                                    {
+                                        validPositions.Add(node.position + Vector3.up);
+                                    }
+                                    else
+                                    {
+                                        validPositions.Add(node.position);
+                                    }
                                 }
-                                else
+                                else if (node.position == position - pawnDirection)
                                 {
-                                    validPositions.Add(node.position);
-                                }
-                            }
-                            else if (node.position == position - pawnDirection)
-                            {
-                                if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                {
-                                    validPositions.Add(node.position + Vector3.up);
-                                }
-                                else
-                                {
-                                    validPositions.Add(node.position);
+                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
+                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
+                                    {
+                                        validPositions.Add(node.position + Vector3.up);
+                                    }
+                                    else
+                                    {
+                                        validPositions.Add(node.position);
+                                    }
                                 }
                             }
                         }
                         else if (node.position.y == Globals.mapHeight + 1)
                         {
                             // Movement along the top and bottom
-                            if (node.position == position + pawnDirection)
+                            if (node.nodeUnit == null)
                             {
-                                if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                node.position.z == 0 || node.position.z == Globals.mapSize + 1)
+                                if (node.position == position + pawnDirection)
                                 {
-                                    validPositions.Add(node.position - Vector3.up);
+                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
+                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
+                                    {
+                                        validPositions.Add(node.position - Vector3.up);
+                                    }
+                                    else
+                                    {
+                                        validPositions.Add(node.position);
+                                    }
                                 }
-                                else
+                                else if (node.position == position - pawnDirection)
                                 {
-                                    validPositions.Add(node.position);
-                                }
-                            }
-                            else if (node.position == position - pawnDirection)
-                            {
-                                if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                {
-                                    validPositions.Add(node.position - Vector3.up);
-                                }
-                                else
-                                {
-                                    validPositions.Add(node.position);
+                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
+                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
+                                    {
+                                        validPositions.Add(node.position - Vector3.up);
+                                    }
+                                    else
+                                    {
+                                        validPositions.Add(node.position);
+                                    }
                                 }
                             }
                         }
@@ -106,7 +112,7 @@ public class Pawn : Unit
                         // Going up
                         if (node.position == position + Vector3.up)
                         {
-                            //validPositions.Add(node.position);
+                            validPositions.Add(node.position);
                         }
 
                         if (node.position == position - transform.forward + Vector3.up)
@@ -119,7 +125,7 @@ public class Pawn : Unit
                         // Going down
                         if (node.position == position - Vector3.up)
                         {
-                            //validPositions.Add(node.position);
+                            validPositions.Add(node.position);
                         }
 
                         if (node.position == position - transform.forward - Vector3.up)
@@ -142,16 +148,16 @@ public class Pawn : Unit
                 }
             }
         }
-        
+
         return validPositions;
     }
 
     public override void MoveAlongPath(Vector3 destination = new Vector3())
     {
-        //TODO: Add loop to move along all points
         MovePawn(destination);
     }
 
+    //TODO: Rotate around edge mesh node;
     private void MovePawn(Vector3 destination)
     {
         Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, destination, 

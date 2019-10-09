@@ -71,7 +71,7 @@ public class CameraController : MonoBehaviour
 
                 selectedNode = GetNodeFromMouse();
                 nodesToColor.Add(selectedNode);
-
+                
                 if (selectedNode != null)
                 {
                     if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)

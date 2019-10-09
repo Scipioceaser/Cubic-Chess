@@ -66,9 +66,12 @@
     <Compile Include="Assets\Scripts\Globals.cs" />
     <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
+    <Compile Include="Assets\Scripts\Unit scripts\Bishop.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Pawn.cs" />
+    <Compile Include="Assets\Scripts\Unit scripts\Rook.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Unit.cs" />
     <Compile Include="Assets\Scripts\UnitSpawnPoint.cs" />
+    <None Include="Assets\Shaders\Outline.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
