@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+[RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshFilter))]
 public class Unit : MonoBehaviour
 {
     [HideInInspector]
@@ -17,6 +19,15 @@ public class Unit : MonoBehaviour
     public Direction spawnDir;
     [HideInInspector]
     public Vector3 unAdjustedPosition;
+    [HideInInspector]
+    public Map map;
+    [HideInInspector]
+    public Vector3 moveDirection;
+
+    public virtual void Awake()
+    {
+        map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
+    }
 
     public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName)
     {

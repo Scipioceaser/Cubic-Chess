@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(MeshFilter))]
 public class Pawn : Unit
 {
-    private Mesh pawnMesh;
-    private Material pawnMaterial;
-    private Map map;
-    private Vector3 pawnDirection;
+    //private Mesh pawnMesh;
+    //private Material pawnMaterial;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         SetModelFromAssets(gameObject, "pawn", "pawn");
-        map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
     }
@@ -27,11 +23,11 @@ public class Pawn : Unit
         
         if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
         {
-            pawnDirection = Vector3.forward;
+            moveDirection = Vector3.forward;
         }
         else
         {
-            pawnDirection = Vector3.up;
+            moveDirection = Vector3.up;
         }
         
         // Make sure the object move properly and i haven't gone insane.
@@ -49,7 +45,7 @@ public class Pawn : Unit
                             // Movement along the top and bottom
                             if (node.nodeUnit == null)
                             {
-                                if (node.position == position + pawnDirection)
+                                if (node.position == position + moveDirection)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -61,7 +57,7 @@ public class Pawn : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                else if (node.position == position - pawnDirection)
+                                else if (node.position == position - moveDirection)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -80,7 +76,7 @@ public class Pawn : Unit
                             // Movement along the top and bottom
                             if (node.nodeUnit == null)
                             {
-                                if (node.position == position + pawnDirection)
+                                if (node.position == position + moveDirection)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -92,7 +88,7 @@ public class Pawn : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                else if (node.position == position - pawnDirection)
+                                else if (node.position == position - moveDirection)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -137,11 +133,11 @@ public class Pawn : Unit
                 else
                 {
                     // Code for side movement
-                    if (node.position == position - pawnDirection * team && node.nodeUnit == null)
+                    if (node.position == position - moveDirection * team && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }
-                    else if (node.position == position + pawnDirection * team && node.nodeUnit == null)
+                    else if (node.position == position + moveDirection * team && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }

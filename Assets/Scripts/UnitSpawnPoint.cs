@@ -93,6 +93,17 @@ public class UnitSpawnPoint : MonoBehaviour
             transform.name = p.GetType().ToString().ToLower();
             Destroy(this);
         }
+        else if (type == UnitType.ROOK)
+        {
+            Rook r = gameObject.AddComponent<Rook>();
+            r.spawnDir = alignDirection;
+            r.unAdjustedPosition = transform.position;
+
+            transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
+
+            transform.name = r.GetType().ToString().ToLower();
+            Destroy(this);
+        }
     }
 
     public static Vector3 GetAdjustedSpawnPosition(float value, Vector3 pos, Vector3 nodePosition)
