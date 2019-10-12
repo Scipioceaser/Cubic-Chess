@@ -7,9 +7,10 @@ public class Rook : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssets(gameObject, "pawn", "pawn");
+        SetModelFromAssets(gameObject, "rook", "rook");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
+        AlignUnit(currentNode.position);
     }
 
     //TODO: Add sideways transitionary movement
@@ -18,7 +19,7 @@ public class Rook : Unit
     {
         List<Vector3> validPositions = new List<Vector3>();
         List<Node> nearbyNodes = map.GetNeighbours(currentNode, 3);
-
+        
         foreach (Node node in nearbyNodes)
         {
             if (node.GetType() != typeof(NodeMesh) && node != currentNode)
@@ -34,7 +35,7 @@ public class Rook : Unit
                             {
                                 float d = Vector3.Distance(node.position, position);
 
-                                if (node.position == position + transform.up * d)
+                                if (node.position == position + Vector3.forward * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -46,7 +47,7 @@ public class Rook : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                else if (node.position == position + transform.up * d)
+                                else if (node.position == position - Vector3.forward * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -58,7 +59,7 @@ public class Rook : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                if (node.position == position + transform.right * d)
+                                if (node.position == position + Vector3.right * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -70,7 +71,7 @@ public class Rook : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                else if (node.position == position - transform.right * d)
+                                else if (node.position == position - Vector3.right * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -91,7 +92,7 @@ public class Rook : Unit
                             {
                                 float d = Vector3.Distance(node.position, position);
 
-                                if (node.position == position + transform.up * d)
+                                if (node.position == position + Vector3.forward * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -103,7 +104,7 @@ public class Rook : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                else if (node.position == position - transform.up * d)
+                                else if (node.position == position - Vector3.forward * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -115,7 +116,7 @@ public class Rook : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                if (node.position == position + transform.right * d)
+                                if (node.position == position + Vector3.right * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -127,7 +128,7 @@ public class Rook : Unit
                                         validPositions.Add(node.position);
                                     }
                                 }
-                                else if (node.position == position - transform.right * d)
+                                else if (node.position == position - Vector3.right * d)
                                 {
                                     if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
                                     node.position.z == 0 || node.position.z == Globals.mapSize + 1)
@@ -149,12 +150,14 @@ public class Rook : Unit
                         {
                             //validPositions.Add(node.position);
                         }
-
-                        if (node.position == position - transform.forward + Vector3.up)
+                        
+                        if (node.position == position - Vector3.forward + Vector3.up 
+                            || node.position == position + Vector3.forward + Vector3.up)
                         {
                             validPositions.Add(node.position);
                         }
-                        else if (node.position == position - transform.right + Vector3.up)
+                        else if (node.position == position - Vector3.right + Vector3.up
+                            || node.position == position + Vector3.right + Vector3.up)
                         {
                             validPositions.Add(node.position);
                         }
@@ -167,11 +170,13 @@ public class Rook : Unit
                             //validPositions.Add(node.position);
                         }
 
-                        if (node.position == position - transform.forward - Vector3.up)
+                        if (node.position == position - Vector3.forward - Vector3.up
+                            || node.position == position + Vector3.forward - Vector3.up)
                         {
                             validPositions.Add(node.position);
                         }
-                        else if (node.position == position - transform.right + Vector3.up)
+                        else if (node.position == position - Vector3.right - Vector3.up
+                            || node.position == position + Vector3.right - Vector3.up)
                         {
                             validPositions.Add(node.position);
                         }
@@ -189,11 +194,11 @@ public class Rook : Unit
                     {
                         validPositions.Add(node.position);
                     }
-                    if (node.position == position + transform.right * d)
+                    else if (node.position == position + Vector3.forward * d || node.position == position + Vector3.right * d)
                     {
                         validPositions.Add(node.position);
                     }
-                    else if (node.position == position - transform.right * d)
+                    else if (node.position == position - Vector3.forward * d || node.position == position - Vector3.right * d)
                     {
                         validPositions.Add(node.position);
                     }
@@ -215,7 +220,7 @@ public class Rook : Unit
             UnitSpawnPoint.GetNearestNode(destination, 1, true).transform.position);
 
         // Handle rotation
-        AlignUnit(gameObject, destination);
+        AlignUnit(destination);
 
         // Set nodes
         currentNode.SetNodeUnit(null);

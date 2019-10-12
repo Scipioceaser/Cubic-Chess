@@ -72,11 +72,45 @@ public class Unit : MonoBehaviour
         positions = movePositions;
     }
 
-    public static void AlignUnit(GameObject unitObject, Vector3 destination)
+    public static Vector3 UnitDirectionToVectorDirection(Direction dir, bool multiplyGlobalScale = false)
+    {
+        Vector3 d = Vector3.zero;
+
+        switch (dir)
+        {
+            case Direction.FORWARD:
+                d = Vector3.forward;
+                break;
+            case Direction.BACK:
+                d = Vector3.back;
+                break;
+            case Direction.LEFT:
+                d = Vector3.left;
+                break;
+            case Direction.RIGHT:
+                d = Vector3.right;
+                break;
+            case Direction.UP:
+                d = Vector3.up;
+                break;
+            case Direction.DOWN:
+                d = Vector3.down;
+                break;
+            default:
+                break;
+        }
+
+        if (multiplyGlobalScale)
+            d *= Globals.scale;
+
+        return d;
+    }
+
+    public void AlignUnit(Vector3 destination)
     {
         Vector3 d = (destination - UnitSpawnPoint.GetNearestNode(destination, 1, true).position);
-        Quaternion pawnDirection = Quaternion.LookRotation(d);
-        unitObject.transform.rotation = pawnDirection;
+        //transform.LookAt(transform.localPosition + d);
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, d);
     }
 
     //TODO: Add loop to move along all points

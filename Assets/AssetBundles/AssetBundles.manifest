@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 1776712836
+CRC: 2871295943
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: pawn
+      Dependencies: {}
+    Info_1:
+      Name: rook
       Dependencies: {}

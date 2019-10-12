@@ -32,42 +32,6 @@ public class UnitSpawnPoint : MonoBehaviour
 
     private Vector3 spawnMeshPosition = Vector3.negativeInfinity;
     
-    private Vector3 GetSpawnDirection(Direction dir)
-    {
-        Vector3 d = Vector3.zero;
-
-        switch (dir)
-        {
-            case Direction.FORWARD:
-                d = Vector3.forward * Globals.scale;
-                break;
-            case Direction.BACK:
-                d = Vector3.back * Globals.scale;
-                break;
-            case Direction.LEFT:
-                d = Vector3.left * Globals.scale;
-                break;
-            case Direction.RIGHT:
-                d = Vector3.right * Globals.scale;
-                break;
-            case Direction.UP:
-                d = Vector3.up * Globals.scale;
-                break;
-            case Direction.DOWN:
-                d = Vector3.down * Globals.scale;
-                break;
-            default:
-                break;
-        }
-
-        return d;
-    }
-
-    //private void Awake()
-    //{
-    //    
-    //}
-
     private void FixedUpdate()
     {
         if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
@@ -78,7 +42,7 @@ public class UnitSpawnPoint : MonoBehaviour
 
     private void SpawnUnit(UnitType type)
     {
-        transform.LookAt(transform.localPosition + GetSpawnDirection(alignDirection));
+        //transform.LookAt(transform.localPosition + GetSpawnDirection(alignDirection));
 
         if (type == UnitType.PAWN)
         {
@@ -100,7 +64,7 @@ public class UnitSpawnPoint : MonoBehaviour
             r.unAdjustedPosition = transform.position;
 
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
-
+            
             transform.name = r.GetType().ToString().ToLower();
             Destroy(this);
         }
@@ -116,7 +80,7 @@ public class UnitSpawnPoint : MonoBehaviour
         if (Application.isPlaying)
             return;
         
-        DebugArrow.ForGizmo(transform.localPosition, GetSpawnDirection(alignDirection) / 1.5f, Color.green);
+        DebugArrow.ForGizmo(transform.localPosition, Unit.UnitDirectionToVectorDirection(alignDirection) / 1.5f, Color.green);
     }
 
     #region Nearby node scripts

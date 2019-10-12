@@ -13,11 +13,13 @@ public class Pawn : Unit
         SetModelFromAssets(gameObject, "pawn", "pawn");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
+        AlignUnit(currentNode.position);
     }
 
     // TODO: Make pawn rotate around edge
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
+        bool hasUpOrDownDir = false;
         List<Vector3> validPositions = new List<Vector3>();
         List<Node> nearbyNodes = map.GetNeighbours(map.NodeFromWorldPoints(position), 1);
         
@@ -108,12 +110,27 @@ public class Pawn : Unit
                         // Going up
                         if (node.position == position + Vector3.up)
                         {
-                            validPositions.Add(node.position);
+                            //validPositions.Add(node.position);
                         }
-
-                        if (node.position == position - transform.forward + Vector3.up)
+                        
+                        if (position.x == 0 && position.z != 0 && position.z != Globals.mapSize + 1
+                            || position.x == Globals.mapSize + 1 && position.z == 0 && position.z == Globals.mapSize + 1)
                         {
-                            validPositions.Add(node.position);
+                            if (node.position == position - Vector3.right + Vector3.up
+                            || node.position == position + Vector3.right + Vector3.up)
+                            {
+                                Debug.DrawLine(position, node.position, Color.green);
+                                validPositions.Add(node.position);
+                            }
+                        }
+                        else
+                        {
+                            if (node.position == position - Vector3.forward + Vector3.up
+                            || node.position == position + Vector3.forward + Vector3.up)
+                            {
+                                Debug.DrawLine(position, node.position, Color.red);
+                                validPositions.Add(node.position);
+                            }
                         }
                     }
                     else if (node.position.y == unAdjustedPosition.y - 1)
@@ -121,23 +138,38 @@ public class Pawn : Unit
                         // Going down
                         if (node.position == position - Vector3.up)
                         {
-                            validPositions.Add(node.position);
+                            //validPositions.Add(node.position);
                         }
 
-                        if (node.position == position - transform.forward - Vector3.up)
+                        if (position.x == 0 && position.z != 0 && position.z != Globals.mapSize + 1
+                            || position.x == Globals.mapSize + 1 && position.z == 0 && position.z == Globals.mapSize + 1)
                         {
-                            validPositions.Add(node.position);
+                            if (node.position == position - Vector3.right + Vector3.up
+                            || node.position == position + Vector3.right + Vector3.up)
+                            {
+                                Debug.DrawLine(position, node.position, Color.green);
+                                validPositions.Add(node.position);
+                            }
+                        }
+                        else
+                        {
+                            if (node.position == position - Vector3.forward + Vector3.up
+                            || node.position == position + Vector3.forward + Vector3.up)
+                            {
+                                Debug.DrawLine(position, node.position, Color.red);
+                                validPositions.Add(node.position);
+                            }
                         }
                     }
                 }
                 else
                 {
                     // Code for side movement
-                    if (node.position == position - moveDirection * team && node.nodeUnit == null)
+                    if (node.position == position - Vector3.up * team && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }
-                    else if (node.position == position + moveDirection * team && node.nodeUnit == null)
+                    else if (node.position == position + Vector3.up * team && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }
@@ -160,14 +192,14 @@ public class Pawn : Unit
             UnitSpawnPoint.GetNearestNode(destination, 1, true).transform.position);
 
         // Handle rotation
-        AlignUnit(gameObject, destination);
+        AlignUnit(destination);
 
         // Set nodes
         currentNode.SetNodeUnit(null);
         UnitSpawnPoint.GetNearestNode(destination).SetNodeUnit(this);
         currentNode = UnitSpawnPoint.GetNearestNode(destination);
         unAdjustedPosition = destination;
-
+        
         // Actually move
         StartCoroutine(Move(transform.position, p, 0.5f));
     }
