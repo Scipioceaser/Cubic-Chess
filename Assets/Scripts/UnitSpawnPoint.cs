@@ -68,6 +68,17 @@ public class UnitSpawnPoint : MonoBehaviour
             transform.name = r.GetType().ToString().ToLower();
             Destroy(this);
         }
+        else if (type == UnitType.BISHOP)
+        {
+            Bishop b = gameObject.AddComponent<Bishop>();
+            b.spawnDir = alignDirection;
+            b.unAdjustedPosition = transform.position;
+
+            transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
+
+            transform.name = b.GetType().ToString().ToLower();
+            Destroy(this);
+        }
     }
 
     public static Vector3 GetAdjustedSpawnPosition(float value, Vector3 pos, Vector3 nodePosition)

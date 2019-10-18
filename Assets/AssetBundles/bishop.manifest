@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3278080158
+CRC: 3068483056
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 876f794fdaf63d180537fad6f9ed3c7f
+    Hash: 716dc4a38391c43a7f51b646011d1959
   TypeTreeHash:
     serializedVersion: 2
     Hash: f36c9c8b64978d0f0375ccd6cab767d7
@@ -24,6 +24,5 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 Assets:
-- Assets/Models/Rook/RookMaterial.mat
-- Assets/Models/Rook/rook.fbx
+- Assets/Models/Bishop/bishop.fbx
 Dependencies: []
