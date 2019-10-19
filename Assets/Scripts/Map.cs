@@ -132,7 +132,7 @@ public class Map : MonoBehaviour
             if (node.GetType() == typeof(NodeMesh))
             {
                 NodeMesh n = (NodeMesh)node;
-                n.SetColor(n.color);
+                n.SetColor(n.color.color);
             }
         }
     }
@@ -141,8 +141,8 @@ public class Map : MonoBehaviour
     {
         WaitForSeconds wait = new WaitForSeconds(((float)nodePlacementSpeed / 1000f));
 
-        Material even = new Material(Shader.Find("Standard"));
-        Material odd = new Material(Shader.Find("Standard"));
+        Material even = new Material(Shader.Find("Node"));
+        Material odd = new Material(Shader.Find("Node"));
         even.color = colorEven;
         odd.color = colorOdd;
 
@@ -171,16 +171,21 @@ public class Map : MonoBehaviour
                     n = grid[i].AddComponent<NodeMesh>();
                     n.transform.name = "NodeMesh";
 
+                    
+                    
+                    n.Init(nodeScale, pos);
+                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+
                     if (pos.y % 2 == 0)
                     {
                         if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
                         {
-                            n.SetColor(even);
+                            n.SetColor(even.color);
                             n.color = even;
                         }
                         else
                         {
-                            n.SetColor(odd);
+                            n.SetColor(odd.color);
                             n.color = odd;
                         }
                     }
@@ -188,18 +193,15 @@ public class Map : MonoBehaviour
                     {
                         if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
                         {
-                            n.SetColor(odd);
+                            n.SetColor(odd.color);
                             n.color = odd;
                         }
                         else
                         {
-                            n.SetColor(even);
+                            n.SetColor(even.color);
                             n.color = even;
                         }
                     }
-                    
-                    n.Init(nodeScale, pos);
-                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
 
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                     
@@ -262,55 +264,55 @@ public class Map : MonoBehaviour
                         {
                             if (pos.z % 2 != 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else if (pos.z == 0)
                         {
                             if (pos.x % 2 != 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else if (pos.x == (w - 1))
                         {
                             if (pos.z % 2 == 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else if (pos.z == (l - 1))
                         {
                             if (pos.x % 2 == 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else
                         {
                             if (pos.x % 2 != 0 && pos.z % 2 != 0 || pos.x % 2 == 0 && pos.z % 2 == 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                     }
@@ -318,11 +320,11 @@ public class Map : MonoBehaviour
                     {
                         if (pos.x % 2 != 0 && pos.z % 2 != 0 || pos.x % 2 == 0 && pos.z % 2 == 0)
                         {
-                            n.SetColor(even);
+                            n.SetColor(even.color);
                         }
                         else
                         {
-                            n.SetColor(odd);
+                            n.SetColor(odd.color);
                         }
                     }
                     else
@@ -331,49 +333,49 @@ public class Map : MonoBehaviour
                         {
                             if (pos.z % 2 == 0 && pos.y % 2 != 0 || pos.z % 2 != 0 && pos.y % 2 == 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else if (pos.x == (w - 1))
                         {
                             if (pos.z % 2 != 0 && pos.y % 2 != 0 || pos.z % 2 == 0 && pos.y % 2 == 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else if (pos.z == 0)
                         {
                             if (pos.x % 2 == 0 && pos.y % 2 != 0 || pos.x % 2 != 0 && pos.y % 2 == 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else if (pos.z == (l - 1))
                         {
                             if (pos.x % 2 != 0 && pos.y % 2 != 0 || pos.x % 2 == 0 && pos.y % 2 == 0)
                             {
-                                n.SetColor(even);
+                                n.SetColor(even.color);
                             }
                             else
                             {
-                                n.SetColor(odd);
+                                n.SetColor(odd.color);
                             }
                         }
                         else
                         {
-                            n.SetColor(even);
+                            n.SetColor(even.color);
                         }
                     }
                     #endregion

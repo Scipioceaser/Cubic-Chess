@@ -68,12 +68,24 @@ public class NodeMesh : Node
         }
     }
     
-    public void SetColor(Material material)
+    public void SetColor(Color color)
     {
-        if (!meshRenderer)
-            meshRenderer = GetComponent<MeshRenderer>();
+        if (!meshFilter)
+            meshFilter = GetComponent<MeshFilter>();
 
-        meshRenderer.material = material;
+        Mesh mesh = meshFilter.mesh;
+
+        if (mesh != null)
+        {
+            Vector3[] vertices = mesh.vertices;
+
+            Color[] colors = new Color[vertices.Length];
+
+            for (int i = 0; i < vertices.Length; i++)
+                colors[i] = color;
+
+            mesh.colors = colors;
+        }
     }
 
     public void SetRender(bool toRender)
@@ -138,7 +150,7 @@ public class NodeMesh : Node
         if (!meshRenderer)
         {
             meshRenderer = GetComponent<MeshRenderer>();
-            meshRenderer.material = new Material(Shader.Find("Standard"));
+            meshRenderer.material = new Material(Shader.Find("Node"));
         }
 
         nodeMesh = mesh;

@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
 
     public Material selectedNodeMaterial;
     public Material validNodeMaterial;
-
+    
     private List<Node> nodesToColor = new List<Node>();
     
     // Start is called before the first frame update
@@ -111,11 +111,11 @@ public class CameraController : MonoBehaviour
                         {
                             if (node == selectedNode)
                             {
-                                ColorSelectedNodeMesh(node, selectedNodeMaterial);
+                                ColorSelectedNodeMesh(node, Color.red);
                             }
                             else
                             {
-                                ColorSelectedNodeMesh(node, validNodeMaterial);
+                                ColorSelectedNodeMesh(node, Color.green);
                             }
                         }
                     }
@@ -136,7 +136,7 @@ public class CameraController : MonoBehaviour
             OrbitCamera();
     }
 
-    private void ColorSelectedNodeMesh(Node node, Material toColor)
+    private void ColorSelectedNodeMesh(Node node, Color toColor)
     {
         List<Node> nodes = mapObject.GetNeighbours(node);
         NodeMesh n = null;
@@ -151,7 +151,7 @@ public class CameraController : MonoBehaviour
                 n = (NodeMesh)nodeObject;
             }
         }
-
+        
         if (n != null)
             n.SetColor(toColor);
     }
