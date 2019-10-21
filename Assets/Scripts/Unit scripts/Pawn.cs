@@ -4,22 +4,86 @@ using UnityEngine;
 
 public class Pawn : Unit
 {
-    //private Mesh pawnMesh;
-    //private Material pawnMaterial;
+    public Vector3 horizontalMoveDirection;
 
     public override void Awake()
     {
         base.Awake();
+        
         SetModelFromAssets(gameObject, "pawn", "pawn");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }
 
-    // TODO: Make pawn rotate around edge
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
-        bool hasUpOrDownDir = false;
+        List<Vector3> validPositions = new List<Vector3>();
+        List<Node> nearbyNodes = map.GetNeighbours(map.NodeFromWorldPoints(position), 2);
+
+        foreach (Node node in nearbyNodes)
+        {
+            if (node.GetType() != typeof(NodeMesh))
+            {
+                if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
+                {
+                    if (node.position.y == unAdjustedPosition.y)
+                    {
+                        // Horizontal movement
+                        if (node.position == position + horizontalMoveDirection || node.position == position - horizontalMoveDirection)
+                        {
+                            if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 
+                                || node.position.z == 0 || node.position.z == Globals.mapSize + 1)
+                            {
+                                if (unAdjustedPosition.y == 0)
+                                {
+                                    validPositions.Add(node.position + Vector3.up);
+                                }
+                                else if (unAdjustedPosition.y == Globals.mapHeight + 1)
+                                {
+                                    validPositions.Add(node.position - Vector3.up);
+                                }
+                            }
+
+                            if (node.position == position + horizontalMoveDirection || node.position == position - horizontalMoveDirection)
+                            {
+                                validPositions.Add(node.position);
+                            }
+                        }
+                    }
+                    else if (node.position == position + Vector3.up + horizontalMoveDirection
+                            || node.position == position + Vector3.up - horizontalMoveDirection)
+                    {
+                        // Going up along edge
+                        validPositions.Add(node.position);
+                    }
+                    else if (node.position == position - Vector3.up + horizontalMoveDirection
+                            || node.position == position - Vector3.up - horizontalMoveDirection)
+                    {
+                        // Going down along edge
+                        validPositions.Add(node.position);
+                    }
+                }
+                else
+                {
+                    if (node.position == position - Vector3.up * team && node.nodeUnit == null)
+                    {
+                        validPositions.Add(node.position);
+                    }
+                    else if (node.position == position + Vector3.up * team && node.nodeUnit == null)
+                    {
+                        validPositions.Add(node.position);
+                    }
+                }
+            }
+        }
+
+        return validPositions;
+    }
+
+    // TODO: Make pawn rotate around edge
+    public List<Vector3> GetValidMovePositionsOld(Vector3 position, int team = 1)
+    {
         List<Vector3> validPositions = new List<Vector3>();
         List<Node> nearbyNodes = map.GetNeighbours(map.NodeFromWorldPoints(position), 1);
         

@@ -88,6 +88,52 @@ public class NodeMesh : Node
         }
     }
 
+    //TODO: Deal with mesh color blending
+    public void SetFaceColor(Node node, Color color)
+    {
+        if (!meshFilter)
+            meshFilter = GetComponent<MeshFilter>();
+
+        Mesh mesh = meshFilter.mesh;
+
+        if (mesh != null)
+        {
+            Vector3[] vertices = mesh.vertices;
+
+            Color[] colors = new Color[vertices.Length];
+
+            Vector3 faceCenterPoint = GetMiddlePoint(node.position, position);
+
+            float d = Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[0]));
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                if (Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[i])) < d)
+                {
+                    d = Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[i]));
+                }
+            }
+
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                if (Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[i])) == d)
+                {
+                    colors[i] = color;
+                }
+                else
+                {
+                    colors[i] = mesh.colors[i];
+                }
+            }
+            
+            mesh.colors = colors;
+        }
+    }
+
+    private Vector3 GetMiddlePoint(Vector3 A, Vector3 B)
+    {
+        return (A + (0.5f * (B - A).normalized));
+    }
+    
     public void SetRender(bool toRender)
     {
         meshRenderer.enabled = toRender;

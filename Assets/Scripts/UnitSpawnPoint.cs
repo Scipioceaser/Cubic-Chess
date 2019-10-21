@@ -51,6 +51,22 @@ public class UnitSpawnPoint : MonoBehaviour
             Pawn p = gameObject.AddComponent<Pawn>();
             p.spawnDir = alignDirection;
             p.unAdjustedPosition = transform.position;
+
+            if (p.unAdjustedPosition.y == 0 || p.unAdjustedPosition.y == Globals.mapHeight + 1)
+            {
+                p.horizontalMoveDirection = Vector3.forward;
+            }
+            else
+            {
+                if (alignDirection == Direction.RIGHT || alignDirection == Direction.LEFT)
+                {
+                    p.horizontalMoveDirection = Vector3.right;
+                }
+                else
+                {
+                    p.horizontalMoveDirection = Vector3.forward;
+                }
+            }
             
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
             

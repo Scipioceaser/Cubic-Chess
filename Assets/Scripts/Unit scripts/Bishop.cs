@@ -147,6 +147,11 @@ public class Bishop : Unit
                     {
                         validPositions.Add(node.position);
                     }
+                    else if (node.position == position + (Vector3.up + Vector3.right) * Mathf.Floor(d) || node.position == position - (Vector3.up + Vector3.right) * Mathf.Floor(d)
+                       || node.position == position + (Vector3.up - Vector3.right) * Mathf.Floor(d) || node.position == position - (Vector3.up - Vector3.right) * Mathf.Floor(d))
+                    {
+                        validPositions.Add(node.position);
+                    }
                 }
             }
         }

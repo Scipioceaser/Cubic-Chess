@@ -23,9 +23,6 @@ public class CameraController : MonoBehaviour
 
     private Node selectedNode;
     private Unit selectedUnit;
-
-    public Material selectedNodeMaterial;
-    public Material validNodeMaterial;
     
     private List<Node> nodesToColor = new List<Node>();
     
@@ -153,7 +150,7 @@ public class CameraController : MonoBehaviour
         }
         
         if (n != null)
-            n.SetColor(toColor);
+            n.SetFaceColor(node, toColor);
     }
 
     //TODO: Make sure this actually works and it isn't an illusion. Also remove need for raycasting. 

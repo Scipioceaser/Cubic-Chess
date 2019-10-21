@@ -4539,12 +4539,6 @@ MonoBehaviour:
   minCameraDistance: 0.5
   mouseYMinLimit: -360
   mouseYMaxLimit: 360
-  selectedNodeMaterial: {fileID: 2100000, guid: cab70bf26524a51488d530c3b120c1d5,
-    type: 2}
-  validNodeMaterial: {fileID: 2100000, guid: 3ca8ad115b7f4a8479b71b88f48b27cc, type: 2}
-  ignoreEmptyNodeLayerMask:
-    serializedVersion: 2
-    m_Bits: 55
 --- !u!1 &965902311
 GameObject:
   m_ObjectHideFlags: 0
@@ -10432,7 +10426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d52fb64fff3fc42b5c4d0caa4d65d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: 1
+  unit: 0
   alignDirection: 4
 --- !u!4 &2121087257
 Transform:

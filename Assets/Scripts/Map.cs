@@ -34,6 +34,7 @@ public class Map : MonoBehaviour
 
     [HideInInspector]
     public Node[,,] nodes;
+    private List<Vector3> AllNodePositions = new List<Vector3>();
     
     // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
     [SerializeField][HideInInspector]
@@ -65,7 +66,15 @@ public class Map : MonoBehaviour
 
     public Node NodeFromNodeVector(Vector3 nodePosition)
     {
-        return nodes[Mathf.RoundToInt(nodePosition.x), Mathf.RoundToInt(nodePosition.y), Mathf.RoundToInt(nodePosition.z)];
+        if (AllNodePositions.Contains(nodePosition))
+        {
+            return nodes[Mathf.RoundToInt(nodePosition.x), Mathf.RoundToInt(nodePosition.y), Mathf.RoundToInt(nodePosition.z)];
+        }
+        else
+        {
+            Debug.LogWarning("Node not found at: " + nodePosition);
+            return null;
+        }
     }
 
     public Node NodeFromWorldPoints(Vector3 position)
@@ -163,6 +172,7 @@ public class Map : MonoBehaviour
                     n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
                     n.nodeCollider.isTrigger = true;
 
+                    AllNodePositions.Add(n.position);
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                 }
                 else
@@ -203,6 +213,7 @@ public class Map : MonoBehaviour
                         }
                     }
 
+                    AllNodePositions.Add(n.position);
                     nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                     
                     if (dropWithAnimation)

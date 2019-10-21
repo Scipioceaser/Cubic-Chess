@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
     public int moveIndex = 0;
     [HideInInspector]
     public List<Vector3> positions;
-    [HideInInspector]
+    //[HideInInspector]
     public Direction spawnDir;
     [HideInInspector]
     public Vector3 unAdjustedPosition;
@@ -61,6 +61,7 @@ public class Unit : MonoBehaviour
         }
     }
 
+    //TODO: Add check so that units who can move long distances need to be at edge to go to the sides
     public virtual List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         // Don't copy this bit
