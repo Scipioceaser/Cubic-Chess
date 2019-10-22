@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
             {
                 foreach (Vector3 vector in selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position))
                 {
-                    nodesToColor.Add(mapObject.NodeFromWorldPoints(vector));
+                    nodesToColor.Add(mapObject.NodeFromNodeVector(vector));
                 }
             }
 
