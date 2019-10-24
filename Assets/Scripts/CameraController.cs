@@ -138,6 +138,9 @@ public class CameraController : MonoBehaviour
         List<Node> nodes = mapObject.GetNeighbours(node);
         NodeMesh n = null;
 
+        if (nodes.Count == 0)
+            return;
+
         // This gets the NodeMesh that's closest to the selected node.
         float d = Vector3.Distance(nodes[0].position, node.position);
         foreach (Node nodeObject in nodes)

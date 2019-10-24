@@ -17,7 +17,7 @@ public class Bishop : Unit
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         List<Vector3> validPositions = new List<Vector3>();
-        List<Node> nearbyNodes = map.GetNeighbours(currentNode, 3);
+        List<Node> nearbyNodes = map.GetNeighbours(currentNode, 4);
 
         foreach (Node node in nearbyNodes)
         {
@@ -28,8 +28,8 @@ public class Bishop : Unit
                 {
                     continue;
                 }
-
-                float d = Vector3.Distance(node.position, position);
+                
+                float d = Mathf.Floor(Vector3.Distance(position, node.position));
 
                 if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
                 {
@@ -45,15 +45,7 @@ public class Bishop : Unit
                             // Movement along the bottom
                             if (node.nodeUnit == null)
                             {
-                                if (node.position == position + (Vector3.forward + Vector3.right) * Mathf.Floor(d)
-                                    || node.position == position + (Vector3.forward - Vector3.right) * Mathf.Floor(d))
-                                {
-                                    
-                                    validPositions.Add(node.position);
-                                    
-                                }
-                                else if (node.position == position - (Vector3.forward + Vector3.right) * Mathf.Floor(d)
-                                   || node.position == position - (Vector3.forward - Vector3.right) * Mathf.Floor(d))
+                                if (Mathf.Abs(node.position.x - position.x) == Mathf.Abs(node.position.z - position.z) && Mathf.Abs(node.position.x - position.x) > 0)
                                 {
                                     validPositions.Add(node.position);
                                 }
@@ -61,16 +53,10 @@ public class Bishop : Unit
                         }
                         else if (node.position.y == Globals.mapHeight + 1)
                         {
-                            // Movement along the top and bottom
+                            // Movement along the top
                             if (node.nodeUnit == null)
                             {
-                                if (node.position == position + (Vector3.forward + Vector3.right) * Mathf.Floor(d)
-                                    || node.position == position + (Vector3.forward - Vector3.right) * Mathf.Floor(d))
-                                {
-                                    validPositions.Add(node.position);
-                                }
-                                else if (node.position == position - (Vector3.forward + Vector3.right) * Mathf.Floor(d)
-                                   || node.position == position - (Vector3.forward - Vector3.right) * Mathf.Floor(d))
+                                if (Mathf.Abs(node.position.x - position.x) == Mathf.Abs(node.position.z - position.z) && Mathf.Abs(node.position.x - position.x) > 0)
                                 {
                                     validPositions.Add(node.position);
                                 }
@@ -196,15 +182,19 @@ public class Bishop : Unit
                             continue;
                         }
 
-                        if (node.position == position + (Vector3.up + Vector3.forward) * Mathf.Floor(d) || node.position == position - (Vector3.up + Vector3.forward) * Mathf.Floor(d)
-                        || node.position == position + (Vector3.up - Vector3.forward) * Mathf.Floor(d) || node.position == position - (Vector3.up - Vector3.forward) * Mathf.Floor(d))
+                        if (position.x == node.position.x)
                         {
-                            validPositions.Add(node.position);
+                            if (Mathf.Abs(node.position.z - position.z) == Mathf.Abs(node.position.y - position.y) && Mathf.Abs(node.position.z - position.z) > 0)
+                            {
+                                validPositions.Add(node.position);
+                            }
                         }
-                        else if (node.position == position + (Vector3.up + Vector3.right) * Mathf.Floor(d) || node.position == position - (Vector3.up + Vector3.right) * Mathf.Floor(d)
-                           || node.position == position + (Vector3.up - Vector3.right) * Mathf.Floor(d) || node.position == position - (Vector3.up - Vector3.right) * Mathf.Floor(d))
+                        else if (position.z == node.position.z)
                         {
-                            validPositions.Add(node.position);
+                            if (Mathf.Abs(node.position.x - position.x) == Mathf.Abs(node.position.y - position.y) && Mathf.Abs(node.position.x - position.x) > 0)
+                            {
+                                validPositions.Add(node.position);
+                            }
                         }
                     }
                 }

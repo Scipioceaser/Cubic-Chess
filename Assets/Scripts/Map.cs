@@ -93,6 +93,12 @@ public class Map : MonoBehaviour
     {
         List<Node> neighbours = new List<Node>();
 
+        if (node == null)
+        {
+            Debug.LogWarning("No node given " + node);
+            return neighbours;
+        }
+
         for (int z = -depth; z <= depth; z++)
         {
             for (int x = -depth; x <= depth; x++)
