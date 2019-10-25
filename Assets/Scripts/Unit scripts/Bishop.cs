@@ -7,7 +7,7 @@ public class Bishop : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssets(gameObject, "bishop", "bishop");
+        SetModelFromAssets(gameObject, "bishop", "bishop", "Outline");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
@@ -45,7 +45,7 @@ public class Bishop : Unit
                             // Movement along the bottom
                             if (node.nodeUnit == null)
                             {
-                                if (Mathf.Abs(node.position.x - position.x) == Mathf.Abs(node.position.z - position.z) && Mathf.Abs(node.position.x - position.x) > 0)
+                                if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
                                 {
                                     validPositions.Add(node.position);
                                 }
@@ -56,7 +56,7 @@ public class Bishop : Unit
                             // Movement along the top
                             if (node.nodeUnit == null)
                             {
-                                if (Mathf.Abs(node.position.x - position.x) == Mathf.Abs(node.position.z - position.z) && Mathf.Abs(node.position.x - position.x) > 0)
+                                if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
                                 {
                                     validPositions.Add(node.position);
                                 }
@@ -184,14 +184,19 @@ public class Bishop : Unit
 
                         if (position.x == node.position.x)
                         {
-                            if (Mathf.Abs(node.position.z - position.z) == Mathf.Abs(node.position.y - position.y) && Mathf.Abs(node.position.z - position.z) > 0)
+                            if (IsLineStraight(position.z, node.position.z, position.y, node.position.y) && LineDelta(position.z, node.position.z) > 0)
                             {
                                 validPositions.Add(node.position);
                             }
+
+                            //if (Mathf.Abs(node.position.z - position.z) == Mathf.Abs(node.position.y - position.y) && Mathf.Abs(node.position.z - position.z) > 0)
+                            //{
+                            //    validPositions.Add(node.position);
+                            //}
                         }
                         else if (position.z == node.position.z)
                         {
-                            if (Mathf.Abs(node.position.x - position.x) == Mathf.Abs(node.position.y - position.y) && Mathf.Abs(node.position.x - position.x) > 0)
+                            if (IsLineStraight(position.x, node.position.x, position.y, node.position.y) && LineDelta(position.x, node.position.x) > 0)
                             {
                                 validPositions.Add(node.position);
                             }

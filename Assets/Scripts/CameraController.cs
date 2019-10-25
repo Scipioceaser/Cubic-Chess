@@ -25,6 +25,11 @@ public class CameraController : MonoBehaviour
     private Unit selectedUnit;
     
     private List<Node> nodesToColor = new List<Node>();
+
+    [Header("Colors")]
+    public Color validPositionColor = Color.green;
+    public Color selecedNodeMeshColor = Color.red;
+    public Color selectedOutlineColor = new Color(1.0f, 0.53f, 0.015f, 1.0f);
     
     // Start is called before the first frame update
     private void Awake()
@@ -91,11 +96,15 @@ public class CameraController : MonoBehaviour
                                     selectedUnit.MoveAlongPath(selectedNode.position);
                                 }
 
+                                selectedUnit.SetOutlineWidthAndColor(Color.clear, 1f);
                                 selectedNode = null;
                                 selectedUnit = null;
                                 mapObject.ResetColors();
                             }
                         }
+
+                        if (selectedUnit != null)
+                            selectedUnit.SetOutlineWidthAndColor(Color.clear, 1f);
 
                         selectedNode = null;
                         selectedUnit = null;
@@ -108,17 +117,19 @@ public class CameraController : MonoBehaviour
                         {
                             if (node == selectedNode)
                             {
-                                ColorSelectedNodeMesh(node, Color.red);
+                                selectedUnit.SetOutlineWidthAndColor(selectedOutlineColor, 1.035f);
+                                ColorSelectedNodeMesh(node, selecedNodeMeshColor);
                             }
                             else
                             {
-                                ColorSelectedNodeMesh(node, Color.green);
+                                ColorSelectedNodeMesh(node, validPositionColor);
                             }
                         }
                     }
                 }
                 else
                 {
+                    selectedUnit.SetOutlineWidthAndColor(Color.clear, 1f);
                     mapObject.ResetColors();
                 }
                 
