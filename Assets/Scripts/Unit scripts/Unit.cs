@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+//TODO: Add in teams
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
 public class Unit : MonoBehaviour
@@ -17,6 +18,7 @@ public class Unit : MonoBehaviour
     public List<Vector3> positions;
     //[HideInInspector]
     public Direction spawnDir;
+    //Refer to the node vector position of the unit, not the global (real-world) position
     [HideInInspector]
     public Vector3 unAdjustedPosition;
     [HideInInspector]

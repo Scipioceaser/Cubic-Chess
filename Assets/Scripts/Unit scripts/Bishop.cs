@@ -41,26 +41,11 @@ public class Bishop : Unit
                             continue;
                         }
 
-                        if (node.position.y == 0)
+                        if (node.nodeUnit == null)
                         {
-                            // Movement along the bottom
-                            if (node.nodeUnit == null)
+                            if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
                             {
-                                if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
-                                {
-                                    validPositions.Add(node.position);
-                                }
-                            }
-                        }
-                        else if (node.position.y == Globals.mapHeight + 1)
-                        {
-                            // Movement along the top
-                            if (node.nodeUnit == null)
-                            {
-                                if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
-                                {
-                                    validPositions.Add(node.position);
-                                }
+                                validPositions.Add(node.position);
                             }
                         }
                     }
@@ -68,7 +53,6 @@ public class Bishop : Unit
                     {
                         if (Vector3.Distance(node.position, position) == singleDiagonalLine_Length)
                         {
-                            //Debug.DrawLine(node.position, position, Color.red);
                             validPositions.Add(node.position);
                         }
                     }
@@ -84,7 +68,7 @@ public class Bishop : Unit
                     }
                     else if (node.position.y == Globals.mapHeight + 1 && node.position != position + Vector3.up || node.position.y == 0 && node.position != position - Vector3.up)
                     {
-                        // These nodes aren't right
+                        // These nodes aren't right need to keep this so that it doesn't just use the side of the board movement code
                         continue;
                     }
                     else

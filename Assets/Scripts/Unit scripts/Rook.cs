@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Rook : Unit
 {
+    private float singleDiagonalLine_Length = Mathf.Sqrt(2);
+
     public override void Awake()
     {
         base.Awake();
@@ -24,159 +26,18 @@ public class Rook : Unit
         {
             if (node.GetType() != typeof(NodeMesh) && node != currentNode)
             {
-                if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
+                if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
                 {
                     if (node.position.y == unAdjustedPosition.y)
                     {
-                        if (node.position.y == 0)
-                        {
-                            // Movement along the top and bottom
-                            if (node.nodeUnit == null)
-                            {
-                                float d = Vector3.Distance(node.position, position);
-
-                                if (node.position == position + Vector3.forward * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position + Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                                else if (node.position == position - Vector3.forward * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position + Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                                if (node.position == position + Vector3.right * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position + Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                                else if (node.position == position - Vector3.right * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position + Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                            }
-                        }
-                        else if (node.position.y == Globals.mapHeight + 1)
-                        {
-                            // Movement along the top and bottom
-                            if (node.nodeUnit == null)
-                            {
-                                float d = Vector3.Distance(node.position, position);
-
-                                if (node.position == position + Vector3.forward * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position - Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                                else if (node.position == position - Vector3.forward * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position - Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                                if (node.position == position + Vector3.right * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position - Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                                else if (node.position == position - Vector3.right * d)
-                                {
-                                    if (node.position.x == 0 || node.position.x == Globals.mapSize + 1 ||
-                                    node.position.z == 0 || node.position.z == Globals.mapSize + 1)
-                                    {
-                                        validPositions.Add(node.position - Vector3.up);
-                                    }
-                                    else
-                                    {
-                                        validPositions.Add(node.position);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (node.position.y == unAdjustedPosition.y + 1)
-                    {
-                        // Going up
-                        if (node.position == position + Vector3.up)
-                        {
-                            //validPositions.Add(node.position);
-                        }
-                        
-                        if (node.position == position - Vector3.forward + Vector3.up 
-                            || node.position == position + Vector3.forward + Vector3.up)
-                        {
-                            validPositions.Add(node.position);
-                        }
-                        else if (node.position == position - Vector3.right + Vector3.up
-                            || node.position == position + Vector3.right + Vector3.up)
+                        if (position.x != node.position.x && position.z == node.position.z || position.x == node.position.x && position.z != node.position.z)
                         {
                             validPositions.Add(node.position);
                         }
                     }
-                    else if (node.position.y == unAdjustedPosition.y - 1)
+                    else if (node.position.y == unAdjustedPosition.y - 1 || node.position.y == unAdjustedPosition.y + 1)
                     {
-                        // Going down
-                        if (node.position == position - Vector3.up)
-                        {
-                            //validPositions.Add(node.position);
-                        }
-
-                        if (node.position == position - Vector3.forward - Vector3.up
-                            || node.position == position + Vector3.forward - Vector3.up)
-                        {
-                            validPositions.Add(node.position);
-                        }
-                        else if (node.position == position - Vector3.right - Vector3.up
-                            || node.position == position + Vector3.right - Vector3.up)
+                        if (Vector3.Distance(node.position, position) == singleDiagonalLine_Length)
                         {
                             validPositions.Add(node.position);
                         }
@@ -184,23 +45,29 @@ public class Rook : Unit
                 }
                 else
                 {
-                    float d = Vector3.Distance(node.position, position);
-                    
-                    if (node.position == position + Vector3.up * d)
+                    if (node.position.y == Globals.mapHeight + 1 || node.position.y == 0)
                     {
-                        validPositions.Add(node.position);
+                        if (Vector3.Distance(node.position, position) == singleDiagonalLine_Length)
+                        {
+                            validPositions.Add(node.position);
+                        }
                     }
-                    else if (node.position == position - Vector3.up * d)
+                    else
                     {
-                        validPositions.Add(node.position);
-                    }
-                    else if (node.position == position + Vector3.forward * d || node.position == position + Vector3.right * d)
-                    {
-                        validPositions.Add(node.position);
-                    }
-                    else if (node.position == position - Vector3.forward * d || node.position == position - Vector3.right * d)
-                    {
-                        validPositions.Add(node.position);
+                        if (position.z == node.position.z && node.nodeUnit == null)
+                        {
+                            if (position.x != node.position.x && position.y == node.position.y || position.x == node.position.x && position.y != node.position.y)
+                            {
+                                validPositions.Add(node.position);
+                            }
+                        }
+                        else if (position.x == node.position.x && node.nodeUnit == null)
+                        {
+                            if (position.z != node.position.z && position.y == node.position.y || position.z == node.position.z && position.y != node.position.y)
+                            {
+                                validPositions.Add(node.position);
+                            }
+                        }
                     }
                 }
             }
