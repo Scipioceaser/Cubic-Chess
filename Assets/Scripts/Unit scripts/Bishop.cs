@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Bishop : Unit
 {
+    // Magic number for diagonal lines
+    private float singleDiagonalLine_Length = Mathf.Sqrt(1 + (Mathf.Sqrt(2) * Mathf.Sqrt(2)));
+
     public override void Awake()
     {
         base.Awake();
@@ -12,8 +15,7 @@ public class Bishop : Unit
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }
-
-    //TODO: Look into problems with dead corners
+    
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         List<Vector3> validPositions = new List<Vector3>();
@@ -28,10 +30,9 @@ public class Bishop : Unit
                 {
                     continue;
                 }
-                
-                float d = Mathf.Floor(Vector3.Distance(position, node.position));
 
-                if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
+                // Check unit height
+                if (unAdjustedPosition.y == Globals.mapHeight + 1 || unAdjustedPosition.y == 0)
                 {
                     if (node.position.y == unAdjustedPosition.y)
                     {
@@ -63,136 +64,37 @@ public class Bishop : Unit
                             }
                         }
                     }
-                    else if (node.position == position - Vector3.up + Vector3.forward || node.position == position - Vector3.up - Vector3.forward)
+                    else if (node.position.y == unAdjustedPosition.y - 1 || node.position.y == unAdjustedPosition.y + 1)
                     {
-                        validPositions.Add(node.position - Vector3.right);
-                    }
-                    else if (node.position == position - Vector3.up + Vector3.right || node.position == position - Vector3.up - Vector3.right)
-                    {
-                        validPositions.Add(node.position - Vector3.forward);
-                    }
-                    else if (node.position == position + Vector3.up + Vector3.forward || node.position == position + Vector3.up - Vector3.forward)
-                    {
-                        validPositions.Add(node.position - Vector3.right);
-                    }
-                    else if (node.position == position + Vector3.up + Vector3.right || node.position == position + Vector3.up - Vector3.right)
-                    {
-                        validPositions.Add(node.position - Vector3.forward);
+                        if (Vector3.Distance(node.position, position) == singleDiagonalLine_Length)
+                        {
+                            //Debug.DrawLine(node.position, position, Color.red);
+                            validPositions.Add(node.position);
+                        }
                     }
                 }
                 else
                 {
-                    if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
+                    if (node.position.y == Globals.mapHeight + 1 && node.position == position + Vector3.up || node.position.y == 0 && node.position == position - Vector3.up)
                     {
-                        
-                        if (node.position == position - Vector3.up + Vector3.forward || node.position == position - Vector3.up - Vector3.forward)
+                        foreach (Vector3 vector in GetDiagonalNodeNeigbours(node.position))
                         {
-                            if ((node.position + Vector3.right).x == 0 && (node.position + Vector3.right).z == 0 || (node.position + Vector3.right).x == 0 && (node.position + Vector3.right).z == Globals.mapSize + 1
-                            || (node.position + Vector3.right).x == Globals.mapSize + 1 && (node.position + Vector3.right).z == 0 || (node.position + Vector3.right).x == Globals.mapSize + 1 && (node.position + Vector3.right).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position + Vector3.right);
-                            }
-
-                            if ((node.position - Vector3.right).x == 0 && (node.position - Vector3.right).z == 0 || (node.position - Vector3.right).x == 0 && (node.position - Vector3.right).z == Globals.mapSize + 1
-                            || (node.position - Vector3.right).x == Globals.mapSize + 1 && (node.position - Vector3.right).z == 0 || (node.position - Vector3.right).x == Globals.mapSize + 1 && (node.position - Vector3.right).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position - Vector3.right);
-                            }
+                            validPositions.Add(vector);
                         }
-                        else if (node.position == position - Vector3.up + Vector3.right || node.position == position - Vector3.up - Vector3.right)
-                        {
-                            if ((node.position + Vector3.forward).x == 0 && (node.position + Vector3.forward).z == 0 || (node.position + Vector3.forward).x == 0 && (node.position + Vector3.forward).z == Globals.mapSize + 1
-                            || (node.position + Vector3.forward).x == Globals.mapSize + 1 && (node.position + Vector3.forward).z == 0 || (node.position + Vector3.forward).x == Globals.mapSize + 1 && (node.position + Vector3.forward).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position + Vector3.forward);
-                            }
-
-                            if ((node.position - Vector3.forward).x == 0 && (node.position - Vector3.forward).z == 0 || (node.position - Vector3.forward).x == 0 && (node.position - Vector3.forward).z == Globals.mapSize + 1
-                            || (node.position - Vector3.forward).x == Globals.mapSize + 1 && (node.position - Vector3.forward).z == 0 || (node.position - Vector3.forward).x == Globals.mapSize + 1 && (node.position - Vector3.forward).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position - Vector3.forward);
-                            }
-                        }
-                        else if (node.position == position + Vector3.up + Vector3.forward || node.position == position + Vector3.up - Vector3.forward)
-                        {
-                            if ((node.position + Vector3.right).x == 0 && (node.position + Vector3.right).z == 0 || (node.position + Vector3.right).x == 0 && (node.position + Vector3.right).z == Globals.mapSize + 1
-                            || (node.position + Vector3.right).x == Globals.mapSize + 1 && (node.position + Vector3.right).z == 0 || (node.position + Vector3.right).x == Globals.mapSize + 1 && (node.position + Vector3.right).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position + Vector3.right);
-                            }
-
-                            if ((node.position - Vector3.right).x == 0 && (node.position - Vector3.right).z == 0 || (node.position - Vector3.right).x == 0 && (node.position - Vector3.right).z == Globals.mapSize + 1
-                            || (node.position - Vector3.right).x == Globals.mapSize + 1 && (node.position - Vector3.right).z == 0 || (node.position - Vector3.right).x == Globals.mapSize + 1 && (node.position - Vector3.right).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position - Vector3.right);
-                            }
-                        }
-                        else if (node.position == position + Vector3.up + Vector3.right || node.position == position + Vector3.up - Vector3.right)
-                        {
-                            if ((node.position + Vector3.forward).x == 0 && (node.position + Vector3.forward).z == 0 || (node.position + Vector3.forward).x == 0 && (node.position + Vector3.forward).z == Globals.mapSize + 1
-                            || (node.position + Vector3.forward).x == Globals.mapSize + 1 && (node.position + Vector3.forward).z == 0 || (node.position + Vector3.forward).x == Globals.mapSize + 1 && (node.position + Vector3.forward).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position + Vector3.forward);
-                            }
-
-                            if ((node.position - Vector3.forward).x == 0 && (node.position - Vector3.forward).z == 0 || (node.position - Vector3.forward).x == 0 && (node.position - Vector3.forward).z == Globals.mapSize + 1
-                            || (node.position - Vector3.forward).x == Globals.mapSize + 1 && (node.position - Vector3.forward).z == 0 || (node.position - Vector3.forward).x == Globals.mapSize + 1 && (node.position - Vector3.forward).z == Globals.mapSize + 1)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                validPositions.Add(node.position - Vector3.forward);
-                            }
-                        }
+                    }
+                    else if (node.position.y == Globals.mapHeight + 1 && node.position != position + Vector3.up || node.position.y == 0 && node.position != position - Vector3.up)
+                    {
+                        // These nodes aren't right
+                        continue;
                     }
                     else
                     {
-                        if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapSize + 1
-                        || node.position.x == Globals.mapSize + 1 && node.position.z == 0 || node.position.x == Globals.mapSize + 1 && node.position.z == Globals.mapSize + 1)
-                        {
-                            continue;
-                        }
-
                         if (position.x == node.position.x)
                         {
                             if (IsLineStraight(position.z, node.position.z, position.y, node.position.y) && LineDelta(position.z, node.position.z) > 0)
                             {
                                 validPositions.Add(node.position);
                             }
-
-                            //if (Mathf.Abs(node.position.z - position.z) == Mathf.Abs(node.position.y - position.y) && Mathf.Abs(node.position.z - position.z) > 0)
-                            //{
-                            //    validPositions.Add(node.position);
-                            //}
                         }
                         else if (position.z == node.position.z)
                         {
@@ -212,6 +114,26 @@ public class Bishop : Unit
     public override void MoveAlongPath(Vector3 destination = new Vector3())
     {
         MoveBishop(destination);
+    }
+
+    public List<Vector3> GetDiagonalNodeNeigbours(Vector3 nodePosition)
+    {
+        Node node = map.NodeFromNodeVector(nodePosition);
+        List<Node> neighbours = map.GetNeighbours(node);
+        List<Vector3> positions = new List<Vector3>();
+
+        foreach (Node nearbyNode in neighbours)
+        {
+            if (nearbyNode.GetType() != typeof(NodeMesh) 
+                && IsLineStraight(nodePosition.x, nearbyNode.position.x, nodePosition.z, nearbyNode.position.z) 
+                && LineDelta(nodePosition.x, nearbyNode.position.x) > 0
+                && Vector3.Distance(nearbyNode.position, UnitSpawnPoint.GetNearestNode(nearbyNode.position, 1, true).position) == 1f)
+            {
+                positions.Add(nearbyNode.position);
+            }
+        }
+
+        return positions;
     }
 
     private void MoveBishop(Vector3 destination)

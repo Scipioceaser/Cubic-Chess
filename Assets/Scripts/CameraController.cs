@@ -70,6 +70,7 @@ public class CameraController : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 mapObject.ResetColors();
+                mapObject.ResetUnitOutlines();
 
                 selectedNode = GetNodeFromMouse();
                 nodesToColor.Add(selectedNode);
@@ -79,7 +80,6 @@ public class CameraController : MonoBehaviour
                     if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
                     {
                         selectedUnit = selectedNode.nodeUnit;
-                        print(selectedUnit.name);
                     }
                     else if (selectedNode.nodeUnit == null)
                     {
@@ -95,19 +95,17 @@ public class CameraController : MonoBehaviour
                                 {
                                     selectedUnit.MoveAlongPath(selectedNode.position);
                                 }
-
-                                selectedUnit.SetOutlineWidthAndColor(Color.clear, 1f);
+                                
                                 selectedNode = null;
                                 selectedUnit = null;
+                                mapObject.ResetUnitOutlines();
                                 mapObject.ResetColors();
                             }
                         }
-
-                        if (selectedUnit != null)
-                            selectedUnit.SetOutlineWidthAndColor(Color.clear, 1f);
-
+                        
                         selectedNode = null;
                         selectedUnit = null;
+                        mapObject.ResetUnitOutlines();
                         mapObject.ResetColors();
                     }
 
@@ -129,7 +127,7 @@ public class CameraController : MonoBehaviour
                 }
                 else
                 {
-                    selectedUnit.SetOutlineWidthAndColor(Color.clear, 1f);
+                    mapObject.ResetUnitOutlines();
                     mapObject.ResetColors();
                 }
                 

@@ -35,6 +35,7 @@ public class Map : MonoBehaviour
     [HideInInspector]
     public Node[,,] nodes;
     private List<Vector3> AllNodePositions = new List<Vector3>();
+    private List<Unit> units = new List<Unit>();
     
     // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
     [SerializeField][HideInInspector]
@@ -150,6 +151,19 @@ public class Map : MonoBehaviour
                 n.SetColor(n.color.color);
             }
         }
+    }
+
+    public void ResetUnitOutlines()
+    {
+        foreach (Unit unit in units)
+        {
+            unit.SetOutlineWidthAndColor(0f);
+        }
+    }
+
+    public void AddUnit(Unit unit)
+    {
+        units.Add(unit);
     }
 
     public IEnumerator CreateNodesExterior()

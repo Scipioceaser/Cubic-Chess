@@ -34,6 +34,7 @@ public class Unit : MonoBehaviour
         meshfilter = GetComponent<MeshFilter>();
 
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
+        map.AddUnit(this);
     }
 
     public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName, string shaderName = "Standard")
@@ -52,7 +53,7 @@ public class Unit : MonoBehaviour
         if (shaderName == "Outline")
         {
             mat.SetFloat("_OutlineWidth", 1.035f);
-            mat.SetColor("_OutlineColor", Color.blue);
+            mat.SetColor("_OutlineColor", Color.clear);
         }
         
        GameObject prefab = modelBundle.LoadAsset<GameObject>(modelName);

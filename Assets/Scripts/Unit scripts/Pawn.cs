@@ -10,7 +10,7 @@ public class Pawn : Unit
     {
         base.Awake();
         
-        SetModelFromAssets(gameObject, "pawn", "pawn");
+        SetModelFromAssets(gameObject, "pawn", "pawn", "Outline");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
