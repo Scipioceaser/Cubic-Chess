@@ -52,6 +52,10 @@ public class Rook : Unit
                             validPositions.Add(node.position);
                         }
                     }
+                    else if (node.position.y == unAdjustedPosition.y && Vector3.Distance(node.position, position) == singleDiagonalLine_Length)
+                    {
+                        validPositions.Add(node.position);
+                    }
                     else
                     {
                         if (position.z == node.position.z && node.nodeUnit == null)

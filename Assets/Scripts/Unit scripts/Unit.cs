@@ -54,7 +54,7 @@ public class Unit : MonoBehaviour
 
         if (shaderName == "Outline")
         {
-            mat.SetFloat("_OutlineWidth", 1.035f);
+            mat.SetFloat("_OutlineWidth", 1f);
             mat.SetColor("_OutlineColor", Color.clear);
         }
         

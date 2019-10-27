@@ -71,6 +71,11 @@ public class Bishop : Unit
                         // These nodes aren't right need to keep this so that it doesn't just use the side of the board movement code
                         continue;
                     }
+                    else if (node.position.y == unAdjustedPosition.y + 1 && Vector3.Distance(node.position, position) == singleDiagonalLine_Length
+                        || node.position.y == unAdjustedPosition.y - 1 && Vector3.Distance(node.position, position) == singleDiagonalLine_Length)
+                    {
+                        validPositions.Add(node.position);
+                    }
                     else
                     {
                         if (position.x == node.position.x)
@@ -91,7 +96,6 @@ public class Bishop : Unit
                 }
             }
         }
-    
         return validPositions;
     }
 
@@ -111,7 +115,8 @@ public class Bishop : Unit
             if (nearbyNode.GetType() != typeof(NodeMesh) 
                 && IsLineStraight(nodePosition.x, nearbyNode.position.x, nodePosition.z, nearbyNode.position.z) 
                 && LineDelta(nodePosition.x, nearbyNode.position.x) > 0
-                && Vector3.Distance(nearbyNode.position, UnitSpawnPoint.GetNearestNode(nearbyNode.position, 1, true).position) == 1f)
+                && Vector3.Distance(nearbyNode.position, UnitSpawnPoint.GetNearestNode(nearbyNode.position, 1, true).position) == 1f
+                && nearbyNode.position.y != unAdjustedPosition.y)
             {
                 positions.Add(nearbyNode.position);
             }
