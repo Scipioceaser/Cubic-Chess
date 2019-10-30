@@ -69,9 +69,6 @@ public class UnitSpawnPoint : MonoBehaviour
             }
             
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
-            
-            transform.name = p.GetType().ToString().ToLower();
-            Destroy(this);
         }
         else if (type == UnitType.ROOK)
         {
@@ -80,9 +77,6 @@ public class UnitSpawnPoint : MonoBehaviour
             r.unAdjustedPosition = transform.position;
 
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
-            
-            transform.name = r.GetType().ToString().ToLower();
-            Destroy(this);
         }
         else if (type == UnitType.BISHOP)
         {
@@ -91,10 +85,18 @@ public class UnitSpawnPoint : MonoBehaviour
             b.unAdjustedPosition = transform.position;
 
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
-
-            transform.name = b.GetType().ToString().ToLower();
-            Destroy(this);
         }
+        else if (type == UnitType.KING)
+        {
+            King k = gameObject.AddComponent<King>();
+            k.spawnDir = alignDirection;
+            k.unAdjustedPosition = transform.position;
+
+            transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
+        }
+
+        gameObject.name = type.ToString().ToLower();
+        DestroyImmediate(this);
     }
 
     public static Vector3 GetAdjustedSpawnPosition(float value, Vector3 pos, Vector3 nodePosition)

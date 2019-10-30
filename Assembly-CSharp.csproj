@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Bishop.cs" />
+    <Compile Include="Assets\Scripts\Unit scripts\King.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Pawn.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Rook.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Unit.cs" />
