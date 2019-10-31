@@ -86,6 +86,18 @@ public class Unit : MonoBehaviour
         return Mathf.Abs(B - A);
     }
 
+    public bool IsNodeAtEmptyEdge(Vector3 position)
+    {
+        return position.y == Globals.mapHeight + 1 && position.x == 0 
+            || position.y == Globals.mapHeight + 1 && position.x == Globals.mapSize + 1
+            || position.y == Globals.mapHeight + 1 && position.z == 0
+            || position.y == Globals.mapHeight + 1 && position.z == Globals.mapSize + 1
+            || position.y == 0 && position.x == 0
+            || position.y == 0 && position.x == Globals.mapSize + 1
+            || position.y == 0 && position.z == 0
+            || position.y == 0 && position.z == Globals.mapSize + 1;
+    }
+
     //TODO: Add particle effect when node mesh lands at destination. Some shake would be good too.
     public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue)
     {

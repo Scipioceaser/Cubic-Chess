@@ -94,6 +94,14 @@ public class UnitSpawnPoint : MonoBehaviour
 
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
         }
+        else if (type == UnitType.QUEEN)
+        {
+            Queen q = gameObject.AddComponent<Queen>();
+            q.spawnDir = alignDirection;
+            q.unAdjustedPosition = transform.position;
+
+            transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
+        }
 
         gameObject.name = type.ToString().ToLower();
         DestroyImmediate(this);

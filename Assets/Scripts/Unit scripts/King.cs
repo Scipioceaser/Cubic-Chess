@@ -19,7 +19,7 @@ public class King : Unit
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         List<Vector3> validPositions = new List<Vector3>();
-        List<Node> nearbyNodes = map.GetNeighbours(currentNode, 2);
+        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapSize + 1);
 
         foreach (Node node in nearbyNodes)
         {
@@ -81,7 +81,7 @@ public class King : Unit
                 }
             }
         }
-
+        
         return validPositions;
     }
 
