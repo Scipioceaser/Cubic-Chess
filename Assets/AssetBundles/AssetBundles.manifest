@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 203032776
+CRC: 902518204
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -16,4 +16,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_4:
       Name: queen
+      Dependencies: {}
+    Info_5:
+      Name: knight
       Dependencies: {}
