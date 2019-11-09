@@ -58,19 +58,19 @@ public class CameraController : MonoBehaviour
     {
         if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
         {
-            if (selectedUnit != null)
-            {
-                foreach (Vector3 vector in selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position))
-                {
-                    nodesToColor.Add(mapObject.NodeFromNodeVector(vector));
-                }
-            }
-
             //TODO: Add more dynamic node coloring system.
             if (Input.GetMouseButton(0))
             {
                 mapObject.ResetColors();
                 mapObject.ResetUnitOutlines();
+
+                if (selectedUnit != null)
+                {
+                    foreach (Vector3 vector in selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position))
+                    {
+                        nodesToColor.Add(mapObject.NodeFromNodeVector(vector));
+                    }
+                }
 
                 selectedNode = GetNodeFromMouse();
                 nodesToColor.Add(selectedNode);
@@ -108,29 +108,29 @@ public class CameraController : MonoBehaviour
                         mapObject.ResetUnitOutlines();
                         mapObject.ResetColors();
                     }
-
-                    if (selectedNode && selectedUnit)
-                    {
-                        foreach (Node node in nodesToColor)
-                        {
-                            if (node == selectedNode)
-                            {
-                                selectedUnit.SetOutlineWidthAndColor(selectedOutlineColor, 1.035f);
-                                ColorSelectedNodeMesh(node, selecedNodeMeshColor);
-                            }
-                            else
-                            {
-                                ColorSelectedNodeMesh(node, validPositionColor);
-                            }
-                        }
-                    }
                 }
                 else
                 {
                     mapObject.ResetUnitOutlines();
                     mapObject.ResetColors();
                 }
-                
+
+                if (selectedNode && selectedUnit)
+                {
+                    foreach (Node node in nodesToColor)
+                    {
+                        if (node == selectedNode)
+                        {
+                            selectedUnit.SetOutlineWidthAndColor(selectedOutlineColor, 1.035f);
+                            ColorSelectedNodeMesh(node, selecedNodeMeshColor);
+                        }
+                        else
+                        {
+                            ColorSelectedNodeMesh(node, validPositionColor);
+                        }
+                    }
+                }
+
                 nodesToColor.Clear();
             }
         }

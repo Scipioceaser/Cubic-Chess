@@ -143,13 +143,9 @@ public class Map : MonoBehaviour
 
     public void ResetColors()
     {
-        foreach (Node node in nodes)
+        foreach (GameObject Object in GameObject.FindGameObjectsWithTag("ColorPlane"))
         {
-            if (node.GetType() == typeof(NodeMesh))
-            {
-                NodeMesh n = (NodeMesh)node;
-                n.SetColor(n.color.color);
-            }
+            DestroyImmediate(Object);
         }
     }
 
@@ -200,8 +196,6 @@ public class Map : MonoBehaviour
                     NodeMesh n;
                     n = grid[i].AddComponent<NodeMesh>();
                     n.transform.name = "NodeMesh";
-
-                    
                     
                     n.Init(nodeScale, pos);
                     n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);

@@ -44,7 +44,7 @@ public class NodeMesh : Node
     {
         base.Init(scale, position);
 
-        CreateNodeMesh(scale);
+        CreateNodeMesh();
         meshFilter = GetComponent<MeshFilter>();
         meshFilter.mesh = nodeMesh;
         meshRenderer = GetComponent<MeshRenderer>();
@@ -91,42 +91,8 @@ public class NodeMesh : Node
     //TODO: Deal with mesh color blending
     public void SetFaceColor(Node node, Color color)
     {
-        if (!meshFilter)
-            meshFilter = GetComponent<MeshFilter>();
-
-        Mesh mesh = meshFilter.mesh;
-
-        if (mesh != null)
-        {
-            Vector3[] vertices = mesh.vertices;
-
-            Color[] colors = new Color[vertices.Length];
-
-            Vector3 faceCenterPoint = GetMiddlePoint(node.position, position);
-
-            float d = Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[0]));
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                if (Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[i])) < d)
-                {
-                    d = Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[i]));
-                }
-            }
-
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                if (Vector3.Distance(faceCenterPoint, transform.TransformPoint(vertices[i])) == d)
-                {
-                    colors[i] = color;
-                }
-                else
-                {
-                    colors[i] = mesh.colors[i];
-                }
-            }
-            
-            mesh.colors = colors;
-        }
+        Vector3 faceCenterPoint = GetMiddlePoint(node.position, position);
+        CreatePlaneMesh(faceCenterPoint, color);
     }
 
     private Vector3 GetMiddlePoint(Vector3 A, Vector3 B)
@@ -139,7 +105,20 @@ public class NodeMesh : Node
         meshRenderer.enabled = toRender;
     }
     
-    private void CreateNodeMesh(int size)
+    private void CreatePlaneMesh(Vector3 position, Color color)
+    {
+        GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        plane.transform.localScale *= (scale / 15f);
+        Vector3 d = (position - transform.position);
+        plane.transform.position = position + (d * 0.1f);
+        plane.transform.rotation = Quaternion.FromToRotation(Vector3.up, d);
+        plane.tag = "ColorPlane";
+        plane.transform.parent = transform;
+        plane.GetComponent<MeshRenderer>().material.color = color;
+        Destroy(plane.GetComponent<MeshCollider>());
+    }
+
+    private void CreateNodeMesh()
     {
         Mesh mesh = new Mesh();
 
