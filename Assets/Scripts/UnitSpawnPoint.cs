@@ -111,6 +111,7 @@ public class UnitSpawnPoint : MonoBehaviour
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
         }
 
+        gameObject.GetComponent<Unit>().unitTeam = Team.BLACK;
         gameObject.name = type.ToString().ToLower();
         DestroyImmediate(this);
     }

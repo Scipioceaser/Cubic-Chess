@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+public enum Team
+{
+    BLACK,
+    WHITE
+}
+
 //TODO: Add in teams
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
@@ -26,6 +32,8 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public Vector3 moveDirection;
 
+    public Team unitTeam;
+
     private MeshRenderer meshrender;
     private MeshFilter meshfilter;
     private Color outlineColorDefault = Color.black;
@@ -36,7 +44,7 @@ public class Unit : MonoBehaviour
         meshfilter = GetComponent<MeshFilter>();
 
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
-        map.AddUnit(this);
+        map.units.Add(this);
     }
 
     public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName, string shaderName = "Standard")
@@ -63,6 +71,14 @@ public class Unit : MonoBehaviour
        objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = mat;
        //objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = prefab.GetComponent<MeshRenderer>().sharedMaterial;
        modelBundle.Unload(false);
+    }
+
+    public void Fight()
+    {
+        map.units.Remove(this);
+        // Replace tag with team name
+        map.deadUnits.Add(transform.name + ":" + transform.tag);
+        Destroy(gameObject);
     }
 
     public void SetOutlineWidthAndColor(float width = 1.01f)

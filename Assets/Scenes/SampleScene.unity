@@ -1161,7 +1161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d52fb64fff3fc42b5c4d0caa4d65d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: 0
+  unit: 1
   alignDirection: 2
 --- !u!4 &302837277
 Transform:
@@ -7711,6 +7711,8 @@ MonoBehaviour:
   - {fileID: 1452640034}
   - {fileID: 341135580}
   mapType: 2
+  units: []
+  deadUnits: []
   gizmoGridSize: 4
   gizmoGridHeight: 4
 --- !u!1 &1522846260
