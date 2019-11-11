@@ -5,12 +5,12 @@ using UnityEngine;
 public class Pawn : Unit
 {
     public Vector3 horizontalMoveDirection;
-    private Vector3 verticalMoveDir = Vector3.down;
+    private Vector3 verticalMoveDir = Vector3.up;
+    private Node lastNode;
 
     public override void Awake()
     {
         base.Awake();
-        
         SetModelFromAssets(gameObject, "pawn", "pawn", "Outline");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
@@ -58,6 +58,9 @@ public class Pawn : Unit
                     }
                     else if (d == Mathf.Sqrt(2) && Mathf.Abs(unAdjustedPosition.y - node.position.y) == 1 && node.nodeUnit == null)
                     {
+                        if (node == lastNode)
+                            continue;
+
 
                         if (unAdjustedPosition.y == 0)
                         {
@@ -91,7 +94,7 @@ public class Pawn : Unit
                     }
                     else if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
                     {
-                        horizontalMoveDirection = -horizontalMoveDirection;
+                        horizontalMoveDirection = SetHorizontalMoveDir(position);
 
                         if (d == Mathf.Sqrt(2) && node.nodeUnit == null)
                             validPositions.Add(node.position);
@@ -107,12 +110,38 @@ public class Pawn : Unit
     {
         MovePawn(destination);
     }
+
+    private Vector3 SetHorizontalMoveDir(Vector3 position)
+    {
+        Vector3 dir = new Vector3();
+
+        if (position.x == 0)
+        {
+            dir = Vector3.right;
+        }
+        else if (position.x == Globals.mapSize + 1)
+        {
+            dir = Vector3.left;
+        }
+        else if (position.z == 0)
+        {
+            dir = Vector3.forward;
+        }
+        else if (position.z == Globals.mapSize + 1)
+        {
+            dir = Vector3.back;
+        }
+
+        return dir;
+    }
     
     //TODO: Rotate around edge mesh node;
     private void MovePawn(Vector3 destination)
     {
         Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, destination, 
             UnitSpawnPoint.GetNearestNode(destination, 1, true).transform.position);
+
+        lastNode = currentNode;
 
         // Handle rotation
         AlignUnit(destination);
