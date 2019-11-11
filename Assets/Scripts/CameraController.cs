@@ -58,7 +58,6 @@ public class CameraController : MonoBehaviour
     {
         if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
         {
-            //TODO: Add more dynamic node coloring system.
             if (Input.GetMouseButton(0))
             {
                 mapObject.ResetColors();
@@ -79,12 +78,22 @@ public class CameraController : MonoBehaviour
                 {
                     if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
                     {
-                        selectedUnit = selectedNode.nodeUnit;
+                        if (selectedNode.nodeUnit.unitTeam == mapObject.playerTeam)
+                        {
+                            selectedUnit = selectedNode.nodeUnit;
+                        }
+                        else
+                        {
+                            // Just deselect everything
+                            selectedUnit = null;
+                            selectedNode = null;
+                        }
                     }
                     else if (selectedNode.nodeUnit == null)
                     {
                         // Move unit code here. And the valid move positions should be calculated when the unit is selected.
                         // With a chech for if the position without the original unit the player then clicks on is a valid position.
+                        //TODO: Add in check for attacking.
                         if (selectedUnit != null)
                         {
                             if (selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position).Contains(selectedNode.transform.position))

@@ -27,6 +27,8 @@ public class UnitSpawnPoint : MonoBehaviour
 {
     public UnitType unit;
     public Direction alignDirection;
+
+    public Team team = Team.BLACK;
     
     private Vector3 spawnDirection;
 
@@ -111,7 +113,7 @@ public class UnitSpawnPoint : MonoBehaviour
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
         }
 
-        gameObject.GetComponent<Unit>().unitTeam = Team.BLACK;
+        gameObject.GetComponent<Unit>().unitTeam = team;
         gameObject.name = type.ToString().ToLower();
         DestroyImmediate(this);
     }

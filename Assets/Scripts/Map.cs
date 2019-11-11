@@ -38,6 +38,8 @@ public class Map : MonoBehaviour
     public List<Unit> units = new List<Unit>();
     [HideInInspector]
     public List<string> deadUnits = new List<string>();
+
+    public Team playerTeam = Team.BLACK;
     
     // Have to add these in for the gizmos not do draw in a weird way after re-entering scene mode
     [SerializeField][HideInInspector]

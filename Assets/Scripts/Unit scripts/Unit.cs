@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public Vector3 moveDirection;
 
-    public Team unitTeam;
+    public Team unitTeam = Team.BLACK;
 
     private MeshRenderer meshrender;
     private MeshFilter meshfilter;
