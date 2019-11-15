@@ -31,6 +31,14 @@ public class Bishop : Unit
                     continue;
                 }
 
+                if (node.nodeUnit != null)
+                {
+                    if (node.nodeUnit.unitTeam == unitTeam)
+                    {
+                        continue;
+                    }
+                }
+
                 // Check unit height
                 if (unAdjustedPosition.y == Globals.mapHeight + 1 || unAdjustedPosition.y == 0)
                 {

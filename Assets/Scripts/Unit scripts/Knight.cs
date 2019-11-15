@@ -25,6 +25,14 @@ public class Knight : Unit
         {
             if (node.GetType() != typeof(NodeMesh))
             {
+                if (node.nodeUnit != null)
+                {
+                    if (node.nodeUnit.unitTeam == unitTeam)
+                    {
+                        continue;
+                    }
+                }
+
                 if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapSize + 1
                         || node.position.x == Globals.mapSize + 1 && node.position.z == 0 || node.position.x == Globals.mapSize + 1 && node.position.z == Globals.mapSize + 1)
                 {

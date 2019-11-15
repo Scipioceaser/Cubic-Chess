@@ -26,8 +26,13 @@ public class Pawn : Unit
         {
             if (node.GetType() != typeof(NodeMesh))
             {
-                Debug.DrawRay(position, horizontalMoveDirection);
-                Debug.DrawRay(position, verticalMoveDir);
+                if (node.nodeUnit != null)
+                {
+                    if (node.nodeUnit.unitTeam == unitTeam)
+                    {
+                        continue;
+                    }
+                }
 
                 if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapSize + 1
                        || node.position.x == Globals.mapSize + 1 && node.position.z == 0 || node.position.x == Globals.mapSize + 1 && node.position.z == Globals.mapSize + 1)

@@ -32,6 +32,14 @@ public class Rook : Unit
                     continue;
                 }
 
+                if (node.nodeUnit != null)
+                {
+                    if (node.nodeUnit.unitTeam == unitTeam)
+                    {
+                        continue;
+                    }
+                }
+
                 if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
                 {
                     if (node.position.y == unAdjustedPosition.y)
