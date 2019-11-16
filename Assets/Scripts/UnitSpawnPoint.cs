@@ -112,7 +112,7 @@ public class UnitSpawnPoint : MonoBehaviour
 
             transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
         }
-
+        
         gameObject.GetComponent<Unit>().unitTeam = team;
         gameObject.name = type.ToString().ToLower();
         DestroyImmediate(this);
@@ -127,8 +127,19 @@ public class UnitSpawnPoint : MonoBehaviour
     {
         if (Application.isPlaying)
             return;
-        
-        DebugArrow.ForGizmo(transform.localPosition, Unit.UnitDirectionToVectorDirection(alignDirection) / 1.5f, Color.green);
+
+        Color c = Color.cyan;
+
+        if (team == Team.WHITE)
+        {
+            c = Color.white;
+        }
+        else
+        {
+            c = Color.black;
+        }
+
+        DebugArrow.ForGizmo(transform.localPosition, Unit.UnitDirectionToVectorDirection(alignDirection) / 1.5f, c);
     }
 
     #region Nearby node scripts

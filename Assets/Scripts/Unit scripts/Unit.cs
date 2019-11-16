@@ -47,6 +47,18 @@ public class Unit : MonoBehaviour
         map.units.Add(this);
     }
 
+    private void Start()
+    {
+        if (unitTeam == Team.WHITE)
+        {
+            meshrender.sharedMaterial.SetColor("_Color", Color.white);
+        }
+        else
+        {
+            meshrender.sharedMaterial.SetColor("_Color", Color.grey);
+        }
+    }
+
     public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName, string shaderName = "Standard")
     {
        string p = Path.Combine(Application.dataPath, "AssetBundles");
@@ -59,7 +71,7 @@ public class Unit : MonoBehaviour
        }
 
         Material mat = new Material(Shader.Find("Outline"));
-
+        
         if (shaderName == "Outline")
         {
             mat.SetFloat("_OutlineWidth", 1f);

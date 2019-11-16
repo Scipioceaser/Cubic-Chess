@@ -38,6 +38,9 @@ public class Bishop : Unit
                         continue;
                     }
                 }
+                
+                if (IsNodeAtEmptyEdge(node.position))
+                    continue;
 
                 // Check unit height
                 if (unAdjustedPosition.y == Globals.mapHeight + 1 || unAdjustedPosition.y == 0)

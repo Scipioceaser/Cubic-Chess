@@ -40,6 +40,9 @@ public class Rook : Unit
                     }
                 }
 
+                if (IsNodeAtEmptyEdge(node.position))
+                    continue;
+
                 if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
                 {
                     if (node.position.y == unAdjustedPosition.y)

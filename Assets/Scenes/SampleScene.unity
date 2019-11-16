@@ -3099,7 +3099,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: 0
   alignDirection: 2
-  team: 0
+  team: 1
 --- !u!4 &302837277
 Transform:
   m_ObjectHideFlags: 0
@@ -5797,6 +5797,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1505939963}
   m_RootOrder: 406
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &584002066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584002068}
+  - component: {fileID: 584002067}
+  m_Layer: 0
+  m_Name: EnemyController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &584002067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584002066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcea7612f37e424ea24b1d58772a472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamToControl: 0
+  units: []
+--- !u!4 &584002068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584002066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0441047, y: 0.11567136, z: 0.0871775}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &584204703
 GameObject:
@@ -17283,7 +17328,7 @@ MonoBehaviour:
   mapType: 2
   units: []
   deadUnits: []
-  playerTeam: 0
+  playerTeam: 1
   gizmoGridSize: 4
   gizmoGridHeight: 4
 --- !u!1 &1506682501
@@ -21277,7 +21322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: 2
   alignDirection: 0
-  team: 0
+  team: 1
 --- !u!4 &1942185610
 Transform:
   m_ObjectHideFlags: 0
@@ -22115,7 +22160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: 3
   alignDirection: 1
-  team: 0
+  team: 1
 --- !u!4 &2008518915
 Transform:
   m_ObjectHideFlags: 0
@@ -22205,7 +22250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: 5
   alignDirection: 3
-  team: 0
+  team: 1
 --- !u!4 &2009134797
 Transform:
   m_ObjectHideFlags: 0
@@ -23967,7 +24012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: 4
   alignDirection: 4
-  team: 0
+  team: 1
 --- !u!4 &2121087257
 Transform:
   m_ObjectHideFlags: 0
