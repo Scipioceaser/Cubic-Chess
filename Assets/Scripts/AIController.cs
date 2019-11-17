@@ -39,6 +39,18 @@ public class AIController : MonoBehaviour
 
         u.SetPositions(u.GetValidMovePositions(u.unAdjustedPosition));
 
-        u.MoveAlongPath(u.positions[Random.Range(0, u.positions.Count)]);
+        int destIndex = Random.Range(0, u.positions.Count);
+
+        Unit enemy = UnitSpawnPoint.GetNearestNode(u.positions[destIndex]).nodeUnit;
+
+        if (enemy != null)
+        {
+            if (enemy.unitTeam != u.unitTeam)
+            {
+                enemy.Fight();
+            }
+        }
+        
+        u.MoveAlongPath(u.positions[destIndex]);
     }
 }

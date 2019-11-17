@@ -84,6 +84,28 @@ public class CameraController : MonoBehaviour
                         }
                         else
                         {
+                            if (selectedNode.nodeUnit != null && selectedUnit != null)
+                            {
+                                if (selectedNode.nodeUnit.unitTeam != selectedUnit.unitTeam)
+                                {
+                                    if (selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position).Contains(selectedNode.transform.position))
+                                    {
+                                        selectedUnit.SetPositions(selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position));
+
+                                        if (selectedUnit.positions.Contains(selectedNode.position))
+                                        {
+                                            selectedNode.nodeUnit.Fight();
+                                            selectedUnit.MoveAlongPath(selectedNode.position);
+                                        }
+
+                                        selectedNode = null;
+                                        selectedUnit = null;
+                                        mapObject.ResetUnitOutlines();
+                                        mapObject.ResetColors();
+                                    }
+                                }
+                            }
+
                             // Just deselect everything
                             selectedUnit = null;
                             selectedNode = null;
@@ -92,7 +114,7 @@ public class CameraController : MonoBehaviour
                     else if (selectedNode.nodeUnit == null)
                     {
                         // Move unit code here. And the valid move positions should be calculated when the unit is selected.
-                        // With a chech for if the position without the original unit the player then clicks on is a valid position.
+                        // With a check for if the position without the original unit the player then clicks on is a valid position.
                         //TODO: Add in check for attacking.
                         if (selectedUnit != null)
                         {

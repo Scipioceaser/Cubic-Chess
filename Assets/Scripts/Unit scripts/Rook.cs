@@ -14,8 +14,7 @@ public class Rook : Unit
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }
-
-    //TODO: Add sideways transitionary movement
+    
     //TODO: Limit movement when enemies in the path of the rook
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
@@ -117,7 +116,7 @@ public class Rook : Unit
         UnitSpawnPoint.GetNearestNode(destination).SetNodeUnit(this);
         currentNode = UnitSpawnPoint.GetNearestNode(destination);
         unAdjustedPosition = destination;
-
+        
         // Actually move
         StartCoroutine(Move(transform.position, p, 0.5f));
     }
