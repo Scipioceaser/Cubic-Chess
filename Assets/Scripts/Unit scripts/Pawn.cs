@@ -58,7 +58,7 @@ public class Pawn : Unit
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
-                        if (node.nodeUnit.unitTeam == unitTeam)
+                        if (node.nodeUnit.unitTeam != unitTeam)
                             validPositions.Add(node.position);
                     }
                     else if (d == Mathf.Sqrt(2) && Mathf.Abs(unAdjustedPosition.y - node.position.y) == 1 && node.nodeUnit == null)
@@ -94,7 +94,7 @@ public class Pawn : Unit
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
-                        if (node.nodeUnit.unitTeam == unitTeam)
+                        if (node.nodeUnit.unitTeam != unitTeam)
                             validPositions.Add(node.position);
                     }
                     else if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
