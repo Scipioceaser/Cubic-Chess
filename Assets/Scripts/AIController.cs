@@ -39,9 +39,23 @@ public class AIController : MonoBehaviour
 
         u.SetPositions(u.GetValidMovePositions(u.unAdjustedPosition));
 
-        int destIndex = Random.Range(0, u.positions.Count);
+        int destIndex;
 
-        Unit enemy = UnitSpawnPoint.GetNearestNode(u.positions[destIndex]).nodeUnit;
+        destIndex = Random.Range(0, u.positions.Count);
+
+        foreach (Vector3 vector in u.positions)
+        {
+            print(mapObject.NodeFromNodeVector(vector).nodeUnit);
+            if (mapObject.NodeFromNodeVector(vector).nodeUnit != null)
+            {
+                if (mapObject.NodeFromNodeVector(vector).nodeUnit.unitTeam != teamToControl)
+                {
+                    destIndex = u.positions.IndexOf(vector);
+                }
+            }
+        }
+        
+       Unit enemy = mapObject.NodeFromNodeVector(u.positions[destIndex]).nodeUnit;
 
         if (enemy != null)
         {

@@ -14,7 +14,7 @@ public enum Team
 [RequireComponent(typeof(MeshFilter))]
 public class Unit : MonoBehaviour
 {
-    [HideInInspector]
+    //[HideInInspector]
     public Node currentNode;
     [HideInInspector]
     public bool moving;
