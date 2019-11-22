@@ -23,48 +23,42 @@ public class AIController : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.M))
-        {
-            MoveRandomUnitInRandomDirection();
-        }
-    }
-
+    
     private void MoveRandomUnitInRandomDirection()
     {
-        Unit u = units[Random.Range(0, units.Count)];
-
-        u.SetPositions(u.GetValidMovePositions(u.unAdjustedPosition));
-
-        int destIndex;
-
-        destIndex = Random.Range(0, u.positions.Count);
-
-        foreach (Vector3 vector in u.positions)
+        if (GameStateManager.stateManager.CheckState(GameStateManager.stateManager.enemyState))
         {
-            print(mapObject.NodeFromNodeVector(vector).nodeUnit);
-            if (mapObject.NodeFromNodeVector(vector).nodeUnit != null)
+            Unit u = units[Random.Range(0, units.Count)];
+
+            u.SetPositions(u.GetValidMovePositions(u.unAdjustedPosition));
+
+            int destIndex;
+
+            destIndex = Random.Range(0, u.positions.Count);
+
+            foreach (Vector3 vector in u.positions)
             {
-                if (mapObject.NodeFromNodeVector(vector).nodeUnit.unitTeam != teamToControl)
+                if (mapObject.NodeFromNodeVector(vector).nodeUnit != null)
                 {
-                    destIndex = u.positions.IndexOf(vector);
+                    if (mapObject.NodeFromNodeVector(vector).nodeUnit.unitTeam != teamToControl)
+                    {
+                        destIndex = u.positions.IndexOf(vector);
+                    }
                 }
             }
-        }
-        
-       Unit enemy = mapObject.NodeFromNodeVector(u.positions[destIndex]).nodeUnit;
 
-        if (enemy != null)
-        {
-            if (enemy.unitTeam != u.unitTeam)
+            Unit enemy = mapObject.NodeFromNodeVector(u.positions[destIndex]).nodeUnit;
+
+            if (enemy != null)
             {
-                enemy.Fight();
+                if (enemy.unitTeam != u.unitTeam)
+                {
+                    enemy.Fight();
+                }
             }
+
+            u.MoveAlongPath(u.positions[destIndex]);
+            GameStateManager.stateManager.SetState(GameStateManager.stateManager.playerState);
         }
-        
-        u.MoveAlongPath(u.positions[destIndex]);
     }
 }

@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour
     {
         if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && GameStateManager.stateManager.CheckState(GameStateManager.stateManager.playerState))
             {
                 mapObject.ResetColors();
                 mapObject.ResetUnitOutlines();
@@ -125,6 +125,7 @@ public class CameraController : MonoBehaviour
                                 if (selectedUnit.positions.Contains(selectedNode.position))
                                 {
                                     selectedUnit.MoveAlongPath(selectedNode.position);
+                                    GameStateManager.stateManager.SetState(GameStateManager.stateManager.enemyState);
                                 }
                                 
                                 selectedNode = null;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Map
   - ColorPlane
+  - AI
   layers:
   - Default
   - TransparentFX
