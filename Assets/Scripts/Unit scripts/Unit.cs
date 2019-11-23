@@ -141,6 +141,20 @@ public class Unit : MonoBehaviour
         }
     }
 
+    //private void SetNewTurn()
+    //{
+    //
+    //    GameStateManager s = GameStateManager.stateManager;
+    //    if (s.CheckState(s.playerState))
+    //    {
+    //        s.SetState(s.enemyState);
+    //    }
+    //    else
+    //    {
+    //        s.SetState(s.playerState);
+    //    }
+    //}
+
     //TODO: Add check so that units who can move long distances need to be at edge to go to the sides
     public virtual List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {

@@ -58,7 +58,7 @@ public class AIController : MonoBehaviour
             }
 
             u.MoveAlongPath(u.positions[destIndex]);
-            GameStateManager.stateManager.SetState(GameStateManager.stateManager.playerState);
+            GameStateManager.stateManager.SetState(GameStateManager.stateManager.playerState, 0.5f);
         }
     }
 }

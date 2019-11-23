@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -46,13 +47,16 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    public void SetState(State stateToSet)
+    // Need to add some sort of delay to state change, at least for now. 
+    //When AI needs more time to think, may be less important to have a delay.
+    public async void SetState(State stateToSet, float delay)
     {
+        int time = Mathf.RoundToInt((delay * 1000));
+        await Task.Delay(time);
         currentState = stateToSet;
 
         if (currentState == enemyState)
         {
-            print("A");
             AI.SendMessage("MoveRandomUnitInRandomDirection");
         }
     }
