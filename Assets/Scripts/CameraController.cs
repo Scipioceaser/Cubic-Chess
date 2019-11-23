@@ -28,8 +28,9 @@ public class CameraController : MonoBehaviour
 
     [Header("Colors")]
     public Color validPositionColor = Color.green;
-    public Color selecedNodeMeshColor = Color.red;
+    public Color selecedNodeMeshColor = Color.blue;
     public Color selectedOutlineColor = new Color(1.0f, 0.53f, 0.015f, 1.0f);
+    public Color EnemyNodeMeshColor = Color.red;
     
     // Start is called before the first frame update
     private void Awake()
@@ -58,13 +59,14 @@ public class CameraController : MonoBehaviour
     {
         if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
         {
-            if (GameStateManager.stateManager.CheckState(GameStateManager.stateManager.enemyState))
+            if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_THINK)
+                || GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
             {
                 mapObject.ResetColors();
                 mapObject.ResetUnitOutlines();
             }
 
-            if (Input.GetMouseButton(0) && GameStateManager.stateManager.CheckState(GameStateManager.stateManager.playerState))
+            if (Input.GetMouseButton(0) && GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_THINK))
             {
                 mapObject.ResetColors();
                 mapObject.ResetUnitOutlines();
@@ -102,7 +104,7 @@ public class CameraController : MonoBehaviour
                                         {
                                             selectedNode.nodeUnit.Fight();
                                             selectedUnit.MoveAlongPath(selectedNode.position);
-                                            GameStateManager.stateManager.SetState(GameStateManager.stateManager.enemyState, 0.05f);
+                                            GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_MOVE, 0.0001f);
                                         }
 
                                         selectedNode = null;
@@ -131,8 +133,16 @@ public class CameraController : MonoBehaviour
 
                                 if (selectedUnit.positions.Contains(selectedNode.position))
                                 {
+                                    if (selectedNode.nodeUnit != null)
+                                    {
+                                        print("A");
+                                        if (selectedNode.nodeUnit.unitTeam != mapObject.playerTeam)
+                                        {
+                                            selectedNode.nodeUnit.Fight();
+                                        }
+                                    }
                                     selectedUnit.MoveAlongPath(selectedNode.position);
-                                    GameStateManager.stateManager.SetState(GameStateManager.stateManager.enemyState, 0.5f);
+                                    GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_MOVE, 0.0001f);
                                 }
                                 
                                 selectedNode = null;
@@ -165,7 +175,17 @@ public class CameraController : MonoBehaviour
                         }
                         else
                         {
-                            ColorSelectedNodeMesh(node, validPositionColor);
+                            if (node.nodeUnit != null)
+                            {
+                                if (node.nodeUnit.unitTeam != mapObject.playerTeam)
+                                {
+                                    ColorSelectedNodeMesh(node, EnemyNodeMeshColor);
+                                }
+                            }
+                            else
+                            {
+                                ColorSelectedNodeMesh(node, validPositionColor);
+                            }
                         }
                     }
                 }

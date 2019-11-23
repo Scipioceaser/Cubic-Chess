@@ -26,16 +26,19 @@ public class AIController : MonoBehaviour
     
     private void MoveRandomUnitInRandomDirection()
     {
-        if (GameStateManager.stateManager.CheckState(GameStateManager.stateManager.enemyState))
+        if (units.Count == 0)
+            return;
+
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_THINK))
         {
             Unit u = units[Random.Range(0, units.Count)];
-
+            
             u.SetPositions(u.GetValidMovePositions(u.unAdjustedPosition));
-
+            
             int destIndex;
-
+            
             destIndex = Random.Range(0, u.positions.Count);
-
+            
             foreach (Vector3 vector in u.positions)
             {
                 if (mapObject.NodeFromNodeVector(vector).nodeUnit != null)
@@ -46,9 +49,9 @@ public class AIController : MonoBehaviour
                     }
                 }
             }
-
+            
             Unit enemy = mapObject.NodeFromNodeVector(u.positions[destIndex]).nodeUnit;
-
+            
             if (enemy != null)
             {
                 if (enemy.unitTeam != u.unitTeam)
@@ -57,8 +60,8 @@ public class AIController : MonoBehaviour
                 }
             }
 
+            GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_MOVE, 0.0001f);
             u.MoveAlongPath(u.positions[destIndex]);
-            GameStateManager.stateManager.SetState(GameStateManager.stateManager.playerState, 0.5f);
         }
     }
 }

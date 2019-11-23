@@ -16,8 +16,8 @@ public class Unit : MonoBehaviour
 {
     //[HideInInspector]
     public Node currentNode;
-    [HideInInspector]
-    public bool moving;
+    //[HideInInspector]
+    public bool moving = false;
     [HideInInspector]
     public int moveIndex = 0;
     [HideInInspector]
@@ -134,27 +134,25 @@ public class Unit : MonoBehaviour
 
         while (t < 1.0f)
         {
+            moving = true;
             t += Time.deltaTime * r;
             gameObject.transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
             
             yield return null;
         }
+
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
+        {
+            GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
+        }
+        else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_MOVE))
+        {
+            GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
+        }
+        
+        //moving = false;
     }
-
-    //private void SetNewTurn()
-    //{
-    //
-    //    GameStateManager s = GameStateManager.stateManager;
-    //    if (s.CheckState(s.playerState))
-    //    {
-    //        s.SetState(s.enemyState);
-    //    }
-    //    else
-    //    {
-    //        s.SetState(s.playerState);
-    //    }
-    //}
-
+    
     //TODO: Add check so that units who can move long distances need to be at edge to go to the sides
     public virtual List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
@@ -203,6 +201,9 @@ public class Unit : MonoBehaviour
 
     public void AlignUnit(Vector3 destination)
     {
+        if (!gameObject)
+            return;
+
         Vector3 d = (destination - UnitSpawnPoint.GetNearestNode(destination, 1, true).position);
         //transform.LookAt(transform.localPosition + d);
         transform.rotation = Quaternion.FromToRotation(Vector3.up, d);
