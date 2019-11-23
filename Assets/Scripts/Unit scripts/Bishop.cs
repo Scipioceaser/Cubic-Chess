@@ -70,11 +70,11 @@ public class Bishop : Unit
                 }
                 else
                 {
-                    if (node.position.y == Globals.mapHeight + 1 && node.position == position + Vector3.up || node.position.y == 0 && node.position == position - Vector3.up)
+                    if (node.position.y == Globals.mapHeight + 1 || node.position.y == 0)
                     {
-                        foreach (Vector3 vector in GetDiagonalNodeNeigbours(node.position))
+                        if (Vector3.Distance(node.position, unAdjustedPosition) == singleDiagonalLine_Length)
                         {
-                            validPositions.Add(vector);
+                            validPositions.Add(node.position);
                         }
                     }
                     else if (node.position.y == Globals.mapHeight + 1 && node.position != position + Vector3.up || node.position.y == 0 && node.position != position - Vector3.up)
