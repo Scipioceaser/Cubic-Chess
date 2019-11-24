@@ -47,7 +47,7 @@ public class GameStateManager : MonoBehaviour
         if (currentState == State.AI_TURN_THINK)
         {
             SetState(State.PLAYER_TURN_THINK, 0.001f);
-            //AI.SendMessage("MoveRandomUnitInRandomDirection");
+            AI.SendMessage("MoveRandomUnitInRandomDirection");
         }
     }
     
