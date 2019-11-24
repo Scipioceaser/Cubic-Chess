@@ -21,7 +21,9 @@ public class CameraController : MonoBehaviour
     private float mouseX;
     private float mouseY;
 
+    [SerializeField]
     private Node selectedNode;
+    [SerializeField]
     private Unit selectedUnit;
     
     private List<Node> nodesToColor = new List<Node>();
@@ -55,7 +57,7 @@ public class CameraController : MonoBehaviour
         OrbitCamera(1);
     }
 
-    private void Update() 
+    private void FixedUpdate() 
     {
         if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
         {
@@ -66,21 +68,31 @@ public class CameraController : MonoBehaviour
                 mapObject.ResetUnitOutlines();
             }
 
+            if (selectedUnit != null)
+            {
+                nodesToColor.Clear();
+
+                foreach (Vector3 vector in selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position))
+                {
+                    nodesToColor.Add(mapObject.NodeFromNodeVector(vector));
+                }
+                
+                selectedUnit.SetOutlineWidthAndColor(selectedOutlineColor, 1.035f);
+                ColorSelectedNodeMesh(selectedUnit.currentNode, selecedNodeMeshColor);
+            }
+
             if (Input.GetMouseButton(0) && GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_THINK))
             {
-                mapObject.ResetColors();
-                mapObject.ResetUnitOutlines();
-
-
                 selectedNode = GetNodeFromMouse();
-                nodesToColor.Add(selectedNode);
-
+            
                 if (selectedNode != null)
                 {
                     if (selectedNode.nodeUnit != null && selectedNode.nodeUnit.unitTeam == mapObject.playerTeam)
                     {
-                        if (selectedNode.nodeUnit.unitTeam == mapObject.playerTeam)
-                            selectedUnit = selectedNode.nodeUnit;
+                        mapObject.ResetUnitOutlines();
+                        mapObject.ResetColors();
+
+                        selectedUnit = selectedNode.nodeUnit;
                     }
                     else if (selectedUnit != null && selectedNode.nodeUnit == null || selectedUnit != null && selectedNode.nodeUnit.unitTeam != mapObject.playerTeam)
                     {
@@ -110,11 +122,6 @@ public class CameraController : MonoBehaviour
                             mapObject.ResetColors();
                         }
                     }
-                    else
-                    {
-                        mapObject.ResetUnitOutlines();
-                        mapObject.ResetColors();
-                    }
                 }
                 else
                 {
@@ -123,42 +130,27 @@ public class CameraController : MonoBehaviour
                     mapObject.ResetUnitOutlines();
                     mapObject.ResetColors();
                 }
-
-                if (selectedUnit != null)
-                {
-                    foreach (Vector3 vector in selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position))
-                    {
-                        nodesToColor.Add(mapObject.NodeFromNodeVector(vector));
-                    }
-                }
                 
                 if (selectedNode && selectedUnit)
                 {
                     foreach (Node node in nodesToColor)
                     {
-                        if (node == selectedNode && node.nodeUnit == selectedUnit)
+                        if (node.nodeUnit != null)
                         {
-                            selectedUnit.SetOutlineWidthAndColor(selectedOutlineColor, 1.035f);
-                            ColorSelectedNodeMesh(node, selecedNodeMeshColor);
+                            if (node.nodeUnit.unitTeam != mapObject.playerTeam)
+                            {
+                                ColorSelectedNodeMesh(node, EnemyNodeMeshColor);
+                            }
                         }
                         else
                         {
-                            if (node.nodeUnit != null)
-                            {
-                                if (node.nodeUnit.unitTeam != mapObject.playerTeam)
-                                {
-                                    ColorSelectedNodeMesh(node, EnemyNodeMeshColor);
-                                }
-                            }
-                            else
-                            {
+                            List<Vector3> vPos = selectedUnit.GetValidMovePositions(selectedUnit.unAdjustedPosition);
+
+                            if (vPos.Contains(node.position))
                                 ColorSelectedNodeMesh(node, validPositionColor);
-                            }
                         }
                     }
                 }
-
-                nodesToColor.Clear();
             }
         }
     }

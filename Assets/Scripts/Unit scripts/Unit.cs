@@ -201,7 +201,7 @@ public class Unit : MonoBehaviour
 
     public void AlignUnit(Vector3 destination)
     {
-        if (!gameObject)
+        if (!this || !gameObject)
             return;
 
         Vector3 d = (destination - UnitSpawnPoint.GetNearestNode(destination, 1, true).position);
