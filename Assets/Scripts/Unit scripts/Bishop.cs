@@ -52,12 +52,9 @@ public class Bishop : Unit
                             continue;
                         }
 
-                        if (node.nodeUnit == null)
+                        if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
                         {
-                            if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
-                            {
-                                validPositions.Add(node.position);
-                            }
+                            validPositions.Add(node.position);
                         }
                     }
                     else if (node.position.y == unAdjustedPosition.y - 1 || node.position.y == unAdjustedPosition.y + 1)

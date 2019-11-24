@@ -33,7 +33,7 @@ public class Queen : Unit
 
                 if (node.nodeUnit != null)
                 {
-                    if (node.nodeUnit.unitTeam == unitTeam)
+                    if (node.nodeUnit.unitTeam == this.unitTeam)
                     {
                         continue;
                     }
@@ -46,20 +46,17 @@ public class Queen : Unit
                 {
                     if (node.position.y == unAdjustedPosition.y)
                     {
-                        if (node.nodeUnit == null)
+                        if (IsNodeAtEmptyEdge(node.position))
+                            continue;
+
+                        if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
                         {
-                            if (IsNodeAtEmptyEdge(node.position))
-                                continue;
+                            validPositions.Add(node.position);
+                        }
 
-                            if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
-                            {
-                                validPositions.Add(node.position);
-                            }
-
-                            if (position.x != node.position.x && position.z == node.position.z || position.x == node.position.x && position.z != node.position.z)
-                            {
-                                validPositions.Add(node.position);
-                            }
+                        if (position.x != node.position.x && position.z == node.position.z || position.x == node.position.x && position.z != node.position.z)
+                        {
+                            validPositions.Add(node.position);
                         }
                     }
                     else if (node.position.y == unAdjustedPosition.y - 1 || node.position.y == unAdjustedPosition.y + 1)

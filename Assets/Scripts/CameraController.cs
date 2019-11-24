@@ -71,6 +71,59 @@ public class CameraController : MonoBehaviour
                 mapObject.ResetColors();
                 mapObject.ResetUnitOutlines();
 
+
+                selectedNode = GetNodeFromMouse();
+                nodesToColor.Add(selectedNode);
+
+                if (selectedNode != null)
+                {
+                    if (selectedNode.nodeUnit != null && selectedNode.nodeUnit.unitTeam == mapObject.playerTeam)
+                    {
+                        if (selectedNode.nodeUnit.unitTeam == mapObject.playerTeam)
+                            selectedUnit = selectedNode.nodeUnit;
+                    }
+                    else if (selectedUnit != null && selectedNode.nodeUnit == null || selectedUnit != null && selectedNode.nodeUnit.unitTeam != mapObject.playerTeam)
+                    {
+                        List<Vector3> movePositions = selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position);
+
+                        if (movePositions.Contains(selectedNode.position))
+                        {
+                            selectedUnit.SetPositions(selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position));
+                            
+                            if (selectedUnit.positions.Contains(selectedNode.position))
+                            {
+                                if (selectedNode.nodeUnit != null)
+                                {
+                                    if (selectedNode.nodeUnit.unitTeam != selectedUnit.unitTeam)
+                                    {
+                                        selectedNode.nodeUnit.Fight();
+                                    }
+                                }
+
+                                selectedUnit.MoveAlongPath(selectedNode.position);
+                                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_MOVE, 0.0001f);
+                            }
+
+                            selectedUnit = null;
+                            selectedNode = null;
+                            mapObject.ResetUnitOutlines();
+                            mapObject.ResetColors();
+                        }
+                    }
+                    else
+                    {
+                        mapObject.ResetUnitOutlines();
+                        mapObject.ResetColors();
+                    }
+                }
+                else
+                {
+                    selectedUnit = null;
+                    selectedNode = null;
+                    mapObject.ResetUnitOutlines();
+                    mapObject.ResetColors();
+                }
+
                 if (selectedUnit != null)
                 {
                     foreach (Vector3 vector in selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position))
@@ -78,97 +131,12 @@ public class CameraController : MonoBehaviour
                         nodesToColor.Add(mapObject.NodeFromNodeVector(vector));
                     }
                 }
-
-                selectedNode = GetNodeFromMouse();
-                nodesToColor.Add(selectedNode);
                 
-                if (selectedNode != null)
-                {
-                    if (selectedNode.nodeUnit != null && selectedUnit != selectedNode.nodeUnit)
-                    {
-                        if (selectedNode.nodeUnit.unitTeam == mapObject.playerTeam)
-                        {
-                            selectedUnit = selectedNode.nodeUnit;
-                        }
-                        else
-                        {
-                            if (selectedNode.nodeUnit != null && selectedUnit != null)
-                            {
-                                if (selectedNode.nodeUnit.unitTeam != selectedUnit.unitTeam)
-                                {
-                                    if (selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position).Contains(selectedNode.transform.position))
-                                    {
-                                        selectedUnit.SetPositions(selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position));
-
-                                        if (selectedUnit.positions.Contains(selectedNode.position))
-                                        {
-                                            selectedNode.nodeUnit.Fight();
-                                            selectedUnit.MoveAlongPath(selectedNode.position);
-                                            GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_MOVE, 0.0001f);
-                                        }
-
-                                        selectedNode = null;
-                                        selectedUnit = null;
-                                        mapObject.ResetUnitOutlines();
-                                        mapObject.ResetColors();
-                                    }
-                                }
-                            }
-
-                            // Just deselect everything
-                            selectedUnit = null;
-                            selectedNode = null;
-                        }
-                    }
-                    else if (selectedNode.nodeUnit == null)
-                    {
-                        // Move unit code here. And the valid move positions should be calculated when the unit is selected.
-                        // With a check for if the position without the original unit the player then clicks on is a valid position.
-                        //TODO: Add in check for attacking.
-                        if (selectedUnit != null)
-                        {
-                            if (selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position).Contains(selectedNode.transform.position))
-                            {
-                                selectedUnit.SetPositions(selectedUnit.GetValidMovePositions(selectedUnit.currentNode.position));
-
-                                if (selectedUnit.positions.Contains(selectedNode.position))
-                                {
-                                    if (selectedNode.nodeUnit != null)
-                                    {
-                                        print("A");
-                                        if (selectedNode.nodeUnit.unitTeam != mapObject.playerTeam)
-                                        {
-                                            selectedNode.nodeUnit.Fight();
-                                        }
-                                    }
-                                    selectedUnit.MoveAlongPath(selectedNode.position);
-                                    GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_MOVE, 0.0001f);
-                                }
-                                
-                                selectedNode = null;
-                                selectedUnit = null;
-                                mapObject.ResetUnitOutlines();
-                                mapObject.ResetColors();
-                            }
-                        }
-                        
-                        selectedNode = null;
-                        selectedUnit = null;
-                        mapObject.ResetUnitOutlines();
-                        mapObject.ResetColors();
-                    }
-                }
-                else
-                {
-                    mapObject.ResetUnitOutlines();
-                    mapObject.ResetColors();
-                }
-
                 if (selectedNode && selectedUnit)
                 {
                     foreach (Node node in nodesToColor)
                     {
-                        if (node == selectedNode)
+                        if (node == selectedNode && node.nodeUnit == selectedUnit)
                         {
                             selectedUnit.SetOutlineWidthAndColor(selectedOutlineColor, 1.035f);
                             ColorSelectedNodeMesh(node, selecedNodeMeshColor);

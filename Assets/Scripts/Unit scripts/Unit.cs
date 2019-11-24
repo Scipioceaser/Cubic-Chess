@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
 {
     //[HideInInspector]
     public Node currentNode;
-    //[HideInInspector]
+    [HideInInspector]
     public bool moving = false;
     [HideInInspector]
     public int moveIndex = 0;
