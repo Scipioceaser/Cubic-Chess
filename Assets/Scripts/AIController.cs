@@ -15,9 +15,9 @@ public class AIController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        foreach (Unit unit in mapObject.units)
+        foreach (Unit unit in mapObject.enemyUnits)
         {
-            if (unit.unitTeam == teamToControl && !units.Contains(unit))
+            if (!units.Contains(unit))
             {
                 units.Add(unit);
             }

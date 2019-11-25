@@ -18,6 +18,14 @@ public class TurnIndicator_Temp : MonoBehaviour
         {
             image.color = Color.green;
         }
+        else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_WIN))
+        {
+            image.color = Color.magenta;
+        }
+        else if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_WIN))
+        {
+            image.color = Color.yellow;
+        }
         else
         {
             image.color = Color.red;

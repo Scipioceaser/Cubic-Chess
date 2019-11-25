@@ -16,7 +16,9 @@ public class GameStateManager : MonoBehaviour
         PLAYER_TURN_THINK,
         AI_TURN_THINK,
         PLAYER_TURN_MOVE,
-        AI_TURN_MOVE
+        AI_TURN_MOVE,
+        PLAYER_WIN,
+        AI_WIN
     }
 
     private void Start()

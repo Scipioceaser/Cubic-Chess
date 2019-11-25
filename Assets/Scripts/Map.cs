@@ -36,8 +36,12 @@ public class Map : MonoBehaviour
     public Node[,,] nodes;
     private List<Vector3> AllNodePositions = new List<Vector3>();
     public List<Unit> units = new List<Unit>();
+    public List<Unit> playerUnits = new List<Unit>();
+    public List<Unit> enemyUnits = new List<Unit>();
     [HideInInspector]
-    public List<string> deadUnits = new List<string>();
+    public List<string> playerDeadUnits = new List<string>();
+    [HideInInspector]
+    public List<string> enemyDeadUnits = new List<string>();
 
     public Team playerTeam = Team.BLACK;
     
@@ -62,7 +66,27 @@ public class Map : MonoBehaviour
             StartCoroutine(CreateNodesExterior());
         }
     }
-    
+
+    private void Update()
+    {
+        if (units.Count >= 1)
+        {
+            if (enemyUnits.Count <= 0)
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_WIN, 0.01f);
+            }
+            else if (playerUnits.Count <= 0)
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.AI_WIN, 0.01f);
+            }
+        }
+        else if (units.Count == 0)
+        {
+            units.AddRange(playerUnits);
+            units.AddRange(enemyUnits);
+        }
+    }
+
     #region Node and Position functions
     public Vector3 WorldPosFromNodePos(Vector3 nodePosition)
     {
@@ -144,7 +168,7 @@ public class Map : MonoBehaviour
             }
         }
     }
-
+    
     public void ResetColors()
     {
         foreach (GameObject Object in GameObject.FindGameObjectsWithTag("ColorPlane"))
@@ -155,7 +179,7 @@ public class Map : MonoBehaviour
 
     public void ResetUnitOutlines()
     {
-        foreach (Unit unit in units)
+        foreach (Unit unit in playerUnits)
         {
             unit.SetOutlineWidthAndColor(0f);
         }

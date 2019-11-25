@@ -44,11 +44,19 @@ public class Unit : MonoBehaviour
         meshfilter = GetComponent<MeshFilter>();
 
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
-        map.units.Add(this);
     }
 
     private void Start()
     {
+        if (unitTeam == map.playerTeam)
+        {
+            map.playerUnits.Add(this);
+        }
+        else
+        {
+            map.enemyUnits.Add(this);
+        }
+
         if (unitTeam == Team.WHITE)
         {
             meshrender.sharedMaterial.SetColor("_Color", Color.white);
@@ -89,7 +97,17 @@ public class Unit : MonoBehaviour
     {
         map.units.Remove(this);
         // Replace tag with team name
-        map.deadUnits.Add(transform.name + ":" + transform.tag);
+        if (unitTeam == map.playerTeam)
+        {
+            map.playerUnits.Remove(this);
+            map.playerDeadUnits.Add(transform.name + ":" + transform.tag);
+        }
+        else
+        {
+            map.enemyUnits.Remove(this);
+            map.enemyDeadUnits.Add(transform.name + ":" + transform.tag);
+        }
+        
         this.enabled = false;
         meshrender.enabled = false;
         currentNode.nodeUnit = null;

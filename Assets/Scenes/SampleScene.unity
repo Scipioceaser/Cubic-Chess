@@ -11140,7 +11140,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &710009572
 GameObject:
@@ -12682,7 +12682,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &826761786
 GameObject:
@@ -16313,7 +16313,10 @@ MonoBehaviour:
   - {fileID: 1437453208}
   mapType: 2
   units: []
-  deadUnits: []
+  playerUnits: []
+  enemyUnits: []
+  playerDeadUnits: []
+  enemyDeadUnits: []
   playerTeam: 1
   gizmoGridSize: 4
   gizmoGridHeight: 4
@@ -17058,7 +17061,7 @@ Transform:
   - {fileID: 1207701043}
   - {fileID: 1437453210}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1005834333
 GameObject:
@@ -22212,7 +22215,7 @@ RectTransform:
   m_Children:
   - {fileID: 642719428}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -30799,7 +30802,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1945067894
 GameObject:
@@ -31945,7 +31948,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2009134795
 GameObject:
@@ -31991,7 +31994,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2011608804
 GameObject:
@@ -33841,7 +33844,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2122050832
 GameObject:
@@ -34333,7 +34336,7 @@ PrefabInstance:
     - target: {fileID: 2457289624151493552, guid: 8810e7678e575db4084779ab20a61699,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2457289624151493552, guid: 8810e7678e575db4084779ab20a61699,
         type: 3}
@@ -34471,7 +34474,7 @@ PrefabInstance:
     - target: {fileID: 5332101592165426351, guid: c4d4263764032534cb62b9b9c37f7b68,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5332101592165426351, guid: c4d4263764032534cb62b9b9c37f7b68,
         type: 3}
