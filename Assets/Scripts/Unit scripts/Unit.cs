@@ -90,7 +90,9 @@ public class Unit : MonoBehaviour
         map.units.Remove(this);
         // Replace tag with team name
         map.deadUnits.Add(transform.name + ":" + transform.tag);
-        Destroy(gameObject);
+        this.enabled = false;
+        meshrender.enabled = false;
+        currentNode.nodeUnit = null;
     }
 
     public void SetOutlineWidthAndColor(float width = 1.01f)
