@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 public enum UnitType
 {
@@ -139,9 +140,11 @@ public class UnitSpawnPoint : MonoBehaviour
             c = Color.black;
         }
 
+        Handles.Label(transform.position + new Vector3(0, 0.25f, 0), unit.ToString());
+
         DebugArrow.ForGizmo(transform.localPosition, Unit.UnitDirectionToVectorDirection(alignDirection) / 1.5f, c);
     }
-
+    
     #region Nearby node scripts
 
     private List<GameObject> GetNearbyObjects(Vector3 position, float distance = 1, bool meshOnly = false)

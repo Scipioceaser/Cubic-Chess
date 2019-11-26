@@ -1,0 +1,20 @@
+Need to add:
+
+UI:
+
+- Main menu.
+- Settings menu.
+- Turn indicator and win state indicator.
+
+AI:
+
+- Add inter-team unit coordination.
+
+Game:
+
+- Add in other win states.
+
+Models:
+
+- Update knight model.
+- Update queen model.

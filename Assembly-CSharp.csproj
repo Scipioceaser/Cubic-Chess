@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\UnitSpawnPoint.cs" />
     <None Include="Assets\Shaders\Node.shader" />
     <None Include="Assets\Shaders\Outline.shader" />
+    <None Include="Assets\todo.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/games/dev/WallChess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
