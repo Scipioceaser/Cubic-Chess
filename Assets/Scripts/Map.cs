@@ -25,6 +25,8 @@ public class Map : MonoBehaviour
     
     public Color colorEven = Color.white;
     public Color colorOdd = Color.black;
+
+    public Material nodeMaterial;
     
     [HideInInspector]
     public GameObject[] grid;
@@ -57,14 +59,7 @@ public class Map : MonoBehaviour
         Globals.mapSize = boardSize;
         Globals.mapHeight = boardHeight;
 
-        if (mapType == MapType.INTERIOR_EMPTY)
-        {
-            StartCoroutine(CreateNodesInterior());
-        }
-        else if (mapType == MapType.EXTERIOR_EMPTY)
-        {
-            StartCoroutine(CreateNodesExterior());
-        }
+        StartCoroutine(CreateNodesExterior());
     }
 
     private void Update()

@@ -15581,6 +15581,7 @@ MonoBehaviour:
   dropWithAnimation: 1
   colorEven: {r: 1, g: 1, b: 1, a: 1}
   colorOdd: {r: 0, g: 0, b: 0, a: 1}
+  nodeMaterial: {fileID: 2100000, guid: 5fb758c93e12e1649bdeda315b4c9743, type: 2}
   grid:
   - {fileID: 1621632058}
   - {fileID: 685662701}

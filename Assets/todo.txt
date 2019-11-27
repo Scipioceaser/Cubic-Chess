@@ -18,3 +18,7 @@ Models:
 
 - Update knight model.
 - Update queen model.
+
+Units:
+
+- Add in better unit move animations

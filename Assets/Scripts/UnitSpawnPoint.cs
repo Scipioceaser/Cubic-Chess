@@ -139,10 +139,11 @@ public class UnitSpawnPoint : MonoBehaviour
         {
             c = Color.black;
         }
-
+#if UNITY_EDITOR
         Handles.Label(transform.position + new Vector3(0, 0.25f, 0), unit.ToString());
 
         DebugArrow.ForGizmo(transform.localPosition, Unit.UnitDirectionToVectorDirection(alignDirection) / 1.5f, c);
+#endif
     }
     
     #region Nearby node scripts
