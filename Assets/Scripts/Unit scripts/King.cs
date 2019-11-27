@@ -10,7 +10,7 @@ public class King : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssets(gameObject, "King", "King", "Outline");
+        SetModelFromAssetsStreaming(gameObject, "King", "King", "Outline");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);

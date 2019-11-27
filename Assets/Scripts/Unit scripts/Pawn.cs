@@ -11,7 +11,7 @@ public class Pawn : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssets(gameObject, "pawn", "pawn", "Outline");
+        SetModelFromAssetsStreaming(gameObject, "pawn", "pawn", "Outline");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);

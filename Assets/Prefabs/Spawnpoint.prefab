@@ -46,3 +46,4 @@ MonoBehaviour:
   unit: 0
   alignDirection: 4
   team: 1
+  outline: {fileID: 2100000, guid: d766b98907a4cd54abf0e5d9fc38b91f, type: 2}

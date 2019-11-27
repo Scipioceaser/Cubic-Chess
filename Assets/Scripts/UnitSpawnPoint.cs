@@ -34,7 +34,9 @@ public class UnitSpawnPoint : MonoBehaviour
     private Vector3 spawnDirection;
 
     private Vector3 spawnMeshPosition = Vector3.negativeInfinity;
-    
+
+    public Material outline;
+
     private void FixedUpdate()
     {
         if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))

@@ -37,7 +37,7 @@ public class Unit : MonoBehaviour
     private MeshRenderer meshrender;
     private MeshFilter meshfilter;
     private Color outlineColorDefault = Color.black;
-
+    
     public virtual void Awake()
     {
         meshrender = GetComponent<MeshRenderer>();
@@ -91,6 +91,37 @@ public class Unit : MonoBehaviour
        objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = mat;
        //objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = prefab.GetComponent<MeshRenderer>().sharedMaterial;
        modelBundle.Unload(false);
+    }
+
+    public void SetModelFromAssetsStreaming(GameObject objectToAddModel, string modelAssetBundle, string modelName, string shaderName = "Standard")
+    {
+        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
+        filePath = System.IO.Path.Combine(filePath, modelAssetBundle);
+
+        var modelBundleRequest = AssetBundle.LoadFromFileAsync(filePath);
+        AssetBundle assetBundle = modelBundleRequest.assetBundle;
+        AssetBundleRequest asset = assetBundle.LoadAssetAsync<GameObject>(modelName);
+        GameObject prefab = asset.asset as GameObject;
+
+        //if (modelBundle == null)
+        //{
+        //    Debug.LogWarning("Failed to load " + modelAssetBundle);
+        //    return;
+        //}
+
+        Material mat = new Material(Shader.Find("Outline"));
+
+        if (shaderName == "Outline")
+        {
+            mat.SetFloat("_OutlineWidth", 1f);
+            mat.SetColor("_OutlineColor", Color.clear);
+        }
+
+        //GameObject prefab = modelBundle.LoadAsset<GameObject>(modelName);
+        objectToAddModel.GetComponent<MeshFilter>().sharedMesh = prefab.GetComponent<MeshFilter>().sharedMesh;
+        objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = mat;
+        //objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = prefab.GetComponent<MeshRenderer>().sharedMaterial;
+        assetBundle.Unload(false);
     }
 
     public void Fight()

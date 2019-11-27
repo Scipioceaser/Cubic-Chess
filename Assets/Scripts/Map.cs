@@ -25,8 +25,6 @@ public class Map : MonoBehaviour
     
     public Color colorEven = Color.white;
     public Color colorOdd = Color.black;
-
-    public Material nodeMaterial;
     
     [HideInInspector]
     public GameObject[] grid;

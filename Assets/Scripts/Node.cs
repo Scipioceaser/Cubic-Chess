@@ -114,7 +114,9 @@ public class NodeMesh : Node
         plane.transform.rotation = Quaternion.FromToRotation(Vector3.up, d);
         plane.tag = "ColorPlane";
         plane.transform.parent = transform;
-        plane.GetComponent<MeshRenderer>().material.color = color;
+        plane.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        plane.GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Node"));
+        plane.GetComponent<MeshRenderer>().sharedMaterial.color = color;
         Destroy(plane.GetComponent<MeshCollider>());
     }
 

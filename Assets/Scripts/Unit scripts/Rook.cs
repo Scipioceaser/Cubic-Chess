@@ -9,7 +9,7 @@ public class Rook : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssets(gameObject, "rook", "rook", "Outline");
+        SetModelFromAssetsStreaming(gameObject, "rook", "rook", "Outline");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);

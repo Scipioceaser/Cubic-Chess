@@ -10,7 +10,7 @@ public class Bishop : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssets(gameObject, "bishop", "bishop", "Outline");
+        SetModelFromAssetsStreaming(gameObject, "bishop", "bishop", "Outline");
         currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
