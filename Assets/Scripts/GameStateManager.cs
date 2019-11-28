@@ -21,14 +21,23 @@ public class GameStateManager : MonoBehaviour
         AI_WIN
     }
 
+    private void Awake()
+    {
+        map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
+        AI = GameObject.FindGameObjectWithTag("AI").GetComponent<AIController>();
+    }
+
     private void Start()
     {
         if (stateManager == null)
         {
             stateManager = this;
 
-            map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
-            AI = GameObject.FindGameObjectWithTag("AI").GetComponent<AIController>();
+            if (map == null || AI == null)
+            {
+                map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
+                AI = GameObject.FindGameObjectWithTag("AI").GetComponent<AIController>();
+            }
             
             DontDestroyOnLoad(stateManager);
         }

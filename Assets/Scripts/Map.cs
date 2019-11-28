@@ -51,17 +51,26 @@ public class Map : MonoBehaviour
     [SerializeField][HideInInspector]
     private int gizmoGridHeight = 1;
 
-    private void Awake()
+    private void Start()
     {
         Globals.scale = nodeScale;
         Globals.mapSize = boardSize;
         Globals.mapHeight = boardHeight;
 
-        StartCoroutine(CreateNodesExterior());
+        nodes = new Node[(boardSize + 2), (boardHeight + 2), (boardSize + 2)];
+
+        for (int j = 0; j < transform.childCount; j++)
+        {
+            Vector3 p = transform.GetChild(j).position;
+            nodes[(int)p.x, (int)p.y, (int)p.z] = transform.GetChild(j).gameObject.GetComponent<Node>();
+            AllNodePositions.Add(p);
+        }
     }
 
     private void Update()
     {
+        //print(nodes.Length);
+
         if (units.Count >= 1)
         {
             if (enemyUnits.Count <= 0)
@@ -178,87 +187,6 @@ public class Map : MonoBehaviour
         }
     }
     
-    public IEnumerator CreateNodesExterior()
-    {
-        WaitForSeconds wait = new WaitForSeconds(((float)nodePlacementSpeed / 1000f));
-
-        Material even = new Material(Shader.Find("Node"));
-        Material odd = new Material(Shader.Find("Node"));
-        even.color = colorEven;
-        odd.color = colorOdd;
-
-        nodes = new Node[(boardSize + 2), (boardHeight + 2), (boardSize + 2)];
-        
-        if (grid.Length != 0)
-        {
-            for (int i = 0; i < grid.Length; i++)
-            {
-                Vector3 pos = grid[i].transform.position;
-
-                if (pos.y == 0 || pos.y == (boardHeight + 1) || pos.x == 0 || pos.x == (boardSize + 1) || pos.z == 0 || pos.z == (boardSize + 1))
-                {
-                    Node n;
-
-                    n = grid[i].AddComponent<Node>();
-                    n.Init(nodeScale, pos);
-                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
-                    n.nodeCollider.isTrigger = true;
-
-                    AllNodePositions.Add(n.position);
-                    nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
-                }
-                else
-                {
-                    NodeMesh n;
-                    n = grid[i].AddComponent<NodeMesh>();
-                    n.transform.name = "NodeMesh";
-                    
-                    n.Init(nodeScale, pos);
-                    n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
-
-                    if (pos.y % 2 == 0)
-                    {
-                        if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
-                        {
-                            n.SetColor(even.color);
-                            n.color = even;
-                        }
-                        else
-                        {
-                            n.SetColor(odd.color);
-                            n.color = odd;
-                        }
-                    }
-                    else
-                    {
-                        if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
-                        {
-                            n.SetColor(odd.color);
-                            n.color = odd;
-                        }
-                        else
-                        {
-                            n.SetColor(even.color);
-                            n.color = even;
-                        }
-                    }
-
-                    AllNodePositions.Add(n.position);
-                    nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
-                    
-                    if (dropWithAnimation)
-                        StartCoroutine(n.Move(transform.position + new Vector3(pos.x, pos.y, pos.z) +
-                            new Vector3(0, (boardHeight + 25), 0), transform.position + new Vector3(pos.x, pos.y, pos.z), nodeDropSpeed));
-
-                    yield return wait;
-                }
-            }
-            //TODO: This could be optimized.
-            Camera.main.gameObject.GetComponent<CameraController>().SendMessage("SetCentrePosition");
-            DetermineExteriorNodesCentreRender();
-        }
-    }
-
     public IEnumerator CreateNodesInterior()
     {
         WaitForSeconds wait = new WaitForSeconds(((float)nodePlacementSpeed / 1000f));
@@ -444,6 +372,13 @@ public class Map : MonoBehaviour
 
         grid = new GameObject[(boardSize + 2) * (boardHeight + 2) * (boardSize + 2)];
 
+        Material even = new Material(Shader.Find("Node"));
+        Material odd = new Material(Shader.Find("Node"));
+        even.color = colorEven;
+        odd.color = colorOdd;
+
+        nodes = new Node[(boardSize + 2), (boardHeight + 2), (boardSize + 2)];
+
         int i = 0;
         for (int y = 0; y < (boardHeight + 2);  y++)
         {
@@ -451,6 +386,8 @@ public class Map : MonoBehaviour
             {
                 for (int x = 0; x < (boardSize + 2); x++)
                 {
+                    Vector3 pos = new Vector3(x, y, z);
+
                     GameObject nodeObject = null;
 
                     if (y == 0 || y == (boardHeight + 1) || x == 0 || x == (boardSize + 1) || z == 0 || z == (boardSize + 1))
@@ -459,14 +396,60 @@ public class Map : MonoBehaviour
                         BoxCollider c = nodeObject.AddComponent<BoxCollider>();
                         c.size = new Vector3(nodeScale, nodeScale, nodeScale);
                         c.isTrigger = true;
+
+                        Node n;
+                        n = nodeObject.AddComponent<Node>();
+                        n.Init(nodeScale, pos);
+                        n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+                        n.nodeCollider.isTrigger = true;
+
+                        AllNodePositions.Add(n.position);
+                        nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                     }
                     else
                     {
                         nodeObject = new GameObject("NodeMesh");
                         BoxCollider c = nodeObject.AddComponent<BoxCollider>();
                         c.size = new Vector3(nodeScale, nodeScale, nodeScale);
+
+                        NodeMesh n;
+                        n = nodeObject.AddComponent<NodeMesh>();
+                        n.transform.name = "NodeMesh";
+
+                        n.Init(nodeScale, pos);
+                        n.nodeCollider.size = new Vector3(nodeScale, nodeScale, nodeScale);
+
+                        if (pos.y % 2 == 0)
+                        {
+                            if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
+                            {
+                                n.SetColor(even.color);
+                                n.color = even;
+                            }
+                            else
+                            {
+                                n.SetColor(odd.color);
+                                n.color = odd;
+                            }
+                        }
+                        else
+                        {
+                            if (pos.x % 2 == 0 && pos.z % 2 == 0 || pos.x % 2 != 0 && pos.z % 2 != 0)
+                            {
+                                n.SetColor(odd.color);
+                                n.color = odd;
+                            }
+                            else
+                            {
+                                n.SetColor(even.color);
+                                n.color = even;
+                            }
+                        }
+                        
+                        AllNodePositions.Add(n.position);
+                        nodes[(int)pos.x, (int)pos.y, (int)pos.z] = n;
                     }
-                    
+
                     nodeObject.transform.parent = transform;
                     nodeObject.transform.position = new Vector3(x, y, z);
                     grid[i] = nodeObject;
@@ -474,13 +457,13 @@ public class Map : MonoBehaviour
                 }
             }
         }
-
+        
         mapType = MapType.EXTERIOR_EMPTY;
 
         if (Application.isPlaying)
         {
             StopAllCoroutines();
-            StartCoroutine(CreateNodesExterior());
+            //StartCoroutine(CreateNodesExterior());
         }
     }
 

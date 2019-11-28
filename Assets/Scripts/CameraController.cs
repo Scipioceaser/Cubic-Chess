@@ -43,10 +43,13 @@ public class CameraController : MonoBehaviour
         Vector3 angles = transform.eulerAngles;
         mouseX = angles.x;
         mouseY = angles.y;
+    }
 
+    private void Start()
+    {
         SetCentrePosition();
     }
-    
+
     public void SetCentrePosition()
     {
         Vector3 nPos = new Vector3((mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f));
@@ -57,9 +60,9 @@ public class CameraController : MonoBehaviour
         OrbitCamera(1);
     }
 
-    private void FixedUpdate() 
+    private void Update() 
     {
-        if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
+        if (mapObject.grid.Length == ((Globals.mapSize + 2) * (Globals.mapSize + 2) * (Globals.mapHeight + 2)) && !PauseMenu.paused)
         {
             if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_THINK)
                 || GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
@@ -157,7 +160,7 @@ public class CameraController : MonoBehaviour
     
     private void LateUpdate()
     {
-        if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
+        if (mapObject.grid.Length == ((Globals.mapSize + 2) * (Globals.mapSize + 2) * (Globals.mapHeight + 2)))
             OrbitCamera();
     }
 

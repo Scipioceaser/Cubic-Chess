@@ -17,8 +17,6 @@ public class Unit : MonoBehaviour
     //[HideInInspector]
     public Node currentNode;
     [HideInInspector]
-    public bool moving = false;
-    [HideInInspector]
     public int moveIndex = 0;
     [HideInInspector]
     public List<Vector3> positions;
@@ -185,7 +183,6 @@ public class Unit : MonoBehaviour
 
         while (t < 1.0f)
         {
-            moving = true;
             t += Time.deltaTime * r;
             gameObject.transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
             

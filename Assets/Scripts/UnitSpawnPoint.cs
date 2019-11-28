@@ -37,12 +37,17 @@ public class UnitSpawnPoint : MonoBehaviour
 
     public Material outline;
 
+    private void Start()
+    {
+        SpawnUnit(unit);
+    }
+    
     private void FixedUpdate()
     {
-        if (Globals.meshNodesCreated == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
-        {
-            SpawnUnit(unit);
-        }
+        //if (mapObject.transform.childCount == (Globals.mapSize * Globals.mapSize * Globals.mapHeight))
+        //{
+        //    
+        //}
     }
 
     private void SpawnUnit(UnitType type)

@@ -10,6 +10,7 @@ public class AIController : MonoBehaviour
     
     private void Start()
     {
+        DontDestroyOnLoad(this);
         mapObject = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
     }
 

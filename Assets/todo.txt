@@ -5,6 +5,7 @@ UI:
 - Main menu.
 - Settings menu.
 - Turn indicator and win state indicator.
+- Level selection menu
 
 AI:
 
@@ -22,3 +23,9 @@ Models:
 Units:
 
 - Add in better unit move animations
+- Drop in effect
+- Move away from spawn point system
+
+Levels:
+
+- More levels
