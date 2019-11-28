@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8205853538925761284
+--- !u!1 &3010656623706137560
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8205853538925761530}
-  - component: {fileID: 8205853538925761531}
+  - component: {fileID: 3010656623706137562}
+  - component: {fileID: 3010656623706137563}
   m_Layer: 0
-  m_Name: Spawnpoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_Name: Map
+  m_TagString: Map
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8205853538925761530
+--- !u!4 &3010656623706137562
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8205853538925761284}
+  m_GameObject: {fileID: 3010656623706137560}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,19 +31,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8205853538925761531
+--- !u!114 &3010656623706137563
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8205853538925761284}
+  m_GameObject: {fileID: 3010656623706137560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d52fb64fff3fc42b5c4d0caa4d65d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 80330a8db4337f9469440dc5f3e25c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: 0
-  alignDirection: 4
-  team: 1
-  outline: {fileID: 2100000, guid: d766b98907a4cd54abf0e5d9fc38b91f, type: 2}
+  boardSize: 7
+  boardHeight: 7
+  nodeDropSpeed: 0.5
+  nodePlacementSpeed: 1
+  nodeScale: 1
+  dropWithAnimation: 1
+  colorEven: {r: 1, g: 1, b: 1, a: 1}
+  colorOdd: {r: 0, g: 0, b: 0, a: 1}
+  grid: []
+  mapType: 0
+  units: []
+  playerUnits: []
+  enemyUnits: []
+  playerDeadUnits: []
+  enemyDeadUnits: []
+  playerTeam: 1
+  gizmoGridSize: 4
+  gizmoGridHeight: 4

@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\NodeMesh.cs" />
+    <Compile Include="Assets\Scripts\UI\DebugArrow.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\UI\TurnIndicator_Temp.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="Assets\Scripts\Unit scripts\Queen.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Rook.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Unit.cs" />
-    <Compile Include="Assets\Scripts\UnitSpawnPoint.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Shaders\Node.shader" />

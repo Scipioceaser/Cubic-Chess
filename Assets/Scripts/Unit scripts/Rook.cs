@@ -9,8 +9,13 @@ public class Rook : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssetsStreaming(gameObject, "rook", "rook", "Outline");
-        currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
+        
+        unAdjustedPosition = transform.position;
+
+        transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
+        
+        //SetModelFromAssetsStreaming(gameObject, "rook", "rook", "Outline");
+        currentNode = GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }
@@ -105,16 +110,16 @@ public class Rook : Unit
 
     private void MoveRook(Vector3 destination)
     {
-        Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, destination,
-            UnitSpawnPoint.GetNearestNode(destination, 1, true).transform.position);
+        Vector3 p = GetAdjustedSpawnPosition(0.5f, destination,
+            GetNearestNode(destination, 1, true).transform.position);
 
         // Handle rotation
         AlignUnit(destination);
 
         // Set nodes
         currentNode.SetNodeUnit(null);
-        UnitSpawnPoint.GetNearestNode(destination).SetNodeUnit(this);
-        currentNode = UnitSpawnPoint.GetNearestNode(destination);
+        GetNearestNode(destination).SetNodeUnit(this);
+        currentNode = GetNearestNode(destination);
         unAdjustedPosition = destination;
         
         // Actually move

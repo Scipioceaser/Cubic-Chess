@@ -11,10 +11,32 @@ public class Pawn : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssetsStreaming(gameObject, "pawn", "pawn", "Outline");
-        currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
+
+        unAdjustedPosition = transform.position;
+
+        currentNode = GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
+
+        if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
+        {
+            horizontalMoveDirection = Vector3.forward;
+        }
+        else
+        {
+            if (spawnDir == Direction.RIGHT || spawnDir == Direction.LEFT)
+            {
+                horizontalMoveDirection = Vector3.right;
+            }
+            else
+            {
+                horizontalMoveDirection = Vector3.forward;
+            }
+        }
+
+        transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
+
+        //SetModelFromAssetsStreaming(gameObject, "pawn", "pawn", "Outline");
     }
 
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
@@ -143,8 +165,8 @@ public class Pawn : Unit
     //TODO: Rotate around edge mesh node;
     private void MovePawn(Vector3 destination)
     {
-        Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, destination, 
-            UnitSpawnPoint.GetNearestNode(destination, 1, true).transform.position);
+        Vector3 p = GetAdjustedSpawnPosition(0.5f, destination, 
+            GetNearestNode(destination, 1, true).transform.position);
 
         lastNode = currentNode;
 
@@ -153,11 +175,19 @@ public class Pawn : Unit
 
         // Set nodes
         currentNode.SetNodeUnit(null);
-        UnitSpawnPoint.GetNearestNode(destination).SetNodeUnit(this);
-        currentNode = UnitSpawnPoint.GetNearestNode(destination);
+        GetNearestNode(destination).SetNodeUnit(this);
+        currentNode = GetNearestNode(destination);
         unAdjustedPosition = destination;
         
         // Actually move
         StartCoroutine(Move(transform.position, p, 0.5f));
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying)
+        {
+            DebugArrow.ForGizmo(transform.localPosition, Unit.UnitDirectionToVectorDirection(spawnDir) / 1.5f, Color.blue);
+        }
     }
 }

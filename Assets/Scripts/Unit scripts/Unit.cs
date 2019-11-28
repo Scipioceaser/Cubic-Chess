@@ -9,6 +9,16 @@ public enum Team
     WHITE
 }
 
+public enum Direction
+{
+    UP,
+    DOWN,
+    FORWARD,
+    BACK,
+    LEFT,
+    RIGHT
+}
+
 //TODO: Add in teams
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
@@ -44,6 +54,117 @@ public class Unit : MonoBehaviour
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
     }
 
+    #region NODE FUNCTIONS
+    public Vector3 GetAdjustedSpawnPosition(float value, Vector3 pos, Vector3 nodePosition)
+    {
+        return value * Vector3.Normalize(nodePosition - pos) + pos;
+    }
+
+    public static Node GetNearestNode(Vector3 position, float distance = 1, bool meshOnly = false)
+    {
+        Node node = null;
+
+        Collider[] colliders = Physics.OverlapSphere(position, distance);
+        List<GameObject> nodePoints = new List<GameObject>();
+
+        foreach (Collider collider in colliders)
+        {
+            // This is quite precarious code.
+            if (collider.transform.name.Contains("Node") || collider.transform.name.Contains("NodeMesh"))
+            {
+                if (meshOnly)
+                {
+                    if (collider.transform.name.Contains("NodeMesh"))
+                        nodePoints.Add(collider.gameObject);
+                }
+                else
+                {
+                    nodePoints.Add(collider.gameObject);
+                }
+            }
+        }
+
+        if (nodePoints.Count <= 0)
+            Debug.LogWarning("No nodes found");
+
+        GameObject g = nodePoints[0];
+
+        float d = Vector3.Distance(position, nodePoints[0].transform.position);
+        foreach (GameObject gameObject in nodePoints)
+        {
+            if (Vector3.Distance(position, gameObject.transform.position) < d)
+            {
+                d = Vector3.Distance(position, gameObject.transform.position);
+                g = gameObject;
+            }
+        }
+
+        if (g != null)
+        {
+            if (meshOnly)
+            {
+                node = g.GetComponent<NodeMesh>();
+            }
+            else
+            {
+                node = g.GetComponent<Node>();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Could not find gameObject.");
+        }
+
+        if (node == null)
+            Debug.LogWarning("Could not find nearby node");
+
+        return node;
+    }
+
+    public GameObject GetNearestNodeObject(Vector3 position, float distance = 1, bool meshOnly = false)
+    {
+        Collider[] colliders = Physics.OverlapSphere(position, distance);
+        List<GameObject> nodePoints = new List<GameObject>();
+
+        foreach (Collider collider in colliders)
+        {
+            // This is quite precarious code.
+            if (collider.transform.name.Contains("Node") || collider.transform.name.Contains("NodeMesh"))
+            {
+                if (meshOnly)
+                {
+                    if (collider.transform.name.Contains("NodeMesh"))
+                        nodePoints.Add(collider.gameObject);
+                }
+                else
+                {
+                    nodePoints.Add(collider.gameObject);
+                }
+            }
+        }
+
+        if (nodePoints.Count <= 0)
+        {
+            Debug.LogWarning("No nodes found");
+            return null;
+        }
+
+        GameObject g = nodePoints[0];
+
+        float d = Vector3.Distance(position, nodePoints[0].transform.position);
+        foreach (GameObject gameObject in nodePoints)
+        {
+            if (Vector3.Distance(position, gameObject.transform.position) < d)
+            {
+                d = Vector3.Distance(position, gameObject.transform.position);
+                g = gameObject;
+            }
+        }
+
+        return g;
+    }
+    #endregion
+
     private void Start()
     {
         if (unitTeam == map.playerTeam)
@@ -64,64 +185,7 @@ public class Unit : MonoBehaviour
             meshrender.sharedMaterial.SetColor("_Color", Color.grey);
         }
     }
-
-    public void SetModelFromAssets(GameObject objectToAddModel, string modelAssetBundle, string modelName, string shaderName = "Standard")
-    {
-       string p = Path.Combine(Application.dataPath, "AssetBundles");
-       var modelBundle = AssetBundle.LoadFromFile(Path.Combine(p, modelAssetBundle));
-
-       if (modelBundle == null)
-       {
-           Debug.LogWarning("Failed to load " + modelAssetBundle);
-           return;
-       }
-
-        Material mat = new Material(Shader.Find("Outline"));
-        
-        if (shaderName == "Outline")
-        {
-            mat.SetFloat("_OutlineWidth", 1f);
-            mat.SetColor("_OutlineColor", Color.clear);
-        }
-        
-       GameObject prefab = modelBundle.LoadAsset<GameObject>(modelName);
-       objectToAddModel.GetComponent<MeshFilter>().sharedMesh = prefab.GetComponent<MeshFilter>().sharedMesh;
-       objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = mat;
-       //objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = prefab.GetComponent<MeshRenderer>().sharedMaterial;
-       modelBundle.Unload(false);
-    }
-
-    public void SetModelFromAssetsStreaming(GameObject objectToAddModel, string modelAssetBundle, string modelName, string shaderName = "Standard")
-    {
-        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
-        filePath = System.IO.Path.Combine(filePath, modelAssetBundle);
-
-        var modelBundleRequest = AssetBundle.LoadFromFileAsync(filePath);
-        AssetBundle assetBundle = modelBundleRequest.assetBundle;
-        AssetBundleRequest asset = assetBundle.LoadAssetAsync<GameObject>(modelName);
-        GameObject prefab = asset.asset as GameObject;
-
-        //if (modelBundle == null)
-        //{
-        //    Debug.LogWarning("Failed to load " + modelAssetBundle);
-        //    return;
-        //}
-
-        Material mat = new Material(Shader.Find("Outline"));
-
-        if (shaderName == "Outline")
-        {
-            mat.SetFloat("_OutlineWidth", 1f);
-            mat.SetColor("_OutlineColor", Color.clear);
-        }
-
-        //GameObject prefab = modelBundle.LoadAsset<GameObject>(modelName);
-        objectToAddModel.GetComponent<MeshFilter>().sharedMesh = prefab.GetComponent<MeshFilter>().sharedMesh;
-        objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = mat;
-        //objectToAddModel.GetComponent<MeshRenderer>().sharedMaterial = prefab.GetComponent<MeshRenderer>().sharedMaterial;
-        assetBundle.Unload(false);
-    }
-
+    
     public void Fight()
     {
         map.units.Remove(this);
@@ -252,7 +316,7 @@ public class Unit : MonoBehaviour
         if (!this || !gameObject)
             return;
 
-        Vector3 d = (destination - UnitSpawnPoint.GetNearestNode(destination, 1, true).position);
+        Vector3 d = (destination - GetNearestNode(destination, 1, true).position);
         //transform.LookAt(transform.localPosition + d);
         transform.rotation = Quaternion.FromToRotation(Vector3.up, d);
     }

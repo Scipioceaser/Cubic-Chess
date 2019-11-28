@@ -2,7 +2,7 @@ Need to add:
 
 UI:
 
-- Main menu.
+- Main menu. - Done
 - Settings menu.
 - Turn indicator and win state indicator.
 - Level selection menu
@@ -24,7 +24,7 @@ Units:
 
 - Add in better unit move animations
 - Drop in effect
-- Move away from spawn point system
+- Move away from spawn point system - Done
 
 Levels:
 

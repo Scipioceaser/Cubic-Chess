@@ -10,8 +10,10 @@ public class Bishop : Unit
     public override void Awake()
     {
         base.Awake();
-        SetModelFromAssetsStreaming(gameObject, "bishop", "bishop", "Outline");
-        currentNode = UnitSpawnPoint.GetNearestNode(transform.position);
+
+        unAdjustedPosition = transform.position;
+        transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
+        currentNode = GetNearestNode(transform.position);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }
@@ -126,7 +128,7 @@ public class Bishop : Unit
             if (nearbyNode.GetType() != typeof(NodeMesh) 
                 && IsLineStraight(nodePosition.x, nearbyNode.position.x, nodePosition.z, nearbyNode.position.z) 
                 && LineDelta(nodePosition.x, nearbyNode.position.x) > 0
-                && Vector3.Distance(nearbyNode.position, UnitSpawnPoint.GetNearestNode(nearbyNode.position, 1, true).position) == 1f
+                && Vector3.Distance(nearbyNode.position, GetNearestNode(nearbyNode.position, 1, true).position) == 1f
                 && nearbyNode.position.y != unAdjustedPosition.y)
             {
                 positions.Add(nearbyNode.position);
@@ -138,16 +140,16 @@ public class Bishop : Unit
 
     private void MoveBishop(Vector3 destination)
     {
-        Vector3 p = UnitSpawnPoint.GetAdjustedSpawnPosition(0.5f, destination,
-            UnitSpawnPoint.GetNearestNode(destination, 1, true).transform.position);
+        Vector3 p = GetAdjustedSpawnPosition(0.5f, destination,
+            GetNearestNode(destination, 1, true).transform.position);
 
         // Handle rotation
         AlignUnit(destination);
 
         // Set nodes
         currentNode.SetNodeUnit(null);
-        UnitSpawnPoint.GetNearestNode(destination).SetNodeUnit(this);
-        currentNode = UnitSpawnPoint.GetNearestNode(destination);
+        GetNearestNode(destination).SetNodeUnit(this);
+        currentNode = GetNearestNode(destination);
         unAdjustedPosition = destination;
 
         // Actually move
