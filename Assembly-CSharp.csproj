@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\UI\DebugArrow.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\SettingsMenu.cs" />
     <Compile Include="Assets\Scripts\UI\TurnIndicator_Temp.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\Bishop.cs" />
     <Compile Include="Assets\Scripts\Unit scripts\King.cs" />

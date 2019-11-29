@@ -62,7 +62,7 @@ public class CameraController : MonoBehaviour
 
     private void Update() 
     {
-        if (mapObject.grid.Length == ((Globals.mapSize + 2) * (Globals.mapSize + 2) * (Globals.mapHeight + 2)) && !PauseMenu.paused)
+        if (mapObject.transform.childCount == ((Globals.mapSize + 2) * (Globals.mapSize + 2) * (Globals.mapHeight + 2)) && !PauseMenu.paused)
         {
             if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_THINK)
                 || GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
