@@ -100,3 +100,5 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   unitTeam: 1
   horizontalMoveDirection: {x: 0, y: 0, z: 0}
+  queenPrefab: {fileID: 2383592725619599711, guid: 49eb24899320c8048b1401e061b93910,
+    type: 3}

@@ -7,6 +7,8 @@ public class Pawn : Unit
     public Vector3 horizontalMoveDirection;
     private Vector3 verticalMoveDir = Vector3.up;
     private Node lastNode;
+    private int nodesPassed;
+    public GameObject queenPrefab;
 
     public override void Awake()
     {
@@ -35,8 +37,25 @@ public class Pawn : Unit
         }
 
         transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
+    }
 
-        //SetModelFromAssetsStreaming(gameObject, "pawn", "pawn", "Outline");
+    private void Update()
+    {
+        CheckForQueenTransition();
+    }
+
+    //TODO: Add in effects to signal unit change
+    public void CheckForQueenTransition()
+    {
+        if (nodesPassed == (Globals.mapHeight * 2) + (Globals.mapSize * 2))
+        {
+            gameObject.GetComponent<MeshFilter>().mesh = queenPrefab.GetComponent<MeshFilter>().sharedMesh;
+            transform.position = unAdjustedPosition;
+            gameObject.AddComponent<Queen>();
+            gameObject.GetComponent<Queen>().unitTeam = unitTeam;
+            GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.5f);
+            Destroy(this);
+        }
     }
 
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
@@ -80,14 +99,21 @@ public class Pawn : Unit
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
-                        if (node.nodeUnit.unitTeam != unitTeam)
-                            validPositions.Add(node.position);
+                        if (Vector3.Distance(position + horizontalMoveDirection, node.position) == 1)
+                        {
+                            if (node.nodeUnit.unitTeam != unitTeam)
+                                validPositions.Add(node.position);
+                        }
                     }
                     else if (d == Mathf.Sqrt(2) && Mathf.Abs(unAdjustedPosition.y - node.position.y) == 1 && node.nodeUnit == null)
                     {
                         if (node == lastNode)
                             continue;
 
+                        Vector3 p = new Vector3(node.position.x, unAdjustedPosition.y, node.position.z);
+
+                        if (p != position + horizontalMoveDirection)
+                            continue;
 
                         if (unAdjustedPosition.y == 0)
                         {
@@ -116,13 +142,16 @@ public class Pawn : Unit
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
-                        if (node.nodeUnit.unitTeam != unitTeam)
-                            validPositions.Add(node.position);
+                        if (Vector3.Distance(position + verticalMoveDir, node.position) == 1)
+                        {
+                            if (node.nodeUnit.unitTeam != unitTeam)
+                                validPositions.Add(node.position);
+                        }
                     }
                     else if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
                     {
                         horizontalMoveDirection = SetHorizontalMoveDir(position);
-
+                        
                         if (d == Mathf.Sqrt(2) && node.nodeUnit == null)
                             validPositions.Add(node.position);
                     }
@@ -178,7 +207,10 @@ public class Pawn : Unit
         GetNearestNode(destination).SetNodeUnit(this);
         currentNode = GetNearestNode(destination);
         unAdjustedPosition = destination;
-        
+
+        // Add to the total nodes passed
+        nodesPassed++;
+
         // Actually move
         StartCoroutine(Move(transform.position, p, 0.5f));
     }

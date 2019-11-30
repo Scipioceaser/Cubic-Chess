@@ -184,6 +184,8 @@ public class Unit : MonoBehaviour
         {
             meshrender.material.SetColor("_Color", Color.grey);
         }
+
+        meshrender.material.SetFloat("_OutlineWidth", 1f);
     }
     
     public void Fight()
