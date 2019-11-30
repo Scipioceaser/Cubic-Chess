@@ -15,7 +15,7 @@ public class Rook : Unit
         transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
         
         //SetModelFromAssetsStreaming(gameObject, "rook", "rook", "Outline");
-        currentNode = GetNearestNode(transform.position);
+        currentNode = GetNearestNode(unAdjustedPosition);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }

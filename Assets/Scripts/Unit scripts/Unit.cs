@@ -83,7 +83,7 @@ public class Unit : MonoBehaviour
                 }
             }
         }
-
+        
         if (nodePoints.Count <= 0)
             Debug.LogWarning("No nodes found");
 
@@ -120,7 +120,7 @@ public class Unit : MonoBehaviour
 
         return node;
     }
-
+    
     public GameObject GetNearestNodeObject(Vector3 position, float distance = 1, bool meshOnly = false)
     {
         Collider[] colliders = Physics.OverlapSphere(position, distance);
@@ -178,11 +178,11 @@ public class Unit : MonoBehaviour
 
         if (unitTeam == Team.WHITE)
         {
-            meshrender.sharedMaterial.SetColor("_Color", Color.white);
+            meshrender.material.SetColor("_Color", Color.white);
         }
         else
         {
-            meshrender.sharedMaterial.SetColor("_Color", Color.grey);
+            meshrender.material.SetColor("_Color", Color.grey);
         }
     }
     

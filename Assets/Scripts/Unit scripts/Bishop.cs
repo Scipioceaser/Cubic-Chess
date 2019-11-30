@@ -13,7 +13,7 @@ public class Bishop : Unit
 
         unAdjustedPosition = transform.position;
         transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
-        currentNode = GetNearestNode(transform.position);
+        currentNode = GetNearestNode(unAdjustedPosition);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }
