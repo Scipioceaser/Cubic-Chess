@@ -35,6 +35,7 @@ public class Map : MonoBehaviour
     [HideInInspector]
     public Node[,,] nodes;
     private List<Vector3> AllNodePositions = new List<Vector3>();
+    [HideInInspector]
     public List<Unit> units = new List<Unit>();
     public List<Unit> playerUnits = new List<Unit>();
     public List<Unit> enemyUnits = new List<Unit>();
@@ -42,6 +43,10 @@ public class Map : MonoBehaviour
     public List<string> playerDeadUnits = new List<string>();
     [HideInInspector]
     public List<string> enemyDeadUnits = new List<string>();
+
+    [HideInInspector]
+    public int playerPoints;
+    public int aiPoints;
 
     public Team playerTeam = Team.BLACK;
     
@@ -71,18 +76,7 @@ public class Map : MonoBehaviour
     {
         //print(nodes.Length);
 
-        if (units.Count >= 1)
-        {
-            if (enemyUnits.Count <= 0)
-            {
-                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_WIN, 0.01f);
-            }
-            else if (playerUnits.Count <= 0)
-            {
-                GameStateManager.stateManager.SetState(GameStateManager.State.AI_WIN, 0.01f);
-            }
-        }
-        else if (units.Count == 0)
+        if (units.Count == 0)
         {
             units.AddRange(playerUnits);
             units.AddRange(enemyUnits);

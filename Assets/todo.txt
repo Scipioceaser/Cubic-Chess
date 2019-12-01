@@ -24,9 +24,17 @@ Units:
 
 - Add in better unit move animations
 - Drop in effect
-- Add pawn to queen system when pawn makes complete circuit of board
+- Add pawn to queen system when pawn makes complete circuit of board - Done
 - Move away from spawn point system - Done
 
 Levels:
 
 - More levels
+
+Game modes:
+
+- Standard (Kill king)
+- Points (Timed)
+- Deathmatch
+- Random game
+- Scenario

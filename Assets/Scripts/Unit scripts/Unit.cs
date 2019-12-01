@@ -195,12 +195,12 @@ public class Unit : MonoBehaviour
         if (unitTeam == map.playerTeam)
         {
             map.playerUnits.Remove(this);
-            map.playerDeadUnits.Add(transform.name + ":" + transform.tag);
+            map.playerDeadUnits.Add(transform.name);
         }
         else
         {
             map.enemyUnits.Remove(this);
-            map.enemyDeadUnits.Add(transform.name + ":" + transform.tag);
+            map.enemyDeadUnits.Add(transform.name);
         }
         
         this.enabled = false;
