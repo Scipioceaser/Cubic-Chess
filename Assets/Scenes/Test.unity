@@ -85744,6 +85744,11 @@ PrefabInstance:
       propertyPath: GameType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 429687807760267729, guid: 56e76374144398e4f9ad85864ec51805,
+        type: 3}
+      propertyPath: TimeLimit
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56e76374144398e4f9ad85864ec51805, type: 3}
 --- !u!1001 &1405199506654029893
