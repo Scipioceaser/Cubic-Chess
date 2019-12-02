@@ -4,8 +4,8 @@ UI:
 
 - Main menu. - Done
 - Settings menu.
-- Turn indicator and win state indicator.
-- Level selection menu
+- Turn indicator and win state indicator. - Done, sort of
+- Level selection menu - Done
 
 AI:
 

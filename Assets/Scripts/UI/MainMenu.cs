@@ -6,15 +6,12 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public GameObject settingsMenu;
-
-    public void NewGame(int levelIndex)
+    public GameObject levelSelectMenu;
+    
+    public void NewGame()
     {
-        SceneManager.LoadScene(levelIndex);
-    }
-
-    public void NewGame(string levelName)
-    {
-        SceneManager.LoadScene(levelName);
+        levelSelectMenu.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     public void Settings()
