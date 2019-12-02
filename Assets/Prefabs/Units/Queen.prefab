@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2383592725619599683}
   - component: {fileID: 2383592725619599708}
   - component: {fileID: 2383592725619599709}
-  - component: {fileID: 2383592725619599710}
+  - component: {fileID: 452164949344165306}
   m_Layer: 0
   m_Name: Queen
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2383592725619599711}
   m_Mesh: {fileID: 4385538395738152230, guid: d738f4bedd1bd00419a0f425e93b5ada, type: 3}
---- !u!114 &2383592725619599710
+--- !u!114 &452164949344165306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,3 +99,4 @@ MonoBehaviour:
   map: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   unitTeam: 1
+  pointValue: 100

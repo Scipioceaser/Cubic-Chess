@@ -43,8 +43,7 @@ public class Map : MonoBehaviour
     public List<string> playerDeadUnits = new List<string>();
     [HideInInspector]
     public List<string> enemyDeadUnits = new List<string>();
-
-    [HideInInspector]
+    
     public int playerPoints;
     public int aiPoints;
 
@@ -74,8 +73,6 @@ public class Map : MonoBehaviour
 
     private void Update()
     {
-        //print(nodes.Length);
-
         if (units.Count == 0)
         {
             units.AddRange(playerUnits);

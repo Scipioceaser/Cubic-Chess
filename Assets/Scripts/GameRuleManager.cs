@@ -13,10 +13,14 @@ public enum GameType
 public class GameRuleManager : MonoBehaviour
 {
     public static GameRuleManager ruleManager { get; private set; }
-    public float TimeLimit = 300f;
+    public int TimeLimit = 300;
+    public int thinkTurn = 30;
     public GameType GameType;
     private Map map;
     private bool timeHasElapsed = false;
+    private float playerTimeThink = 0;
+    [HideInInspector]
+    public bool playerTurnThinkDelay = false;
 
     private void Awake()
     {
@@ -53,6 +57,18 @@ public class GameRuleManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameType == GameType.POINTS_TIMED && GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_THINK))
+        {
+            playerTimeThink += Time.deltaTime;
+            
+            if (playerTimeThink >= thinkTurn)
+            {
+                playerTimeThink = 0;
+                playerTurnThinkDelay = true;
+                GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
+            }
+        }
+
         switch (GameType)
         {
             default:
@@ -103,7 +119,7 @@ public class GameRuleManager : MonoBehaviour
             if (!timeHasElapsed)
             {
                 timeHasElapsed = true;
-
+                
                 if (map.playerPoints > map.aiPoints)
                 {
                     GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_WIN, 0.01f);

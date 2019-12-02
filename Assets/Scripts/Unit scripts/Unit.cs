@@ -45,6 +45,8 @@ public class Unit : MonoBehaviour
     private MeshRenderer meshrender;
     private MeshFilter meshfilter;
     private Color outlineColorDefault = Color.black;
+
+    public int pointValue = 100;
     
     public virtual void Awake()
     {
@@ -195,11 +197,13 @@ public class Unit : MonoBehaviour
         if (unitTeam == map.playerTeam)
         {
             map.playerUnits.Remove(this);
+            map.aiPoints += pointValue;
             map.playerDeadUnits.Add(transform.name);
         }
         else
         {
             map.enemyUnits.Remove(this);
+            map.playerPoints += pointValue;
             map.enemyDeadUnits.Add(transform.name);
         }
         
@@ -261,10 +265,16 @@ public class Unit : MonoBehaviour
         }
         else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_MOVE))
         {
-            GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
+            if (GameRuleManager.ruleManager.playerTurnThinkDelay)
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 10f);
+                GameRuleManager.ruleManager.playerTurnThinkDelay = false;
+            }
+            else
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
+            }
         }
-        
-        //moving = false;
     }
     
     //TODO: Add check so that units who can move long distances need to be at edge to go to the sides
