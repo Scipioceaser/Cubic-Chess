@@ -18,7 +18,8 @@ public class GameRuleManager : MonoBehaviour
     public GameType GameType;
     private Map map;
     private bool timeHasElapsed = false;
-    private float playerTimeThink = 0;
+    [HideInInspector]
+    public float playerTimeThink = 0;
     [HideInInspector]
     public bool playerTurnThinkDelay = false;
 
@@ -63,7 +64,7 @@ public class GameRuleManager : MonoBehaviour
             
             if (playerTimeThink >= thinkTurn)
             {
-                playerTimeThink = 0;
+                playerTimeThink = 0f;
                 playerTurnThinkDelay = true;
                 GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
             }

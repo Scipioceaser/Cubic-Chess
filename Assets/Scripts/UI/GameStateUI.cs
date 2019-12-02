@@ -24,7 +24,7 @@ public class GameStateUI : MonoBehaviour
         {
             //TODO: Remove hour sections
             timer.text = System.TimeSpan.FromSeconds((int)Time.time).ToString();
-            turnTime.text = System.TimeSpan.FromSeconds((int)Time.time).ToString();
+            turnTime.text = System.TimeSpan.FromSeconds((int)GameRuleManager.ruleManager.playerTimeThink).ToString();
             playerPoints.SetText(map.playerPoints.ToString());
             AiPoints.SetText(map.aiPoints.ToString());
         }
