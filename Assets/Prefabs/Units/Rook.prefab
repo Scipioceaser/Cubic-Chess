@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3965854658507149242}
   - component: {fileID: 3965854658507149243}
   - component: {fileID: 3965854658507149240}
+  - component: {fileID: 4953423292592192569}
   m_Layer: 0
   m_Name: Rook
   m_TagString: Untagged
@@ -99,3 +100,18 @@ MonoBehaviour:
   map: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   unitTeam: 1
+  pointValue: 100
+--- !u!64 &4953423292592192569
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3965854658507149241}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -2806363557253865630, guid: 19f013f6de2cd6d49b6ef8739f6c80db, type: 3}

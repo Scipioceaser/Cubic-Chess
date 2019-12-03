@@ -53,7 +53,14 @@ public class Rook : Unit
                     {
                         if (position.x != node.position.x && position.z == node.position.z || position.x == node.position.x && position.z != node.position.z)
                         {
-                            validPositions.Add(node.position);
+                            if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                            {
+                                validPositions.Add(node.position);
+                            }
+                            else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                            {
+                                validPositions.Add(node.position);
+                            }
                         }
                     }
                     else if (node.position.y == unAdjustedPosition.y - 1 || node.position.y == unAdjustedPosition.y + 1)
@@ -84,7 +91,14 @@ public class Rook : Unit
                         {
                             if (position.x != node.position.x && position.y == node.position.y || position.x == node.position.x && position.y != node.position.y)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
                         }
                         else if (position.x == Globals.mapSize + 1 && position.x == node.position.x
@@ -92,7 +106,14 @@ public class Rook : Unit
                         {
                             if (position.z != node.position.z && position.y == node.position.y || position.z == node.position.z && position.y != node.position.y)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
                         }
                     }

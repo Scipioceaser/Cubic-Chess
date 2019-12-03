@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6001066449164956914}
   - component: {fileID: 6001066449164956915}
   - component: {fileID: 6001066449164956912}
+  - component: {fileID: -2310675786271184722}
   m_Layer: 0
   m_Name: King
   m_TagString: Untagged
@@ -99,3 +100,18 @@ MonoBehaviour:
   map: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   unitTeam: 1
+  pointValue: 100
+--- !u!64 &-2310675786271184722
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6001066449164956913}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -4175726406976504967, guid: 4381012fb6eece444b8501b3393d9b62, type: 3}

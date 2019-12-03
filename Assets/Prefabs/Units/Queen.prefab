@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2383592725619599708}
   - component: {fileID: 2383592725619599709}
   - component: {fileID: 452164949344165306}
+  - component: {fileID: 5715168749546132839}
   m_Layer: 0
   m_Name: Queen
   m_TagString: Untagged
@@ -100,3 +101,17 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   unitTeam: 1
   pointValue: 100
+--- !u!64 &5715168749546132839
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383592725619599711}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4385538395738152230, guid: d738f4bedd1bd00419a0f425e93b5ada, type: 3}

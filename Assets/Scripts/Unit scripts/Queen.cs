@@ -17,7 +17,7 @@ public class Queen : Unit
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }
-
+    
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         List<Vector3> validPositions = new List<Vector3>();
@@ -53,12 +53,26 @@ public class Queen : Unit
 
                         if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
                         {
-                            validPositions.Add(node.position);
+                            if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                            {
+                                validPositions.Add(node.position);
+                            }
+                            else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                            {
+                                validPositions.Add(node.position);
+                            }
                         }
 
                         if (position.x != node.position.x && position.z == node.position.z || position.x == node.position.x && position.z != node.position.z)
                         {
-                            validPositions.Add(node.position);
+                            if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                            {
+                                validPositions.Add(node.position);
+                            }
+                            else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                            {
+                                validPositions.Add(node.position);
+                            }
                         }
                     }
                     else if (node.position.y == unAdjustedPosition.y - 1 || node.position.y == unAdjustedPosition.y + 1)
@@ -96,12 +110,26 @@ public class Queen : Unit
                         {
                             if (position.z != node.position.z && position.y == node.position.y || position.z == node.position.z && position.y != node.position.y)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
 
                             if (IsLineStraight(position.z, node.position.z, position.y, node.position.y) && LineDelta(position.z, node.position.z) > 0)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
                         }
                         else if (position.z == Globals.mapSize + 1 && position.z == node.position.z
@@ -109,12 +137,26 @@ public class Queen : Unit
                         {
                             if (position.x != node.position.x && position.y == node.position.y || position.x == node.position.x && position.y != node.position.y)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
 
                             if (IsLineStraight(position.x, node.position.x, position.y, node.position.y) && LineDelta(position.x, node.position.x) > 0)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
                         }
                         else

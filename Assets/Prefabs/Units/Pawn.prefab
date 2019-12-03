@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4140636912840811187}
   - component: {fileID: 4140636912840811186}
   - component: {fileID: 4140636912840811185}
+  - component: {fileID: 7830389975418544268}
   m_Layer: 0
   m_Name: Pawn
   m_TagString: Untagged
@@ -99,6 +100,21 @@ MonoBehaviour:
   map: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   unitTeam: 1
+  pointValue: 100
   horizontalMoveDirection: {x: 0, y: 0, z: 0}
   queenPrefab: {fileID: 2383592725619599711, guid: 49eb24899320c8048b1401e061b93910,
     type: 3}
+--- !u!64 &7830389975418544268
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4140636912840811184}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 1705324974331375986, guid: 5ce645812a20c6c4cb44e23ac7485bd8, type: 3}

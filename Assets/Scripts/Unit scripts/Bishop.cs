@@ -56,7 +56,14 @@ public class Bishop : Unit
 
                         if (IsLineStraight(position.x, node.position.x, position.z, node.position.z) && LineDelta(position.x, node.position.x) > 0)
                         {
-                            validPositions.Add(node.position);
+                            if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                            {
+                                validPositions.Add(node.position);
+                            }
+                            else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                            {
+                                validPositions.Add(node.position);
+                            }
                         }
                     }
                     else if (node.position.y == unAdjustedPosition.y - 1 || node.position.y == unAdjustedPosition.y + 1)
@@ -93,7 +100,14 @@ public class Bishop : Unit
                         {
                             if (IsLineStraight(position.z, node.position.z, position.y, node.position.y) && LineDelta(position.z, node.position.z) > 0)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
                         }
                         else if (position.z == Globals.mapSize + 1 && position.z == node.position.z
@@ -101,7 +115,14 @@ public class Bishop : Unit
                         {
                             if (IsLineStraight(position.x, node.position.x, position.y, node.position.y) && LineDelta(position.x, node.position.x) > 0)
                             {
-                                validPositions.Add(node.position);
+                                if (node.nodeUnit == null && !EnemyInFrontOfNode(position, node.position))
+                                {
+                                    validPositions.Add(node.position);
+                                }
+                                else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
+                                {
+                                    validPositions.Add(node.position);
+                                }
                             }
                         }
                     }

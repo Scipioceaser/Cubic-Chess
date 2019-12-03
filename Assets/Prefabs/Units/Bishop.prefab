@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8220700887136425587}
   - component: {fileID: 8220700887136425586}
   - component: {fileID: 8220700887136425585}
+  - component: {fileID: -3275736432630030679}
   m_Layer: 0
   m_Name: Bishop
   m_TagString: Untagged
@@ -99,3 +100,18 @@ MonoBehaviour:
   map: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   unitTeam: 1
+  pointValue: 100
+--- !u!64 &-3275736432630030679
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8220700887136425584}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -7809067171011586860, guid: a00557ce363da274ebbf26d108cebd00, type: 3}
