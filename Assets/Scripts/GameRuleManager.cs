@@ -16,6 +16,7 @@ public class GameRuleManager : MonoBehaviour
     public int TimeLimit = 300;
     public int thinkTurn = 30;
     public GameType GameType;
+    public List<Unit> unitsToKill = new List<Unit>();
     private Map map;
     private bool timeHasElapsed = false;
     [HideInInspector]
@@ -84,7 +85,7 @@ public class GameRuleManager : MonoBehaviour
                 PointsTimed();
                 break;
             case GameType.SCENARIO:
-                //Scenario();
+                Scenario(unitsToKill);
                 break;
         }
     }
@@ -133,12 +134,15 @@ public class GameRuleManager : MonoBehaviour
         }
     }
 
-    private void Scenario(List<string> unitsToKill)
+    private void Scenario(List<Unit> unitsToKill)
     {
+        if (unitsToKill.Count == 0)
+            Debug.LogError("No target units specified!");
+
         int i = 0;
-        foreach (string item in unitsToKill)
+        foreach (Unit item in unitsToKill)
         {
-            if (map.enemyDeadUnits.Contains(item))
+            if (map.enemyDeadUnits.Contains(item.name))
                 i++;
         }
 

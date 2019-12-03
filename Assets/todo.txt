@@ -3,7 +3,7 @@ Need to add:
 UI:
 
 - Main menu. - Done
-- Settings menu.
+- Settings menu. - Done, sort of
 - Turn indicator and win state indicator. - Done, sort of
 - Level selection menu - Done
 
@@ -11,13 +11,9 @@ AI:
 
 - Add inter-team unit coordination.
 
-Game:
-
-- Add in other win states.
-
 Models:
 
-- Update knight model.
+- Update knight model. - Done
 - Update queen model.
 
 Units:
@@ -33,8 +29,8 @@ Levels:
 
 Game modes:
 
-- Standard (Kill king)
-- Points (Timed)
-- Deathmatch
-- Random game
-- Scenario
+- Standard (Kill king) - Done
+- Points (Timed) - Done
+- Deathmatch - Done
+- Random game - Done
+- Scenario - Done
