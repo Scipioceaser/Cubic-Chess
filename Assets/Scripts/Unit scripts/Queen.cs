@@ -7,9 +7,13 @@ public class Queen : Unit
     private float diagonalLine_length = Mathf.Sqrt(2);
     private float sidewaysDiagonalLine_Length = Mathf.Sqrt(1 + (Mathf.Sqrt(2) * Mathf.Sqrt(2)));
 
+    private ParticleSystem confetti;
+
     public override void Awake()
     {
         base.Awake();
+
+        confetti = GetComponent<ParticleSystem>();
 
         unAdjustedPosition = transform.position;
         transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
@@ -173,6 +177,11 @@ public class Queen : Unit
         }
 
         return validPositions;
+    }
+
+    public void PlayConfetti()
+    {
+        confetti.Play();
     }
 
     public override void MoveAlongPath(Vector3 destination = new Vector3())

@@ -32853,6 +32853,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pawn
       objectReference: {fileID: 0}
+    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
+        type: 3}
+      propertyPath: unitTeam
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
+        type: 3}
+      propertyPath: spawnDir
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4140636912840811188, guid: c4a25b47dd2837840a2d88dd1463c76b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32908,15 +32918,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
+    - target: {fileID: 3421785153735648201, guid: c4a25b47dd2837840a2d88dd1463c76b,
         type: 3}
-      propertyPath: unitTeam
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
-        type: 3}
-      propertyPath: spawnDir
-      value: 2
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4a25b47dd2837840a2d88dd1463c76b, type: 3}
@@ -83276,6 +83281,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pawn (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
+        type: 3}
+      propertyPath: spawnDir
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
+        type: 3}
+      propertyPath: queenPrefab
+      value: 
+      objectReference: {fileID: 72247038}
     - target: {fileID: 4140636912840811188, guid: c4a25b47dd2837840a2d88dd1463c76b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -83331,16 +83346,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
+    - target: {fileID: 3421785153735648201, guid: c4a25b47dd2837840a2d88dd1463c76b,
         type: 3}
-      propertyPath: spawnDir
-      value: 2
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4140636912840811185, guid: c4a25b47dd2837840a2d88dd1463c76b,
-        type: 3}
-      propertyPath: queenPrefab
-      value: 
-      objectReference: {fileID: 72247038}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4a25b47dd2837840a2d88dd1463c76b, type: 3}
 --- !u!21 &2075053667

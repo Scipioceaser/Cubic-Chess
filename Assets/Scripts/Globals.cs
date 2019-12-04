@@ -9,5 +9,6 @@ public static class Globals
     public static int meshNodesCreated = 0;
     public static bool mapCreated = false;
     public static int scale = 1;
+    public static int unitsDropped = 0;
     public static Vector3 mapCenterPoint;
 }

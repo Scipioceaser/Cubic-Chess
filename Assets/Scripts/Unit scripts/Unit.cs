@@ -186,8 +186,6 @@ public class Unit : MonoBehaviour
         {
             meshrender.material.SetColor("_Color", Color.grey);
         }
-
-        meshrender.material.SetFloat("_OutlineWidth", 1f);
     }
     
     public void Fight()
@@ -286,6 +284,24 @@ public class Unit : MonoBehaviour
             }
         }
     }
+
+    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue, float minDistance)
+    {
+        float r = 1.0f / timeValue;
+        float t = 0.0f;
+
+        while (t < 1.0f)
+        {
+            t += Time.deltaTime * r;
+            gameObject.transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
+
+            if (Vector3.Distance(transform.position, endPos) == minDistance)
+                Globals.unitsDropped++;
+            print(Globals.unitsDropped);
+
+            yield return null;
+        }
+    }
     
     //TODO: Add check so that units who can move long distances need to be at edge to go to the sides
     public virtual List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
@@ -298,7 +314,7 @@ public class Unit : MonoBehaviour
     {
         positions = movePositions;
     }
-
+    
     public static Vector3 UnitDirectionToVectorDirection(Direction dir, bool multiplyGlobalScale = false)
     {
         Vector3 d = Vector3.zero;

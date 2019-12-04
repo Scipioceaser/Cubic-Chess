@@ -53,6 +53,7 @@ public class Pawn : Unit
             transform.position = unAdjustedPosition;
             gameObject.AddComponent<Queen>();
             gameObject.GetComponent<Queen>().unitTeam = unitTeam;
+            gameObject.GetComponent<Queen>().PlayConfetti();
             GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.5f);
             Destroy(this);
         }

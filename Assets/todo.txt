@@ -18,8 +18,8 @@ Models:
 
 Units:
 
-- Add in better unit move animations
-- Drop in effect
+- Add in better unit move animations - Is already fine
+- Drop in effect - Maybe not
 - Add pawn to queen system when pawn makes complete circuit of board - Done
 - Move away from spawn point system - Done
 
