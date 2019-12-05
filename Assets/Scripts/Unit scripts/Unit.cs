@@ -234,11 +234,8 @@ public class Unit : MonoBehaviour
     public bool EnemyInFrontOfNode(Vector3 fromPosition, Vector3 nodePosition)
     {
         Vector3 dir = nodePosition - fromPosition;
-
-        if (Vector3.Distance(fromPosition, nodePosition) == 1 || Vector3.Distance(fromPosition, nodePosition) == Mathf.Sqrt(2))
-            return false;
-
-        return Physics.Raycast(fromPosition, dir, Globals.mapSize + 1, ~0, QueryTriggerInteraction.Ignore);
+        
+        return Physics.Raycast(fromPosition, dir, dir.magnitude, ~0, QueryTriggerInteraction.Ignore);
     }
 
     public bool IsNodeAtEmptyEdge(Vector3 position)
