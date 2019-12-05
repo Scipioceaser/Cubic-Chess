@@ -38,12 +38,18 @@ public class GameRuleManager : MonoBehaviour
             if (GameType == GameType.CLASSIC)
             {
                 int i = 0;
-                foreach (Unit unit in map.units)
+                int j = 0;
+                foreach (Unit unit in map.playerUnits)
                 {
                     if (unit.GetType() == typeof(King)) i++;
                 }
 
-                if (i != 2)
+                foreach (Unit unit in map.enemyUnits)
+                {
+                    if (unit.GetType() == typeof(King)) j++;
+                }
+
+                if (i != 1 && j != 1)
                 {
                     Debug.LogError("There are not two kings present");
                 }

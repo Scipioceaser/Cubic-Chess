@@ -54,6 +54,7 @@ public class Unit : MonoBehaviour
         meshfilter = GetComponent<MeshFilter>();
 
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
+        map.units.Add(this);
     }
 
     #region NODE FUNCTIONS

@@ -35,7 +35,7 @@ public class Map : MonoBehaviour
     [HideInInspector]
     public Node[,,] nodes;
     private List<Vector3> AllNodePositions = new List<Vector3>();
-    [HideInInspector]
+    //[HideInInspector]
     public List<Unit> units = new List<Unit>();
     public List<Unit> playerUnits = new List<Unit>();
     public List<Unit> enemyUnits = new List<Unit>();

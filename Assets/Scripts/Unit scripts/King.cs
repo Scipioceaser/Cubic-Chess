@@ -100,6 +100,46 @@ public class King : Unit
         return validPositions;
     }
 
+    private bool CheckForCheckMate(List<Vector3> validPositions)
+    {
+        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapSize + 1);
+        List<Unit> units = new List<Unit>();
+        List<Vector3> enemyValidpositions = new List<Vector3>();
+
+        foreach (Node node in nearbyNodes)
+        {
+            if (node.nodeUnit != null)
+            {
+                if (node.nodeUnit.unitTeam != unitTeam)
+                {
+                    enemyValidpositions.AddRange(node.nodeUnit.GetValidMovePositions(node.nodeUnit.unAdjustedPosition));
+                }
+            }
+        }
+
+        int i = 0;
+        foreach (Vector3 vector in validPositions)
+        {
+            if (enemyValidpositions.Contains(vector))
+            {
+                i++;
+            }
+        }
+        
+        if (i == validPositions.Count)
+            return true;
+        
+        return false;
+    }
+
+    private void Update()
+    {
+        if (GameRuleManager.ruleManager.GameType == GameType.CLASSIC && CheckForCheckMate(GetValidMovePositions(unAdjustedPosition)))
+        {
+            print("WIN");
+        }
+    }
+
     public override void MoveAlongPath(Vector3 destination = new Vector3())
     {
         MoveKing(destination);
