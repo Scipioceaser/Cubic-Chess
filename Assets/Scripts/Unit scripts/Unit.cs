@@ -212,6 +212,7 @@ public class Unit : MonoBehaviour
         
         this.enabled = false;
         meshrender.enabled = false;
+        meshCol.enabled = false;
         currentNode.nodeUnit = null;
     }
 

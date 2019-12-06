@@ -35,34 +35,40 @@ public class AIController : MonoBehaviour
             Unit u = units[Random.Range(0, units.Count)];
             
             u.SetPositions(u.GetValidMovePositions(u.unAdjustedPosition));
-            
-            int destIndex;
-            
-            destIndex = Random.Range(0, u.positions.Count);
-            
-            foreach (Vector3 vector in u.positions)
+
+            if (u.positions.Count != 0)
             {
-                if (mapObject.NodeFromNodeVector(vector).nodeUnit != null)
+                int destIndex;
+
+                destIndex = Random.Range(0, u.positions.Count);
+
+                foreach (Vector3 vector in u.positions)
                 {
-                    if (mapObject.NodeFromNodeVector(vector).nodeUnit.unitTeam != teamToControl)
+                    if (mapObject.NodeFromNodeVector(vector).nodeUnit != null)
                     {
-                        destIndex = u.positions.IndexOf(vector);
+                        if (mapObject.NodeFromNodeVector(vector).nodeUnit.unitTeam != teamToControl)
+                        {
+                            destIndex = u.positions.IndexOf(vector);
+                        }
                     }
                 }
-            }
-            
-            Unit enemy = mapObject.NodeFromNodeVector(u.positions[destIndex]).nodeUnit;
-            
-            if (enemy != null)
-            {
-                if (enemy.unitTeam != u.unitTeam)
-                {
-                    enemy.Fight();
-                }
-            }
+                Node enemyNode = mapObject.NodeFromNodeVector(u.positions[destIndex]);
 
-            GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_MOVE, 0.0001f);
-            u.MoveAlongPath(u.positions[destIndex]);
+                if (enemyNode.nodeUnit != null)
+                {
+                    if (enemyNode.nodeUnit.unitTeam != u.unitTeam)
+                    {
+                        enemyNode.nodeUnit.Fight();
+                    }
+                }
+
+                GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_MOVE, 0.0001f);
+                u.MoveAlongPath(u.positions[destIndex]);
+            }
+            else
+            {
+                MoveRandomUnitInRandomDirection();
+            }
         }
     }
 }

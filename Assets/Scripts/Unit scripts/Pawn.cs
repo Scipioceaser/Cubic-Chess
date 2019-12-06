@@ -20,21 +20,23 @@ public class Pawn : Unit
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
 
-        if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
-        {
-            horizontalMoveDirection = Vector3.forward;
-        }
-        else
-        {
-            if (spawnDir == Direction.RIGHT || spawnDir == Direction.LEFT)
-            {
-                horizontalMoveDirection = Vector3.right;
-            }
-            else
-            {
-                horizontalMoveDirection = Vector3.forward;
-            }
-        }
+        horizontalMoveDirection = UnitDirectionToVectorDirection(spawnDir);
+
+        //if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
+        //{
+        //    horizontalMoveDirection = Vector3.forward;
+        //}
+        //else
+        //{
+        //    if (spawnDir == Direction.RIGHT || spawnDir == Direction.LEFT)
+        //    {
+        //        horizontalMoveDirection = Vector3.right;
+        //    }
+        //    else
+        //    {
+        //        horizontalMoveDirection = Vector3.forward;
+        //    }
+        //}
 
         transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
     }
@@ -93,17 +95,18 @@ public class Pawn : Unit
                         if (node.nodeUnit.unitTeam == this.unitTeam)
                              continue;
                     }
-                    
+
                     if (node.position == position + horizontalMoveDirection)
                     {
                         validPositions.Add(node.position);
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
-                        if (Vector3.Distance(position + horizontalMoveDirection, node.position) == 1)
+                        if (Vector3.Distance(unAdjustedPosition + horizontalMoveDirection, node.position) == 1)
                         {
                             if (node.nodeUnit.unitTeam != unitTeam)
                                 validPositions.Add(node.position);
+                            
                         }
                     }
                     else if (d == Mathf.Sqrt(2) && Mathf.Abs(unAdjustedPosition.y - node.position.y) == 1 && node.nodeUnit == null)
