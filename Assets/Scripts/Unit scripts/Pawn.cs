@@ -5,11 +5,12 @@ using UnityEngine;
 public class Pawn : Unit
 {
     public Vector3 horizontalMoveDirection;
+    public GameObject queenPrefab;
     private Vector3 verticalMoveDir = Vector3.up;
     private Node lastNode;
     private int nodesPassed;
-    public GameObject queenPrefab;
-
+    private bool firstMove = true;
+    
     public override void Awake()
     {
         base.Awake();
@@ -100,6 +101,10 @@ public class Pawn : Unit
                     {
                         validPositions.Add(node.position);
                     }
+                    else if (node.position == position + (horizontalMoveDirection * 2) && firstMove)
+                    {
+                        validPositions.Add(node.position);
+                    }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
                         if (Vector3.Distance(unAdjustedPosition + horizontalMoveDirection, node.position) == 1)
@@ -143,6 +148,10 @@ public class Pawn : Unit
                     if (node.position == position + verticalMoveDir)
                     {
                         validPositions.Add(node.position);
+                    }
+                    else if (node.position == position + (verticalMoveDir * 2) && firstMove)
+                    {
+                        validPositions.Add(node.position);                        
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
@@ -214,6 +223,8 @@ public class Pawn : Unit
 
         // Add to the total nodes passed
         nodesPassed++;
+
+        firstMove = false;
 
         // Actually move
         StartCoroutine(Move(transform.position, p, 0.5f));
