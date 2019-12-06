@@ -62,7 +62,12 @@ public class Bishop : Unit
                             }
                             else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
                             {
-                                validPositions.Add(node.position);
+                                meshCol.isTrigger = true;
+                                if (!node.nodeUnit.EnemyInFrontOfNode(node.nodeUnit.unAdjustedPosition, unAdjustedPosition))
+                                {
+                                    validPositions.Add(node.position);
+                                    meshCol.isTrigger = false;
+                                }
                             }
                         }
                     }
@@ -106,7 +111,12 @@ public class Bishop : Unit
                                 }
                                 else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
                                 {
-                                    validPositions.Add(node.position);
+                                    meshCol.isTrigger = true;
+                                    if (!node.nodeUnit.EnemyInFrontOfNode(node.nodeUnit.unAdjustedPosition, unAdjustedPosition))
+                                    {
+                                        validPositions.Add(node.position);
+                                        meshCol.isTrigger = false;
+                                    }
                                 }
                             }
                         }
@@ -121,7 +131,12 @@ public class Bishop : Unit
                                 }
                                 else if (node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
                                 {
-                                    validPositions.Add(node.position);
+                                    meshCol.isTrigger = true;
+                                    if (!node.nodeUnit.EnemyInFrontOfNode(node.nodeUnit.unAdjustedPosition, unAdjustedPosition))
+                                    {
+                                        validPositions.Add(node.position);
+                                        meshCol.isTrigger = false;
+                                    }
                                 }
                             }
                         }

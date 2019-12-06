@@ -12,8 +12,8 @@ public class Knight : Unit
         base.Awake();
 
         unAdjustedPosition = transform.position;
-        transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
-        currentNode = GetNearestNode(transform.position);
+        transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 1, true).transform.position);
+        currentNode = GetNearestNode(unAdjustedPosition);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
     }

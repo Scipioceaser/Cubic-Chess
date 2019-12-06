@@ -47,11 +47,15 @@ public class Unit : MonoBehaviour
     private Color outlineColorDefault = Color.black;
 
     public int pointValue = 100;
+
+    [HideInInspector]
+    public MeshCollider meshCol;
     
     public virtual void Awake()
     {
         meshrender = GetComponent<MeshRenderer>();
         meshfilter = GetComponent<MeshFilter>();
+        meshCol = GetComponent<MeshCollider>();
 
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
         map.units.Add(this);
