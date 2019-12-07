@@ -50,7 +50,7 @@ public class King : Unit
                 {
                     if (node.position.y == unAdjustedPosition.y)
                     {
-                        if (node.nodeUnit == null)
+                        if (node.nodeUnit == null || node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
                         {
                             float d = Vector3.Distance(node.position, position);
 
@@ -86,11 +86,14 @@ public class King : Unit
                     }
                     else
                     {
-                        float d = Vector3.Distance(position, node.position);
-
-                        if (d == 1 || d == diagonalLine_length || d == sidewaysDiagonalLine_Length)
+                        if (node.nodeUnit == null || node.nodeUnit != null && node.nodeUnit.unitTeam != unitTeam)
                         {
-                            validPositions.Add(node.position);
+                            float d = Vector3.Distance(position, node.position);
+
+                            if (d == 1 || d == diagonalLine_length || d == sidewaysDiagonalLine_Length)
+                            {
+                                validPositions.Add(node.position);
+                            }
                         }
                     }
                 }

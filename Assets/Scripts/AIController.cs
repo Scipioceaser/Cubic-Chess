@@ -40,7 +40,7 @@ public class AIController : MonoBehaviour
             foreach (Vector3 vector3 in unit.GetValidMovePositions(unit.unAdjustedPosition))
             {
                 //int i = GetPossibleNewSceneValue(position, vector3, teamToControl);\
-                int bestValue = Minimax(vector3, position, depth, !maximizingPlayer);
+                int bestValue = Minimax(vector3, position, depth, 0, 0, !maximizingPlayer);
                 
                 if (bestValue < bestMove)
                 {
@@ -63,7 +63,7 @@ public class AIController : MonoBehaviour
         return bestMoveFound;
     }
 
-    private int Minimax(Vector3 move, int position, int depth, bool maximizingPlayer = false)
+    private int Minimax(Vector3 move, int position, int depth, int alpha, int beta, bool maximizingPlayer = false)
     {
         if (depth == 0)
         {
@@ -78,7 +78,10 @@ public class AIController : MonoBehaviour
 
             foreach (Vector3 vector in AllPossbleMoves(teamToControl))
             {
-                value = Mathf.Max(value, Minimax(vector, i, depth - 1, false));
+                value = Mathf.Max(value, Minimax(vector, i, depth - 1, alpha, beta, false));
+                alpha = Mathf.Max(alpha, value);
+                if (beta <= alpha)
+                    break;
             }
             
             return value;
@@ -91,7 +94,10 @@ public class AIController : MonoBehaviour
 
             foreach (Vector3 vector in AllPossbleMoves(teamToControl))
             {
-                value = Mathf.Min(value, Minimax(vector, i, depth - 1, false));
+                value = Mathf.Min(value, Minimax(vector, i, depth - 1, alpha, beta, false));
+                beta = Mathf.Min(beta, value);
+                if (beta <= alpha)
+                    break;
             }
 
             return value;
@@ -244,7 +250,7 @@ public class AIController : MonoBehaviour
             UpdateUnits();
 
             // May need to be improved
-            Vector3 bMove = MinimaxRoot(GetTotalSceneValue(), 2, true);
+            Vector3 bMove = MinimaxRoot(GetTotalSceneValue(), 4, true);
             List<Unit> possibleUnits = new List<Unit>();
             
             foreach (Unit unit in units)
