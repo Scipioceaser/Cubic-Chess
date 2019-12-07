@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 
 public enum Team
 {
@@ -39,6 +38,10 @@ public class Unit : MonoBehaviour
     public Map map;
     [HideInInspector]
     public Vector3 moveDirection;
+    [HideInInspector]
+    public Vector3 lastPosition;
+    [HideInInspector]
+    public Quaternion lastRotation;
 
     public Team unitTeam = Team.BLACK;
 
@@ -59,6 +62,8 @@ public class Unit : MonoBehaviour
 
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
         map.units.Add(this);
+        lastPosition = transform.position;
+        lastRotation = transform.rotation;
     }
 
     #region NODE FUNCTIONS
@@ -193,10 +198,10 @@ public class Unit : MonoBehaviour
         }
     }
     
-    public void Fight()
+    public void Fight(bool permanent = true)
     {
         map.units.Remove(this);
-        // Replace tag with team name
+        
         if (unitTeam == map.playerTeam)
         {
             map.playerUnits.Remove(this);
@@ -213,7 +218,33 @@ public class Unit : MonoBehaviour
         this.enabled = false;
         meshrender.enabled = false;
         meshCol.enabled = false;
-        currentNode.nodeUnit = null;
+        
+        if (permanent)
+            currentNode.nodeUnit = null;
+    }
+
+    public void UndoFight()
+    {
+        map.units.Add(this);
+        // Replace tag with team name
+        if (unitTeam == map.playerTeam)
+        {
+            map.playerUnits.Add(this);
+            map.aiPoints -= pointValue;
+            map.playerDeadUnits.Remove(transform.name);
+        }
+        else
+        {
+            map.enemyUnits.Add(this);
+            map.playerPoints -= pointValue;
+            map.enemyDeadUnits.Remove(transform.name);
+        }
+
+        this.enabled = true;
+        meshrender.enabled = true;
+        meshCol.enabled = true;
+        currentNode.nodeUnit = this;
+        GetNearestNode(unAdjustedPosition, 1).nodeUnit = this;
     }
 
     public void SetOutlineWidthAndColor(float width = 1.01f)
@@ -256,8 +287,29 @@ public class Unit : MonoBehaviour
             || position.y == 0 && position.z == Globals.mapSize + 1;
     }
 
+    public virtual void UndoMove()
+    {
+
+        if (currentNode.nodeUnit == this)
+        {
+            currentNode.SetNodeUnit(null);
+        }
+
+        GetNearestNode(lastPosition).SetNodeUnit(this);
+        currentNode = GetNearestNode(lastPosition);
+        unAdjustedPosition = lastPosition;
+
+        Vector3 p = GetAdjustedSpawnPosition(0.5f, unAdjustedPosition,
+            GetNearestNode(unAdjustedPosition, 1, true).transform.position);
+
+        transform.rotation = lastRotation;
+
+        StopAllCoroutines();
+        transform.position = p;
+    }
+
     //TODO: Add particle effect when node mesh lands at destination. Some shake would be good too.
-    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue)
+    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue, bool changeState = true)
     {
         float r = 1.0f / timeValue;
         float t = 0.0f;
@@ -270,20 +322,23 @@ public class Unit : MonoBehaviour
             yield return null;
         }
 
-        if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
+        if (changeState)
         {
-            GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
-        }
-        else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_MOVE))
-        {
-            if (GameRuleManager.ruleManager.playerTurnThinkDelay)
+            if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
             {
-                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 10f);
-                GameRuleManager.ruleManager.playerTurnThinkDelay = false;
+                GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
             }
-            else
+            else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_MOVE))
             {
-                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
+                if (GameRuleManager.ruleManager.playerTurnThinkDelay)
+                {
+                    GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 10f);
+                    GameRuleManager.ruleManager.playerTurnThinkDelay = false;
+                }
+                else
+                {
+                    GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
+                }
             }
         }
     }
@@ -363,5 +418,5 @@ public class Unit : MonoBehaviour
     }
 
     //TODO: Add loop to move along all points
-    public virtual void MoveAlongPath(Vector3 destination = new Vector3()) { }
+    public virtual void MoveAlongPath(Vector3 destination = new Vector3(), bool changeState = true) { }
 }

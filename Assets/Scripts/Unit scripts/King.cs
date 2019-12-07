@@ -140,18 +140,16 @@ public class King : Unit
         }
     }
 
-    public override void MoveAlongPath(Vector3 destination = new Vector3())
-    {
-        MoveKing(destination);
-    }
-
-    private void MoveKing(Vector3 destination)
+    public override void MoveAlongPath(Vector3 destination = new Vector3(), bool changeState = true)
     {
         Vector3 p = GetAdjustedSpawnPosition(0.5f, destination,
             GetNearestNode(destination, 1, true).transform.position);
 
         // Handle rotation
         AlignUnit(destination);
+
+        // Record the position for undo function
+        lastPosition = unAdjustedPosition;
 
         // Set nodes
         currentNode.SetNodeUnit(null);

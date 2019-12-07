@@ -214,18 +214,16 @@ public class Queen : Unit
         confetti.Play();
     }
 
-    public override void MoveAlongPath(Vector3 destination = new Vector3())
-    {
-        MoveQueen(destination);
-    }
-
-    private void MoveQueen(Vector3 destination)
+    public override void MoveAlongPath(Vector3 destination = new Vector3(), bool changeState = true)
     {
         Vector3 p = GetAdjustedSpawnPosition(0.5f, destination,
-            GetNearestNode(destination, 1, true).transform.position);
+                GetNearestNode(destination, 1, true).transform.position);
 
         // Handle rotation
         AlignUnit(destination);
+
+        // Record the position for undo function
+        lastPosition = unAdjustedPosition;
 
         // Set nodes
         currentNode.SetNodeUnit(null);

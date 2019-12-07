@@ -139,12 +139,7 @@ public class Rook : Unit
         return validPositions;
     }
 
-    public override void MoveAlongPath(Vector3 destination = new Vector3())
-    {
-        MoveRook(destination);
-    }
-
-    private void MoveRook(Vector3 destination)
+    public override void MoveAlongPath(Vector3 destination = new Vector3(), bool changeState = true)
     {
         Vector3 p = GetAdjustedSpawnPosition(0.5f, destination,
             GetNearestNode(destination, 1, true).transform.position);
@@ -152,12 +147,15 @@ public class Rook : Unit
         // Handle rotation
         AlignUnit(destination);
 
+        // Record the position for undo function
+        lastPosition = unAdjustedPosition;
+
         // Set nodes
         currentNode.SetNodeUnit(null);
         GetNearestNode(destination).SetNodeUnit(this);
         currentNode = GetNearestNode(destination);
         unAdjustedPosition = destination;
-        
+
         // Actually move
         StartCoroutine(Move(transform.position, p, 0.5f));
     }

@@ -97,11 +97,11 @@ public class Pawn : Unit
                              continue;
                     }
 
-                    if (node.position == position + horizontalMoveDirection)
+                    if (node.position == position + horizontalMoveDirection && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }
-                    else if (node.position == position + (horizontalMoveDirection * 2) && firstMove)
+                    else if (node.position == position + (horizontalMoveDirection * 2) && firstMove && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }
@@ -145,11 +145,11 @@ public class Pawn : Unit
                             continue;
                     }
 
-                    if (node.position == position + verticalMoveDir)
+                    if (node.position == position + verticalMoveDir && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);
                     }
-                    else if (node.position == position + (verticalMoveDir * 2) && firstMove)
+                    else if (node.position == position + (verticalMoveDir * 2) && firstMove && node.nodeUnit == null)
                     {
                         validPositions.Add(node.position);                        
                     }
@@ -175,9 +175,32 @@ public class Pawn : Unit
         return validPositions;
     }
     
-    public override void MoveAlongPath(Vector3 destination = new Vector3())
+    public override void MoveAlongPath(Vector3 destination = new Vector3(), bool changeState = true)
     {
-        MovePawn(destination);
+        Vector3 p = GetAdjustedSpawnPosition(0.5f, destination,
+            GetNearestNode(destination, 1, true).transform.position);
+
+        lastNode = currentNode;
+
+        // Handle rotation
+        AlignUnit(destination);
+
+        // Record the position for undo function
+        lastPosition = unAdjustedPosition;
+
+        // Set nodes
+        currentNode.SetNodeUnit(null);
+        GetNearestNode(destination).SetNodeUnit(this);
+        currentNode = GetNearestNode(destination);
+        unAdjustedPosition = destination;
+
+        // Add to the total nodes passed
+        nodesPassed++;
+
+        firstMove = false;
+
+        // Actually move
+        StartCoroutine(Move(transform.position, p, 0.5f));
     }
 
     private Vector3 SetHorizontalMoveDir(Vector3 position)
@@ -204,30 +227,11 @@ public class Pawn : Unit
         return dir;
     }
     
-    //TODO: Rotate around edge mesh node;
-    private void MovePawn(Vector3 destination)
+    public override void UndoMove()
     {
-        Vector3 p = GetAdjustedSpawnPosition(0.5f, destination, 
-            GetNearestNode(destination, 1, true).transform.position);
+        base.UndoMove();
 
-        lastNode = currentNode;
-
-        // Handle rotation
-        AlignUnit(destination);
-
-        // Set nodes
-        currentNode.SetNodeUnit(null);
-        GetNearestNode(destination).SetNodeUnit(this);
-        currentNode = GetNearestNode(destination);
-        unAdjustedPosition = destination;
-
-        // Add to the total nodes passed
-        nodesPassed++;
-
-        firstMove = false;
-
-        // Actually move
-        StartCoroutine(Move(transform.position, p, 0.5f));
+        nodesPassed--;
     }
 
     private void OnDrawGizmos()
