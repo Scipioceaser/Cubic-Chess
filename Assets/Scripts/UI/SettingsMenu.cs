@@ -2,15 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using TMPro;
 
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
+    public TMP_Dropdown resolutionsDropdown;
+    private Resolution[] resolutions;
 
     // Start is called before the first frame update
     private void Start()
     {
+        if (resolutionsDropdown != null)
+        {
+            resolutions = Screen.resolutions;
         
+            List<string> options = new List<string>();
+        
+            int currentResolutionIndex = 0;
+            for (int i = 0; i < resolutions.Length; i++)
+            {
+                string option = resolutions[i].width + " x " + resolutions[i].height;
+                options.Add(option);
+        
+                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+                    currentResolutionIndex = i;
+            }
+        
+            resolutionsDropdown.AddOptions(options);
+            resolutionsDropdown.value = currentResolutionIndex;
+            resolutionsDropdown.RefreshShownValue();
+        }
     }
 
     public void Volume(float volume)
@@ -25,8 +47,15 @@ public class SettingsMenu : MonoBehaviour
 
     public void Back(GameObject objectToGoBackTo)
     {
-        objectToGoBackTo.SetActive(true);
-        gameObject.SetActive(false);
+        if (objectToGoBackTo != null)
+        {
+            objectToGoBackTo.SetActive(true);
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Has no menu object to go back to.");
+        }
     }
 
     public void SettingLow()
@@ -42,5 +71,11 @@ public class SettingsMenu : MonoBehaviour
     public void SettingHigh()
     {
         QualitySettings.SetQualityLevel(2);
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution res = resolutions[resolutionIndex];
+        Screen.SetResolution(res.width, res.height, Screen.fullScreen);
     }
 }

@@ -17,6 +17,14 @@ public class AIController : MonoBehaviour
         UpdateUnits();
     }
 
+    private void Update()
+    {
+        if (units.Count == 0)
+        {
+            UpdateUnits();
+        }
+    }
+
     private void UpdateUnits()
     {
         units = new List<Unit>();
@@ -28,9 +36,8 @@ public class AIController : MonoBehaviour
             }
         }
     }
-    
 
-    //TODO: So this works, alright, but it could be faster by using alpha-beta pruning and caching, but it does seem more clever than just random moves, so that's nice.
+    //So this works, alright, but it could be faster by using alpha-beta pruning and caching, but it does seem more clever than just random moves, so that's nice.
     private Vector3 MinimaxRoot(int position, int depth, bool maximizingPlayer)
     {
         float bestMove = Mathf.Infinity;
@@ -39,9 +46,8 @@ public class AIController : MonoBehaviour
         {
             foreach (Vector3 vector3 in unit.GetValidMovePositions(unit.unAdjustedPosition))
             {
-                //int i = GetPossibleNewSceneValue(position, vector3, teamToControl);\
                 int bestValue = Minimax(vector3, position, depth, 0, 0, !maximizingPlayer);
-                
+
                 if (bestValue < bestMove)
                 {
                     bestMove = bestValue;
@@ -50,16 +56,12 @@ public class AIController : MonoBehaviour
             }
         }
 
-        if (bestMove == GetTotalSceneValue())
+        if (bestMove == GetTotalSceneValue() || bestMoveFound == Vector3.zero)
         {
-            bestMoveFound = AllPossbleMoves(teamToControl)[Random.Range(0, AllPossbleMoves(teamToControl).Count)];
+            Unit u = units[Random.Range(0, units.Count)];
+            bestMoveFound = u.GetValidMovePositions(u.unAdjustedPosition)[0];
         }
         
-        if (bestMoveFound == Vector3.zero)
-        {
-            Debug.LogWarning("No optimal route found!");
-        }
-
         return bestMoveFound;
     }
 
@@ -217,25 +219,13 @@ public class AIController : MonoBehaviour
                 {
                     if (enemyUnit.unitTeam != unit.unitTeam)
                     {
-                        enemyUnit.Fight(!undo);
-                        if (undo)
-                        {
-                            enemyUnit.UndoFight();
-                        }
+                        enemyUnit.Fight();
                     }
                 }
 
-                if (changeState)
-                {
-                    GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_MOVE, 0.0001f);
-                }
+                GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_MOVE, 0.0001f);
 
-                unit.MoveAlongPath(destination, changeState);
-
-                if (undo)
-                {
-                    unit.UndoMove();
-                }
+                unit.MoveAlongPath(destination);
             }
         }
     }
@@ -264,7 +254,7 @@ public class AIController : MonoBehaviour
                 }
             }
             
-            Unit u = possibleUnits[Random.Range(0, possibleUnits.Count - 1)];
+            Unit u = possibleUnits[Random.Range(0, possibleUnits.Count)];
 
             //Debug.DrawRay(bMove, Vector3.up, Color.red, 10f);
             //Debug.DrawLine(u.unAdjustedPosition, bMove, Color.red, 10f);
