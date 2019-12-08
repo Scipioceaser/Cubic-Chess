@@ -23,7 +23,25 @@ public class SettingsMenu : MonoBehaviour
             for (int i = 0; i < resolutions.Length; i++)
             {
                 string option = resolutions[i].width + " x " + resolutions[i].height;
-                options.Add(option);
+
+                string previousOption = "";
+
+                if (i != 0)
+                {
+                    previousOption = resolutions[i - 1].width + " x " + resolutions[i - 1].height;
+                }
+
+                if (option == previousOption)
+                {
+                    if (resolutions[i].refreshRate > resolutions[i-1].refreshRate)
+                    {
+                        options.Add(option);
+                    }
+                }
+                else
+                {
+                    options.Add(option);
+                }
         
                 if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
                     currentResolutionIndex = i;
