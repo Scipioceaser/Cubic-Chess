@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public enum Team
 {
@@ -21,6 +22,7 @@ public enum Direction
 //TODO: Add in teams
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(AudioSource))]
 public class Unit : MonoBehaviour
 {
     //[HideInInspector]
@@ -42,14 +44,19 @@ public class Unit : MonoBehaviour
     public Vector3 lastPosition;
     [HideInInspector]
     public Quaternion lastRotation;
-
+    
     public Team unitTeam = Team.BLACK;
 
     private MeshRenderer meshrender;
     private MeshFilter meshfilter;
+    private AudioSource audioSource;
     private Color outlineColorDefault = Color.black;
 
     public int pointValue = 100;
+
+    [Header("Sound")]
+    public AudioClip dragClip;
+    public AudioClip breakClip;
 
     [HideInInspector]
     public MeshCollider meshCol;
@@ -59,6 +66,7 @@ public class Unit : MonoBehaviour
         meshrender = GetComponent<MeshRenderer>();
         meshfilter = GetComponent<MeshFilter>();
         meshCol = GetComponent<MeshCollider>();
+        audioSource = GetComponent<AudioSource>();
 
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
         map.units.Add(this);
@@ -218,7 +226,10 @@ public class Unit : MonoBehaviour
         this.enabled = false;
         meshrender.enabled = false;
         meshCol.enabled = false;
-        
+
+        audioSource.clip = breakClip;
+        audioSource.PlayDelayed(1);
+
         if (permanent)
             currentNode.nodeUnit = null;
     }
@@ -311,6 +322,8 @@ public class Unit : MonoBehaviour
     //TODO: Add particle effect when node mesh lands at destination. Some shake would be good too.
     public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue, bool changeState = true)
     {
+        audioSource.PlayOneShot(dragClip);
+
         float r = 1.0f / timeValue;
         float t = 0.0f;
 
@@ -321,7 +334,7 @@ public class Unit : MonoBehaviour
             
             yield return null;
         }
-
+        
         if (changeState)
         {
             if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
@@ -340,24 +353,6 @@ public class Unit : MonoBehaviour
                     GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
                 }
             }
-        }
-    }
-
-    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue, float minDistance)
-    {
-        float r = 1.0f / timeValue;
-        float t = 0.0f;
-
-        while (t < 1.0f)
-        {
-            t += Time.deltaTime * r;
-            gameObject.transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
-
-            if (Vector3.Distance(transform.position, endPos) == minDistance)
-                Globals.unitsDropped++;
-            print(Globals.unitsDropped);
-
-            yield return null;
         }
     }
     

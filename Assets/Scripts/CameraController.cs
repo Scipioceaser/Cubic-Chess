@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class CameraController : MonoBehaviour
 {
@@ -33,12 +34,17 @@ public class CameraController : MonoBehaviour
     public Color selecedNodeMeshColor = Color.blue;
     public Color selectedOutlineColor = new Color(1.0f, 0.53f, 0.015f, 1.0f);
     public Color EnemyNodeMeshColor = Color.red;
+
+    [Header("Sound")]
+    public AudioClip mouseSound;
+    private AudioSource source;
     
     // Start is called before the first frame update
     private void Awake()
     {
         mapObject = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
         playerCamera = GetComponent<Camera>();
+        source = GetComponent<AudioSource>();
         
         Vector3 angles = transform.eulerAngles;
         mouseX = angles.x;
@@ -87,7 +93,7 @@ public class CameraController : MonoBehaviour
             if (Input.GetMouseButton(0) && GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_THINK))
             {
                 selectedNode = GetNodeFromMouse();
-            
+                
                 if (selectedNode != null)
                 {
                     if (selectedNode.nodeUnit != null && selectedNode.nodeUnit.unitTeam == mapObject.playerTeam)
@@ -96,6 +102,9 @@ public class CameraController : MonoBehaviour
                         mapObject.ResetColors();
 
                         selectedUnit = selectedNode.nodeUnit;
+
+                        if (!source.isPlaying)
+                            source.PlayOneShot(mouseSound);
                     }
                     else if (selectedUnit != null && selectedNode.nodeUnit == null || selectedUnit != null && selectedNode.nodeUnit.unitTeam != mapObject.playerTeam)
                     {
@@ -117,6 +126,9 @@ public class CameraController : MonoBehaviour
 
                                 selectedUnit.MoveAlongPath(selectedNode.position);
                                 GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_MOVE, 0.0001f);
+
+                                if (!source.isPlaying)
+                                    source.PlayOneShot(mouseSound);
                             }
 
                             selectedUnit = null;
