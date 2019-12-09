@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using TMPro;
+using System.Linq;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -16,35 +17,21 @@ public class SettingsMenu : MonoBehaviour
         if (resolutionsDropdown != null)
         {
             resolutions = Screen.resolutions;
-        
+            resolutionsDropdown.ClearOptions();   
+
             List<string> options = new List<string>();
-        
+            
             int currentResolutionIndex = 0;
             for (int i = 0; i < resolutions.Length; i++)
             {
-                string option = resolutions[i].width + " x " + resolutions[i].height;
+                string option = resolutions[i].width + " x " + resolutions[i].height + " " + resolutions[i].refreshRate + "Hz";
 
-                string previousOption = "";
+                options.Add(option);
 
-                if (i != 0)
+                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height && resolutions[i].refreshRate == Screen.currentResolution.refreshRate)
                 {
-                    previousOption = resolutions[i - 1].width + " x " + resolutions[i - 1].height;
-                }
-
-                if (option == previousOption)
-                {
-                    if (resolutions[i].refreshRate > resolutions[i-1].refreshRate)
-                    {
-                        options.Add(option);
-                    }
-                }
-                else
-                {
-                    options.Add(option);
-                }
-        
-                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
                     currentResolutionIndex = i;
+                }
             }
         
             resolutionsDropdown.AddOptions(options);
