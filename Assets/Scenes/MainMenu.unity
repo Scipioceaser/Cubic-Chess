@@ -2293,7 +2293,7 @@ PrefabInstance:
     - target: {fileID: 1829211368195968077, guid: 42efcc494e64a4f4a97cb62dd7938abc,
         type: 3}
       propertyPath: description
-      value: 
+      value: This is the classic chess game layout. The goal is to kill the king.
       objectReference: {fileID: 0}
     - target: {fileID: 1829211368195968077, guid: 42efcc494e64a4f4a97cb62dd7938abc,
         type: 3}

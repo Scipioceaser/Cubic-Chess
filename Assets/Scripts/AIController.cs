@@ -58,11 +58,52 @@ public class AIController : MonoBehaviour
 
         if (bestMove == GetTotalSceneValue() || bestMoveFound == Vector3.zero)
         {
-            Unit u = units[Random.Range(0, units.Count)];
-            bestMoveFound = u.GetValidMovePositions(u.unAdjustedPosition)[0];
+            bestMoveFound = GetBestRandomMove();
         }
         
         return bestMoveFound;
+    }
+
+    private Vector3 GetBestRandomMove()
+    {
+        List<Pawn> pawns = new List<Pawn>();
+
+        foreach (Unit unit in units)
+        {
+            if (unit.GetType() == typeof(Pawn))
+            {
+                pawns.Add((Pawn)unit);
+            }
+        }
+
+        if (pawns.Count > 0)
+        {
+            Pawn p = pawns[Random.Range(0, pawns.Count)];
+            List<Vector3> moves = p.GetValidMovePositions(p.unAdjustedPosition);
+
+            if (moves.Count != 0)
+            {
+                return moves[Random.Range(0, moves.Count)];
+            }
+            else
+            {
+                return GetBestRandomMove();
+            }
+        }
+        else
+        {
+            Unit u = units[Random.Range(0, units.Count)];
+            List<Vector3> moves = u.GetValidMovePositions(u.unAdjustedPosition);
+
+            if (moves.Count != 0)
+            {
+                return moves[Random.Range(0, moves.Count)];
+            }
+            else
+            {
+                return GetBestRandomMove();
+            }
+        }
     }
 
     private int Minimax(Vector3 move, int position, int depth, int alpha, int beta, bool maximizingPlayer = false)

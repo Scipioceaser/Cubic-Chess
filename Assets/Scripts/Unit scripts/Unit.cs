@@ -228,7 +228,7 @@ public class Unit : MonoBehaviour
         meshCol.enabled = false;
 
         audioSource.clip = breakClip;
-        audioSource.PlayDelayed(1);
+        audioSource.PlayDelayed(0.35f);
 
         if (permanent)
             currentNode.nodeUnit = null;
