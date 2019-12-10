@@ -13,7 +13,7 @@ public class PauseMenu : MonoBehaviour
     private void Update()
     {
         // Add check for different system
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetButtonUp("Cancel"))
         {
             if (paused)
             {

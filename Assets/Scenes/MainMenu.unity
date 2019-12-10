@@ -1748,6 +1748,12 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4737732042989253821, guid: 680eafa709236d849942aa3cff775f02,
+        type: 3}
+      propertyPath: audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: c2ff8fb30515dcd4aaeb9772471d7538,
+        type: 2}
     - target: {fileID: 3413482733719122034, guid: 680eafa709236d849942aa3cff775f02,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
@@ -1778,12 +1784,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4737732042989253821, guid: 680eafa709236d849942aa3cff775f02,
-        type: 3}
-      propertyPath: audioMixer
-      value: 
-      objectReference: {fileID: 24100000, guid: c2ff8fb30515dcd4aaeb9772471d7538,
-        type: 2}
     - target: {fileID: 1612945921396272572, guid: 680eafa709236d849942aa3cff775f02,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -2348,7 +2348,7 @@ PrefabInstance:
     - target: {fileID: 2743033952476154578, guid: 42efcc494e64a4f4a97cb62dd7938abc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Test
+      value: SimpleClassic
       objectReference: {fileID: 0}
     - target: {fileID: 864488849810231779, guid: 42efcc494e64a4f4a97cb62dd7938abc,
         type: 3}

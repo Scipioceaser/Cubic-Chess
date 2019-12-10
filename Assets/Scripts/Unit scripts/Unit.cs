@@ -282,7 +282,6 @@ public class Unit : MonoBehaviour
     public bool EnemyInFrontOfNode(Vector3 fromPosition, Vector3 nodePosition)
     {
         Vector3 dir = nodePosition - fromPosition;
-        
         return Physics.Raycast(fromPosition, dir, dir.magnitude, ~0, QueryTriggerInteraction.Ignore);
     }
 

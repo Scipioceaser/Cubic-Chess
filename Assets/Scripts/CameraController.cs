@@ -102,7 +102,7 @@ public class CameraController : MonoBehaviour
                 ColorSelectedNodeMesh(selectedUnit.currentNode, selecedNodeMeshColor);
             }
 
-            if (Input.GetMouseButton(0) && GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_THINK))
+            if (Input.GetButton("MouseLeft") && GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_THINK))
             {
                 selectedNode = GetNodeFromMouse();
                 
@@ -249,7 +249,7 @@ public class CameraController : MonoBehaviour
 
     private void OrbitCamera(int i = 0)
     {
-        if (Input.GetMouseButton(1) || i == 1)
+        if (Input.GetButton("MouseRight") || i == 1)
         {
             mouseX += Input.GetAxis("Mouse X") * mouseRotationSpeed * playerCameraDistance * rotateSmoothness;
             mouseY -= Input.GetAxis("Mouse Y") * mouseRotationSpeed * rotateSmoothness * playerCameraDistance;
