@@ -35,13 +35,10 @@ public class GameStateUI : MonoBehaviour
             {
                 image.color = Color.white;
             }
-            else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_WIN))
+            else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_WIN) ||
+                GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_WIN))
             {
-                image.color = Color.magenta;
-            }
-            else if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_WIN))
-            {
-                image.color = Color.yellow;
+                image.enabled = false;
             }
             else
             {

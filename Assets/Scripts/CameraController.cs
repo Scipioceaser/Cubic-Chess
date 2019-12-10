@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using TMPro;
 
 public class CameraController : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class CameraController : MonoBehaviour
     [Header("Sound")]
     public AudioClip mouseSound;
     private AudioSource source;
+
+    [Header("Victory")]
+    public ParticleSystem confetti;
+    public TextMeshProUGUI text;
+    private bool playedConfetti = false;
     
     // Start is called before the first frame update
     private void Awake()
@@ -68,6 +74,12 @@ public class CameraController : MonoBehaviour
 
     private void Update() 
     {
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_WIN))
+            PlayVictoryConfetti();
+
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_WIN))
+            text.SetText("Defeat...");
+
         if (mapObject.transform.childCount == ((Globals.mapSize + 2) * (Globals.mapSize + 2) * (Globals.mapHeight + 2)) && !PauseMenu.paused)
         {
             if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_THINK)
@@ -254,6 +266,16 @@ public class CameraController : MonoBehaviour
             transform.position = position;
             transform.rotation = r;
         }
+    }
+
+    public void PlayVictoryConfetti()
+    {
+        if (playedConfetti)
+            return;
+
+        text.SetText("Victory!");
+        confetti.Play();
+        playedConfetti = true;
     }
 
     public static float ClampAngle(float angle, float min, float max)
