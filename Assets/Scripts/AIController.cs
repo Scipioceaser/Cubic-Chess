@@ -19,7 +19,7 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
-        if (units.Count == 0)
+        if (units.Count == 0 || units != mapObject.enemyUnits)
         {
             UpdateUnits();
         }
@@ -27,7 +27,7 @@ public class AIController : MonoBehaviour
 
     private void UpdateUnits()
     {
-        units = new List<Unit>();
+        units.Clear();
         foreach (Unit unit in mapObject.enemyUnits)
         {
             if (!units.Contains(unit))

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public enum GameType
 {
@@ -37,6 +38,7 @@ public class GameRuleManager : MonoBehaviour
 
             if (GameType == GameType.CLASSIC)
             {
+                Thread.Sleep(5000);
                 int i = 0;
                 int j = 0;
                 foreach (Unit unit in map.playerUnits)
@@ -75,6 +77,11 @@ public class GameRuleManager : MonoBehaviour
                 playerTurnThinkDelay = true;
                 GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
             }
+        }
+
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
+        {
+            playerTimeThink = 0f;
         }
 
         switch (GameType)

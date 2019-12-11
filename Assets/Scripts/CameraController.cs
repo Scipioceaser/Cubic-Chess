@@ -249,6 +249,9 @@ public class CameraController : MonoBehaviour
 
     private void OrbitCamera(int i = 0)
     {
+        if (PauseMenu.paused)
+            return;
+
         if (Input.GetButton("MouseRight") || i == 1)
         {
             mouseX += Input.GetAxis("Mouse X") * mouseRotationSpeed * playerCameraDistance * rotateSmoothness;

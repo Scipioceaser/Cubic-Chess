@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\UI\GameStateUI.cs" />
     <Compile Include="Assets\Scripts\UI\LevelIcon.cs" />
     <Compile Include="Assets\Scripts\UI\LevelSelect.cs" />
+    <Compile Include="Assets\Scripts\UI\LoadLevel.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\UI\SettingsMenu.cs" />

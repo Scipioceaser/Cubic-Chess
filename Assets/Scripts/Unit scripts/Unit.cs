@@ -317,9 +317,8 @@ public class Unit : MonoBehaviour
         StopAllCoroutines();
         transform.position = p;
     }
-
-    //TODO: Add particle effect when node mesh lands at destination. Some shake would be good too.
-    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue, bool changeState = true)
+    
+    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue)
     {
         audioSource.PlayOneShot(dragClip);
 
@@ -333,24 +332,21 @@ public class Unit : MonoBehaviour
             
             yield return null;
         }
-        
-        if (changeState)
+
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
         {
-            if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
+            GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
+        }
+        else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_MOVE))
+        {
+            if (GameRuleManager.ruleManager.playerTurnThinkDelay)
             {
-                GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.85f);
+                GameRuleManager.ruleManager.playerTurnThinkDelay = false;
             }
-            else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_MOVE))
+            else
             {
-                if (GameRuleManager.ruleManager.playerTurnThinkDelay)
-                {
-                    GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 10f);
-                    GameRuleManager.ruleManager.playerTurnThinkDelay = false;
-                }
-                else
-                {
-                    GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
-                }
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
             }
         }
     }

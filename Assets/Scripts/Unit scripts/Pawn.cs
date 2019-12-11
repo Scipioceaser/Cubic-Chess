@@ -54,9 +54,9 @@ public class Pawn : Unit
         {
             gameObject.GetComponent<MeshFilter>().mesh = queenPrefab.GetComponent<MeshFilter>().sharedMesh;
             transform.position = unAdjustedPosition;
-            gameObject.AddComponent<Queen>();
-            gameObject.GetComponent<Queen>().unitTeam = unitTeam;
-            gameObject.GetComponent<Queen>().PlayConfetti();
+            Queen q = gameObject.AddComponent<Queen>();
+            q.unitTeam = unitTeam;
+            q.PlayConfetti();
             GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.5f);
             Destroy(this);
         }
@@ -103,7 +103,12 @@ public class Pawn : Unit
                     }
                     else if (node.position == position + (horizontalMoveDirection * 2) && firstMove && node.nodeUnit == null)
                     {
-                        validPositions.Add(node.position);
+                        meshCol.isTrigger = true;
+                        if (!EnemyInFrontOfNode(position, node.position))
+                        {
+                            meshCol.isTrigger = false;
+                            validPositions.Add(node.position);
+                        }
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
@@ -151,7 +156,12 @@ public class Pawn : Unit
                     }
                     else if (node.position == position + (verticalMoveDir * 2) && firstMove && node.nodeUnit == null)
                     {
-                        validPositions.Add(node.position);                        
+                        meshCol.isTrigger = true;
+                        if (!EnemyInFrontOfNode(position, node.position))
+                        {
+                            meshCol.isTrigger = false;
+                            validPositions.Add(node.position);
+                        }
                     }
                     else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
                     {
