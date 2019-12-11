@@ -209,7 +209,14 @@ public class AIController : MonoBehaviour
 
         if (unit.GetType() == typeof(King))
         {
-            result = 400;
+            if (GameRuleManager.ruleManager.GameType == GameType.CLASSIC)
+            {
+                result = 400;
+            }
+            else
+            {
+                result = 4;
+            }
         }
         else if (unit.GetType() == typeof(Pawn))
         {
