@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Queen : Unit
 {
+    public AudioClip transitionClip;
+
     private float diagonalLine_length = Mathf.Sqrt(2);
     private float sidewaysDiagonalLine_Length = Mathf.Sqrt(1 + (Mathf.Sqrt(2) * Mathf.Sqrt(2)));
 

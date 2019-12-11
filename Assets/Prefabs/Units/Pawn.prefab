@@ -104,15 +104,16 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   lastPosition: {x: 0, y: 0, z: 0}
   lastRotation: {x: 0, y: 0, z: 0, w: 0}
+  unitTeam: 1
+  audioSource: {fileID: 0}
+  pointValue: 100
   dragClip: {fileID: 8300000, guid: 877ea6eab28938a4fb8c01573b51d2bc, type: 3}
   breakClip: {fileID: 8300000, guid: 9a57f5632d1a2e54aaf7fcf9466a525e, type: 3}
-  movedClip: {fileID: 8300000, guid: c0a26e9ff624e9b4886a40e02d7e0011, type: 3}
-  unitTeam: 1
-  pointValue: 100
   meshCol: {fileID: 0}
   horizontalMoveDirection: {x: 0, y: 0, z: 0}
   queenPrefab: {fileID: 2383592725619599711, guid: 49eb24899320c8048b1401e061b93910,
     type: 3}
+  toQueenClip: {fileID: 8300000, guid: c7d9c8aa3d88d8e4ab1e11a017188ce4, type: 3}
 --- !u!64 &7830389975418544268
 MeshCollider:
   m_ObjectHideFlags: 0

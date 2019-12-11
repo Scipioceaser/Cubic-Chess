@@ -49,7 +49,8 @@ public class Unit : MonoBehaviour
 
     private MeshRenderer meshrender;
     private MeshFilter meshfilter;
-    private AudioSource audioSource;
+    [HideInInspector]
+    public AudioSource audioSource;
     private Color outlineColorDefault = Color.black;
 
     public int pointValue = 100;
@@ -227,8 +228,11 @@ public class Unit : MonoBehaviour
         meshrender.enabled = false;
         meshCol.enabled = false;
 
-        audioSource.clip = breakClip;
-        audioSource.PlayDelayed(0.35f);
+        if (!GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_WIN))
+        {
+            audioSource.clip = breakClip;
+            audioSource.PlayDelayed(0.35f);
+        }
 
         if (permanent)
             currentNode.nodeUnit = null;
@@ -318,9 +322,10 @@ public class Unit : MonoBehaviour
         transform.position = p;
     }
     
-    public IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue)
+    public virtual IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue)
     {
-        audioSource.PlayOneShot(dragClip);
+        if (!audioSource.isPlaying)
+            audioSource.PlayOneShot(dragClip);
 
         float r = 1.0f / timeValue;
         float t = 0.0f;

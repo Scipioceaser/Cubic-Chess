@@ -6,6 +6,7 @@ public class Pawn : Unit
 {
     public Vector3 horizontalMoveDirection;
     public GameObject queenPrefab;
+    public AudioClip toQueenClip;
     private Vector3 verticalMoveDir = Vector3.up;
     private Node lastNode;
     private int nodesPassed;
@@ -22,43 +23,65 @@ public class Pawn : Unit
         AlignUnit(currentNode.position);
 
         horizontalMoveDirection = UnitDirectionToVectorDirection(spawnDir);
-
-        //if (unAdjustedPosition.y == 0 || unAdjustedPosition.y == Globals.mapHeight + 1)
-        //{
-        //    horizontalMoveDirection = Vector3.forward;
-        //}
-        //else
-        //{
-        //    if (spawnDir == Direction.RIGHT || spawnDir == Direction.LEFT)
-        //    {
-        //        horizontalMoveDirection = Vector3.right;
-        //    }
-        //    else
-        //    {
-        //        horizontalMoveDirection = Vector3.forward;
-        //    }
-        //}
-
+        
         transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.localPosition, 2, true).transform.position);
     }
 
     private void Update()
     {
-        CheckForQueenTransition();
+        //CheckForQueenTransition();
     }
 
     //TODO: Add in effects to signal unit change
     public void CheckForQueenTransition()
     {
-        if (nodesPassed == (Globals.mapHeight * 2) + (Globals.mapSize * 2))
+        if (nodesPassed == (Globals.mapHeight * 2 + Globals.mapSize * 2))
         {
             gameObject.GetComponent<MeshFilter>().mesh = queenPrefab.GetComponent<MeshFilter>().sharedMesh;
             transform.position = unAdjustedPosition;
             Queen q = gameObject.AddComponent<Queen>();
             q.unitTeam = unitTeam;
             q.PlayConfetti();
+            q.audioSource.Stop();
+            q.audioSource.PlayOneShot(toQueenClip);
             GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.5f);
             Destroy(this);
+        }
+    }
+
+    public override IEnumerator Move(Vector3 startPos, Vector3 endPos, float timeValue)
+    {
+        if (!audioSource.isPlaying)
+            audioSource.PlayOneShot(dragClip);
+
+        float r = 1.0f / timeValue;
+        float t = 0.0f;
+
+        while (t < 1.0f)
+        {
+            t += Time.deltaTime * r;
+            gameObject.transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
+
+            yield return null;
+        }
+
+        CheckForQueenTransition();
+
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
+        {
+            GameStateManager.stateManager.SetState(GameStateManager.State.AI_TURN_THINK, 0.75f);
+        }
+        else if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_MOVE))
+        {
+            if (GameRuleManager.ruleManager.playerTurnThinkDelay)
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.85f);
+                GameRuleManager.ruleManager.playerTurnThinkDelay = false;
+            }
+            else
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_TURN_THINK, 0.01f);
+            }
         }
     }
 

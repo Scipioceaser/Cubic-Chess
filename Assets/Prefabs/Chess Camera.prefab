@@ -5079,6 +5079,7 @@ MonoBehaviour:
   selectedOutlineColor: {r: 1, g: 0.53, b: 0.015, a: 1}
   EnemyNodeMeshColor: {r: 1, g: 0, b: 0, a: 1}
   mouseSound: {fileID: 8300000, guid: c0a26e9ff624e9b4886a40e02d7e0011, type: 3}
+  victoryMusic: {fileID: 8300000, guid: 2205c41f8281f1a43a86c8d32e126c10, type: 3}
   confetti: {fileID: 7332112474160664198}
   text: {fileID: 6975211666418775225}
 --- !u!20 &5025305899765286560

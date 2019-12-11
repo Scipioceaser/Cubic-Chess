@@ -103,10 +103,12 @@ MonoBehaviour:
   lastPosition: {x: 0, y: 0, z: 0}
   lastRotation: {x: 0, y: 0, z: 0, w: 0}
   unitTeam: 1
+  audioSource: {fileID: 0}
   pointValue: 900
   dragClip: {fileID: 8300000, guid: 877ea6eab28938a4fb8c01573b51d2bc, type: 3}
   breakClip: {fileID: 8300000, guid: 9a57f5632d1a2e54aaf7fcf9466a525e, type: 3}
   meshCol: {fileID: 0}
+  transitionClip: {fileID: 8300000, guid: c7d9c8aa3d88d8e4ab1e11a017188ce4, type: 3}
 --- !u!64 &5715168749546132839
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -38,6 +38,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Sound")]
     public AudioClip mouseSound;
+    public AudioClip victoryMusic;
     private AudioSource source;
 
     [Header("Victory")]
@@ -276,6 +277,8 @@ public class CameraController : MonoBehaviour
         if (playedConfetti)
             return;
 
+        source.volume = 0.8f;
+        source.PlayOneShot(victoryMusic);
         text.SetText("Victory!");
         confetti.Play();
         playedConfetti = true;

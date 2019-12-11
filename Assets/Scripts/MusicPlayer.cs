@@ -16,6 +16,10 @@ public class MusicPlayer : MonoBehaviour
 
     private void Update()
     {
+        if (GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_WIN)
+            || GameStateManager.stateManager.CheckState(GameStateManager.State.AI_WIN))
+            player.volume -= 0.2f;
+
         if (!player.isPlaying)
         {
             if (player == null)
