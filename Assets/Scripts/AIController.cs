@@ -64,7 +64,7 @@ public class AIController : MonoBehaviour
         return bestMoveFound;
     }
 
-    private Vector3 GetBestRandomMove()
+    private Vector3 GetBestRandomMove(int i = 0)
     {
         List<Pawn> pawns = new List<Pawn>();
 
@@ -76,7 +76,7 @@ public class AIController : MonoBehaviour
             }
         }
 
-        if (pawns.Count > 0)
+        if (pawns.Count > 0 && i == 0)
         {
             Pawn p = pawns[Random.Range(0, pawns.Count)];
             List<Vector3> moves = p.GetValidMovePositions(p.unAdjustedPosition);
@@ -87,7 +87,7 @@ public class AIController : MonoBehaviour
             }
             else
             {
-                return GetBestRandomMove();
+                return GetBestRandomMove(1);
             }
         }
         else

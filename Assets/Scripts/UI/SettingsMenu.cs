@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.Audio;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
     public TMP_Dropdown resolutionsDropdown;
+    public Toggle fullscreenToggle;
     private Resolution[] resolutions;
 
     // Start is called before the first frame update
@@ -28,7 +30,7 @@ public class SettingsMenu : MonoBehaviour
 
                 options.Add(option);
 
-                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height && resolutions[i].refreshRate == Screen.currentResolution.refreshRate)
                 {
                     currentResolutionIndex = i;
                 }
@@ -38,6 +40,9 @@ public class SettingsMenu : MonoBehaviour
             resolutionsDropdown.value = currentResolutionIndex;
             resolutionsDropdown.RefreshShownValue();
         }
+
+        if (fullscreenToggle != null)
+            fullscreenToggle.isOn = Screen.fullScreen;
     }
 
     public void Volume(float volume)
