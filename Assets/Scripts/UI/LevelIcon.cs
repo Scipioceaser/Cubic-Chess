@@ -9,6 +9,7 @@ public class LevelIcon : MonoBehaviour
     public TextMeshProUGUI descriptionObject;
     public string description;
     public Sprite preview;
+    public GameObject playButton;
     
     public void LoadDescription()
     {
@@ -16,11 +17,13 @@ public class LevelIcon : MonoBehaviour
         previewImage.sprite = preview;
         descriptionObject.gameObject.SetActive(true);
         descriptionObject.text = description;
+        playButton.SetActive(true);
     }
 
     public void Back()
     {
         levelList.SetActive(true);
+        playButton.SetActive(false);
 
         for (int i = 1; i < transform.childCount; i++)
         {

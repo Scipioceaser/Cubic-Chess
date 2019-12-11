@@ -1,13 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using System.Threading;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject settingsMenu;
     public GameObject levelSelectMenu;
-    
+
+    private void Start()
+    {
+        Thread.Sleep(1500);
+        settingsMenu.SetActive(false);
+    }
+
     public void NewGame()
     {
         levelSelectMenu.SetActive(true);

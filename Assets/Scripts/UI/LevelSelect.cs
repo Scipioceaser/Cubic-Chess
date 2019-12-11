@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelect : MonoBehaviour
 {
+    public GameObject backButton;
+    public GameObject scrollObject;
+
     public void SelectLevel(GameObject levelObject)
     {
         levelObject.SetActive(true);
@@ -15,5 +18,11 @@ public class LevelSelect : MonoBehaviour
     {
         goBackTo.SetActive(true);
         gameObject.SetActive(false);
+    }
+
+    public void Open()
+    {
+        backButton.SetActive(true);
+        scrollObject.SetActive(true);
     }
 }
