@@ -154,6 +154,9 @@ public class GameRuleManager : MonoBehaviour
 
     private void Scenario(List<Unit> unitsToKill)
     {
+        if (map.playerUnits.Count <= 0)
+            GameStateManager.stateManager.SetState(GameStateManager.State.AI_WIN, 0.01f);
+
         if (unitsToKill.Count == 0)
             Debug.LogError("No target units specified!");
 

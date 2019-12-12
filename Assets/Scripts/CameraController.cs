@@ -66,7 +66,7 @@ public class CameraController : MonoBehaviour
     public void SetCentrePosition()
     {
         Vector3 nPos = new Vector3((mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f));
-        Vector3 mPos = new Vector3((mapObject.boardWidth + 1) / 2, (mapObject.boardHeight + 1) / 2, (mapObject.boardWidth + 1) / 2);
+        Vector3 mPos = new Vector3((mapObject.boardWidth + 1) / 2, (mapObject.boardHeight + 1) / 2, (mapObject.boardLength + 1) / 2);
         mapCentre = mPos + nPos;
         Globals.mapCenterPoint = mapCentre;
         playerCameraOffset = transform.position - mapCentre;
@@ -191,7 +191,7 @@ public class CameraController : MonoBehaviour
 
     private void ColorSelectedNodeMesh(Node node, Color toColor)
     {
-        List<Node> nodes = mapObject.GetNeighbours(node);
+        List<Node> nodes = mapObject.GetNeighbours(node, 3);
         NodeMesh n = null;
 
         if (nodes.Count == 0)
@@ -237,8 +237,8 @@ public class CameraController : MonoBehaviour
             if (py > (mapObject.boardHeight + 1))
                 py = (mapObject.boardHeight + 1);
 
-            if (pz > (mapObject.boardWidth + 1))
-                pz = (mapObject.boardWidth + 1);
+            if (pz > (mapObject.boardLength + 1))
+                pz = (mapObject.boardLength + 1);
 
             p = new Vector3(px, py, pz);
             // Returns the node, not nodeMesh
