@@ -66,7 +66,7 @@ public class CameraController : MonoBehaviour
     public void SetCentrePosition()
     {
         Vector3 nPos = new Vector3((mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f), (mapObject.nodeScale / 2f));
-        Vector3 mPos = new Vector3((mapObject.boardSize + 1) / 2, (mapObject.boardHeight + 1) / 2, (mapObject.boardSize + 1) / 2);
+        Vector3 mPos = new Vector3((mapObject.boardWidth + 1) / 2, (mapObject.boardHeight + 1) / 2, (mapObject.boardWidth + 1) / 2);
         mapCentre = mPos + nPos;
         Globals.mapCenterPoint = mapCentre;
         playerCameraOffset = transform.position - mapCentre;
@@ -81,7 +81,7 @@ public class CameraController : MonoBehaviour
         if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_WIN))
             text.SetText("Defeat...");
 
-        if (mapObject.transform.childCount == ((Globals.mapSize + 2) * (Globals.mapSize + 2) * (Globals.mapHeight + 2)) && !PauseMenu.paused)
+        if (mapObject.transform.childCount == ((Globals.mapWidth + 2) * (Globals.mapLength + 2) * (Globals.mapHeight + 2)) && !PauseMenu.paused)
         {
             if (GameStateManager.stateManager.CheckState(GameStateManager.State.AI_TURN_THINK)
                 || GameStateManager.stateManager.CheckState(GameStateManager.State.PLAYER_TURN_MOVE))
@@ -185,7 +185,7 @@ public class CameraController : MonoBehaviour
     
     private void LateUpdate()
     {
-        if (mapObject.grid.Length == ((Globals.mapSize + 2) * (Globals.mapSize + 2) * (Globals.mapHeight + 2)))
+        if (mapObject.grid.Length == ((Globals.mapWidth + 2) * (Globals.mapLength + 2) * (Globals.mapHeight + 2)))
             OrbitCamera();
     }
 
@@ -231,14 +231,14 @@ public class CameraController : MonoBehaviour
             py = Mathf.RoundToInt(Mathf.Abs(p.y));
             pz = Mathf.RoundToInt(Mathf.Abs(p.z));
 
-            if (px > (mapObject.boardSize + 1))
-                px = (mapObject.boardSize + 1);
+            if (px > (mapObject.boardWidth + 1))
+                px = (mapObject.boardWidth + 1);
 
             if (py > (mapObject.boardHeight + 1))
                 py = (mapObject.boardHeight + 1);
 
-            if (pz > (mapObject.boardSize + 1))
-                pz = (mapObject.boardSize + 1);
+            if (pz > (mapObject.boardWidth + 1))
+                pz = (mapObject.boardWidth + 1);
 
             p = new Vector3(px, py, pz);
             // Returns the node, not nodeMesh

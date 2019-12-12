@@ -7,10 +7,16 @@ using TMPro;
 public class LoadLevel : MonoBehaviour
 {
     private TextMeshProUGUI loadLevelPercentage;
+    public string LevelToLoad;
 
     private void Awake()
     {
         loadLevelPercentage = GetComponent<TextMeshProUGUI>();
+    }
+
+    public void LoadPresetLevelAsync()
+    {
+        LoadGame(LevelToLoad);
     }
     
     public void LoadGame(int levelIndex)

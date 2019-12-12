@@ -43,8 +43,6 @@ public class SettingsMenu : MonoBehaviour
 
         if (fullscreenToggle != null)
             fullscreenToggle.isOn = Screen.fullScreen;
-
-        print("DONE!");
     }
 
     public void Volume(float volume)

@@ -35,7 +35,7 @@ public class Pawn : Unit
     //TODO: Add in effects to signal unit change
     public void CheckForQueenTransition()
     {
-        if (nodesPassed == (Globals.mapHeight * 2 + Globals.mapSize * 2))
+        if (nodesPassed == (Globals.mapHeight * 2 + Globals.mapWidth + Globals.mapLength))
         {
             gameObject.GetComponent<MeshFilter>().mesh = queenPrefab.GetComponent<MeshFilter>().sharedMesh;
             transform.position = unAdjustedPosition;
@@ -102,8 +102,8 @@ public class Pawn : Unit
                     }
                 }
 
-                if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapSize + 1
-                       || node.position.x == Globals.mapSize + 1 && node.position.z == 0 || node.position.x == Globals.mapSize + 1 && node.position.z == Globals.mapSize + 1)
+                if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapLength + 1
+                       || node.position.x == Globals.mapWidth + 1 && node.position.z == 0 || node.position.x == Globals.mapWidth + 1 && node.position.z == Globals.mapLength + 1)
                 {
                     continue;
                 }
@@ -244,7 +244,7 @@ public class Pawn : Unit
         {
             dir = Vector3.right;
         }
-        else if (position.x == Globals.mapSize + 1)
+        else if (position.x == Globals.mapWidth + 1)
         {
             dir = Vector3.left;
         }
@@ -252,7 +252,7 @@ public class Pawn : Unit
         {
             dir = Vector3.forward;
         }
-        else if (position.z == Globals.mapSize + 1)
+        else if (position.z == Globals.mapLength + 1)
         {
             dir = Vector3.back;
         }

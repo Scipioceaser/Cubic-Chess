@@ -10,6 +10,8 @@ public class LevelIcon : MonoBehaviour
     public string description;
     public Sprite preview;
     public GameObject playButton;
+    public string LevelName;
+    public LoadLevel levelLoad;
     
     public void LoadDescription()
     {
@@ -18,6 +20,7 @@ public class LevelIcon : MonoBehaviour
         descriptionObject.gameObject.SetActive(true);
         descriptionObject.text = description;
         playButton.SetActive(true);
+        levelLoad.LevelToLoad = LevelName;
     }
 
     public void Back()

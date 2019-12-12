@@ -21,14 +21,14 @@ public class King : Unit
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         List<Vector3> validPositions = new List<Vector3>();
-        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapSize + 1);
+        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapWidth + 1);
 
         foreach (Node node in nearbyNodes)
         {
             if (node.GetType() != typeof(NodeMesh))
             {
-                if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapSize + 1
-                        || node.position.x == Globals.mapSize + 1 && node.position.z == 0 || node.position.x == Globals.mapSize + 1 && node.position.z == Globals.mapSize + 1)
+                if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapLength + 1
+                        || node.position.x == Globals.mapWidth + 1 && node.position.z == 0 || node.position.x == Globals.mapWidth + 1 && node.position.z == Globals.mapLength + 1)
                 {
                     continue;
                 }
@@ -105,7 +105,7 @@ public class King : Unit
 
     private bool CheckForCheckMate(List<Vector3> validPositions)
     {
-        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapSize + 1);
+        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapWidth + 1);
         List<Unit> units = new List<Unit>();
         List<Vector3> enemyValidpositions = new List<Vector3>();
 

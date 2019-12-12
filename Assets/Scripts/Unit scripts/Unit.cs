@@ -199,11 +199,11 @@ public class Unit : MonoBehaviour
 
         if (unitTeam == Team.WHITE)
         {
-            meshrender.material.SetColor("_Color", Color.white);
+            meshrender.material.SetColor("_Color", new Color(0.8f, 0.8f, 0.8f, 1.0f));
         }
         else
         {
-            meshrender.material.SetColor("_Color", Color.grey);
+            meshrender.material.SetColor("_Color", new Color(0.2f, 0.2f, 0.2f, 1.0f));
         }
     }
     
@@ -292,13 +292,13 @@ public class Unit : MonoBehaviour
     public bool IsNodeAtEmptyEdge(Vector3 position)
     {
         return position.y == Globals.mapHeight + 1 && position.x == 0 
-            || position.y == Globals.mapHeight + 1 && position.x == Globals.mapSize + 1
+            || position.y == Globals.mapHeight + 1 && position.x == Globals.mapWidth + 1
             || position.y == Globals.mapHeight + 1 && position.z == 0
-            || position.y == Globals.mapHeight + 1 && position.z == Globals.mapSize + 1
+            || position.y == Globals.mapHeight + 1 && position.z == Globals.mapLength + 1
             || position.y == 0 && position.x == 0
-            || position.y == 0 && position.x == Globals.mapSize + 1
+            || position.y == 0 && position.x == Globals.mapWidth + 1
             || position.y == 0 && position.z == 0
-            || position.y == 0 && position.z == Globals.mapSize + 1;
+            || position.y == 0 && position.z == Globals.mapLength + 1;
     }
 
     public virtual void UndoMove()

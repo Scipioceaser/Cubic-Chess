@@ -12,9 +12,11 @@ public enum MapType
 public class Map : MonoBehaviour
 {
     [Range(1, 20)]
-    public int boardSize = 1;
+    public int boardWidth = 1;
     [Range(1, 20)]
     public int boardHeight = 1;
+    [Range(1, 20)]
+    public int boardLength = 1;
     [Range(0.1f, 10f)]
     public float nodeDropSpeed = 0.5f;
     [Range(1, 10)]
@@ -58,10 +60,11 @@ public class Map : MonoBehaviour
     private void Start()
     {
         Globals.scale = nodeScale;
-        Globals.mapSize = boardSize;
+        Globals.mapWidth = boardWidth;
         Globals.mapHeight = boardHeight;
+        Globals.mapLength = boardLength;
 
-        nodes = new Node[(boardSize + 2), (boardHeight + 2), (boardSize + 2)];
+        nodes = new Node[(boardWidth + 2), (boardHeight + 2), (boardLength + 2)];
 
         for (int j = 0; j < transform.childCount; j++)
         {
@@ -134,7 +137,7 @@ public class Map : MonoBehaviour
                     int cy = (int)node.position.y + y;
                     int cz = (int)node.position.z + z;
 
-                    if (cx >= 0 && cx < (boardSize + 2) && cy >= 0 && cy < (boardHeight + 2) && cz >= 0 && cz < (boardSize + 2))
+                    if (cx >= 0 && cx < (boardWidth + 2) && cy >= 0 && cy < (boardHeight + 2) && cz >= 0 && cz < (boardLength + 2))
                     {
                         neighbours.Add(nodes[cx, cy, cz]);
                     }
@@ -154,7 +157,7 @@ public class Map : MonoBehaviour
             {
                 Vector3 pos = node.transform.position;
 
-                if (pos.y > 1 && pos.y <= (boardHeight - 1) && pos.z > 1 && pos.z <= (boardSize - 1) && pos.x > 1 && pos.x <= (boardSize - 1))
+                if (pos.y > 1 && pos.y <= (boardHeight - 1) && pos.z > 1 && pos.z <= (boardLength - 1) && pos.x > 1 && pos.x <= (boardWidth - 1))
                 {
                     node.SendMessage("SetRender", false);
                 }
@@ -188,8 +191,8 @@ public class Map : MonoBehaviour
 
         int l, w, h;
         
-        l = boardSize + 2;
-        w  = boardSize + 2;
+        l = boardLength + 2;
+        w  = boardWidth + 2;
         h = boardHeight + 2;
 
         nodes = new Node[w, h, l];
@@ -361,27 +364,27 @@ public class Map : MonoBehaviour
         if (grid.Length != 0)
             DestroyMap();
 
-        grid = new GameObject[(boardSize + 2) * (boardHeight + 2) * (boardSize + 2)];
+        grid = new GameObject[(boardWidth + 2) * (boardHeight + 2) * (boardLength + 2)];
 
         Material even = new Material(Shader.Find("Node"));
         Material odd = new Material(Shader.Find("Node"));
         even.color = colorEven;
         odd.color = colorOdd;
 
-        nodes = new Node[(boardSize + 2), (boardHeight + 2), (boardSize + 2)];
+        nodes = new Node[(boardWidth + 2), (boardHeight + 2), (boardLength + 2)];
 
         int i = 0;
         for (int y = 0; y < (boardHeight + 2);  y++)
         {
-            for (int z = 0; z < (boardSize + 2); z++)
+            for (int z = 0; z < (boardLength + 2); z++)
             {
-                for (int x = 0; x < (boardSize + 2); x++)
+                for (int x = 0; x < (boardWidth + 2); x++)
                 {
                     Vector3 pos = new Vector3(x, y, z);
 
                     GameObject nodeObject = null;
 
-                    if (y == 0 || y == (boardHeight + 1) || x == 0 || x == (boardSize + 1) || z == 0 || z == (boardSize + 1))
+                    if (y == 0 || y == (boardHeight + 1) || x == 0 || x == (boardWidth + 1) || z == 0 || z == (boardLength + 1))
                     {
                         nodeObject = new GameObject("Node");
                         BoxCollider c = nodeObject.AddComponent<BoxCollider>();
@@ -463,14 +466,14 @@ public class Map : MonoBehaviour
         if (grid.Length != 0)
             DestroyMap();
 
-        grid = new GameObject[(boardSize + 2) * (boardHeight + 2) * (boardSize + 2)];
+        grid = new GameObject[(boardWidth + 2) * (boardHeight + 2) * (boardWidth + 2)];
         
         int i = 0;
         for (int y = 0; y < (boardHeight + 2); y++)
         {
-            for (int z = 0; z < (boardSize + 2); z++)
+            for (int z = 0; z < (boardWidth + 2); z++)
             {
-                for (int x = 0; x < (boardSize + 2); x++)
+                for (int x = 0; x < (boardWidth + 2); x++)
                 {
                     GameObject nodeObject = new GameObject("Node");
 
@@ -483,7 +486,7 @@ public class Map : MonoBehaviour
         }
         
         gizmoGridHeight = boardHeight;
-        gizmoGridSize = boardSize;
+        gizmoGridSize = boardWidth;
 
         mapType = MapType.INTERIOR_EMPTY;
 
@@ -544,7 +547,7 @@ public class Map : MonoBehaviour
             {
                 Vector3 p = grid[i].transform.position;
 
-                if (p.y == 0 || p.y == (boardHeight + 1) || p.x == 0 || p.x == (boardSize + 1) || p.z == 0 || p.z == (boardSize + 1))
+                if (p.y == 0 || p.y == (boardHeight + 1) || p.x == 0 || p.x == (boardWidth + 1) || p.z == 0 || p.z == (boardLength + 1))
                 {
                     Gizmos.color = Color.white;
                 }

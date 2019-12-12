@@ -14,7 +14,6 @@ public class Rook : Unit
 
         transform.position = GetAdjustedSpawnPosition(0.5f, transform.localPosition, GetNearestNodeObject(transform.position, 2, true).transform.position);
         
-        //SetModelFromAssetsStreaming(gameObject, "rook", "rook", "Outline");
         currentNode = GetNearestNode(unAdjustedPosition);
         currentNode.SetNodeUnit(this);
         AlignUnit(currentNode.position);
@@ -24,14 +23,14 @@ public class Rook : Unit
     public override List<Vector3> GetValidMovePositions(Vector3 position, int team = 1)
     {
         List<Vector3> validPositions = new List<Vector3>();
-        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapSize + 1);
+        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapWidth + 1 * Globals.mapLength + 1);
         
         foreach (Node node in nearbyNodes)
         {
             if (node.GetType() != typeof(NodeMesh) && node != currentNode)
             {
-                if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapSize + 1
-                        || node.position.x == Globals.mapSize + 1 && node.position.z == 0 || node.position.x == Globals.mapSize + 1 && node.position.z == Globals.mapSize + 1)
+                if (node.position.x == 0 && node.position.z == 0 || node.position.x == 0 && node.position.z == Globals.mapLength + 1
+                        || node.position.x == Globals.mapWidth + 1 && node.position.z == 0 || node.position.x == Globals.mapWidth + 1 && node.position.z == Globals.mapLength + 1)
                 {
                     continue;
                 }
@@ -91,7 +90,7 @@ public class Rook : Unit
                     }
                     else
                     {
-                        if (position.z == Globals.mapSize + 1 && position.z == node.position.z
+                        if (position.z == Globals.mapLength + 1 && position.z == node.position.z
                             || position.z == 0 && position.z == node.position.z)
                         {
                             if (position.x != node.position.x && position.y == node.position.y || position.x == node.position.x && position.y != node.position.y)
@@ -111,7 +110,7 @@ public class Rook : Unit
                                 }
                             }
                         }
-                        else if (position.x == Globals.mapSize + 1 && position.x == node.position.x
+                        else if (position.x == Globals.mapWidth + 1 && position.x == node.position.x
                             || position.x == 0 && position.x == node.position.x)
                         {
                             if (position.z != node.position.z && position.y == node.position.y || position.z == node.position.z && position.y != node.position.y)
