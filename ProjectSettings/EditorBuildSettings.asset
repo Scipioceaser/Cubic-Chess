@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TimedPoints/Showdown.unity
     guid: 4771dade627f09541b338bf5036708ee
+  - enabled: 1
+    path: Assets/Scenes/Classic/Fortress_Classic.unity
+    guid: 94ffeb8aa2b66af4cb1c999cb53b9976
   m_configObjects: {}

@@ -105,7 +105,7 @@ public class King : Unit
 
     private bool CheckForCheckMate(List<Vector3> validPositions)
     {
-        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapWidth + 1);
+        List<Node> nearbyNodes = map.GetNeighbours(currentNode, Globals.mapWidth + 1 * Globals.mapLength + 1);
         List<Unit> units = new List<Unit>();
         List<Vector3> enemyValidpositions = new List<Vector3>();
 
@@ -129,7 +129,7 @@ public class King : Unit
             }
         }
         
-        if (i == validPositions.Count)
+        if (i == validPositions.Count && validPositions.Count != 0)
             return true;
         
         return false;
