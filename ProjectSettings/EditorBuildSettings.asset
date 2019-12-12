@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Deathmatch/MeatGrinder.unity
     guid: ca9cf8642f3fb7246b50071e69b93e8e
+  - enabled: 1
+    path: Assets/Scenes/TimedPoints/Wave.unity
+    guid: 46600884e9c8da24988204584f2d7544
   m_configObjects: {}

@@ -148,6 +148,8 @@ public class GameRuleManager : MonoBehaviour
                 {
                     GameStateManager.stateManager.SetState(GameStateManager.State.AI_WIN, 0.01f);
                 }
+
+                DeathmatchTotal();
             }
         }
     }
