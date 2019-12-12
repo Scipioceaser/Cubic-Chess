@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Deathmatch/Fortress.unity
     guid: 6df2ba8aee5ee6a4b85b7bacd7f1795b
+  - enabled: 1
+    path: Assets/Scenes/Classic/NewClassic.unity
+    guid: 727417aa80175634f963740016008244
+  - enabled: 1
+    path: Assets/Scenes/TimedPoints/Showdown.unity
+    guid: 4771dade627f09541b338bf5036708ee
   m_configObjects: {}

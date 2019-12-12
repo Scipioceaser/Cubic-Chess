@@ -139,7 +139,14 @@ public class King : Unit
     {
         if (GameRuleManager.ruleManager.GameType == GameType.CLASSIC && CheckForCheckMate(GetValidMovePositions(unAdjustedPosition)))
         {
-            print("WIN");
+            if (unitTeam == map.playerTeam)
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.AI_WIN, 0.01f);
+            }
+            else
+            {
+                GameStateManager.stateManager.SetState(GameStateManager.State.PLAYER_WIN, 0.01f);
+            }
         }
     }
 

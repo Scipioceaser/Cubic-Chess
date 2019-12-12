@@ -38,7 +38,7 @@ public class GameRuleManager : MonoBehaviour
 
             if (GameType == GameType.CLASSIC)
             {
-                Thread.Sleep(5000);
+                int c = 0;
                 int i = 0;
                 int j = 0;
                 foreach (Unit unit in map.playerUnits)
@@ -52,6 +52,10 @@ public class GameRuleManager : MonoBehaviour
                 }
 
                 if (i != 1 && j != 1)
+                {
+                    c++;
+                }
+                else if (i != 1 && j != 1 && c != 500)
                 {
                     Debug.LogError("There are not two kings present");
                 }
