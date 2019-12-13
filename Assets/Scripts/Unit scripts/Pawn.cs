@@ -133,13 +133,12 @@ public class Pawn : Unit
                             validPositions.Add(node.position);
                         }
                     }
-                    else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
+                    else if (d == Mathf.Sqrt(2) && node.nodeUnit != null && Mathf.Abs(unAdjustedPosition.y - node.position.y) != 1)
                     {
                         if (Vector3.Distance(unAdjustedPosition + horizontalMoveDirection, node.position) == 1)
                         {
                             if (node.nodeUnit.unitTeam != unitTeam)
                                 validPositions.Add(node.position);
-                            
                         }
                     }
                     else if (d == Mathf.Sqrt(2) && Mathf.Abs(unAdjustedPosition.y - node.position.y) == 1 && node.nodeUnit == null)
@@ -150,6 +149,9 @@ public class Pawn : Unit
                         Vector3 p = new Vector3(node.position.x, unAdjustedPosition.y, node.position.z);
 
                         if (p != position + horizontalMoveDirection)
+                            continue;
+
+                        if (node.nodeUnit != null)
                             continue;
 
                         if (unAdjustedPosition.y == 0)
@@ -186,7 +188,7 @@ public class Pawn : Unit
                             validPositions.Add(node.position);
                         }
                     }
-                    else if (d == Mathf.Sqrt(2) && node.nodeUnit != null)
+                    else if (d == Mathf.Sqrt(2) && node.nodeUnit != null && node.position.y != 0 && node.position.y != Globals.mapHeight + 1)
                     {
                         if (Vector3.Distance(position + verticalMoveDir, node.position) == 1)
                         {
@@ -197,7 +199,10 @@ public class Pawn : Unit
                     else if (node.position.y == 0 || node.position.y == Globals.mapHeight + 1)
                     {
                         horizontalMoveDirection = SetHorizontalMoveDir(position);
-                        
+
+                        if (node.nodeUnit != null)
+                            continue;
+
                         if (d == Mathf.Sqrt(2) && node.nodeUnit == null)
                             validPositions.Add(node.position);
                     }
