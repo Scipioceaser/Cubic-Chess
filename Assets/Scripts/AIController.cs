@@ -101,7 +101,7 @@ public class AIController : MonoBehaviour
             }
             else
             {
-                return GetBestRandomMove();
+                return GetBestRandomMove(1);
             }
         }
     }
