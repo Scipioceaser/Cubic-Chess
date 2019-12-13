@@ -24719,6 +24719,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5796852042352475040, guid: 9a62799c54e3c394199abb9232391aa1,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: c2ff8fb30515dcd4aaeb9772471d7538,
+        type: 2}
     - target: {fileID: 8448119193688875334, guid: 9a62799c54e3c394199abb9232391aa1,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -29119,6 +29125,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8017519965445368537, guid: ebb4282c2d759734bb38aa9a4fb4eaae,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: c2ff8fb30515dcd4aaeb9772471d7538,
+        type: 2}
     - target: {fileID: 8017519965445368536, guid: ebb4282c2d759734bb38aa9a4fb4eaae,
         type: 3}
       propertyPath: clips.Array.size
