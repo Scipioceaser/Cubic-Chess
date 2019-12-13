@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TimedPoints/Wave.unity
     guid: 46600884e9c8da24988204584f2d7544
+  - enabled: 1
+    path: Assets/Scenes/Scenario/Battlefield.unity
+    guid: 4c987af6faec1be458d2ddb426006e43
   m_configObjects: {}
